@@ -9,7 +9,7 @@ use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\OpenWeatherMap;
 use Runalyze\Tests\Service\HttpClientAwareTestCaseTrait;
 
-class OpenWeatherMapTest extends \PHPUnit_Framework_TestCase
+class OpenWeatherMapTest extends \PHPUnit\Framework\TestCase
 {
     use HttpClientAwareTestCaseTrait;
 
@@ -55,11 +55,11 @@ class OpenWeatherMapTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($result);
 
         $this->assertEquals(WeatherConditionProfile::CLOUDY, $result->InternalConditionId);
-        $this->assertEquals(6.34, $result->WindSpeed, '', 0.01);
+        $this->assertEqualsWithDelta(6.34, $result->WindSpeed, 0.01);
         $this->assertEquals(314, $result->WindDirection);
         $this->assertEquals(59, $result->Humidity);
         $this->assertEquals(1013, $result->AirPressure);
-        $this->assertEquals(17.0, $result->Temperature, '', 0.1);
+        $this->assertEqualsWithDelta(17.0, $result->Temperature, 0.1);
         $this->assertEquals(WeatherSourceProfile::OPEN_WEATHER_MAP, $result->Source);
     }
 

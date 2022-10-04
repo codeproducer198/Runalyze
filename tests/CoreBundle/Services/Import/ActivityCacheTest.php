@@ -12,12 +12,12 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Bundle\CoreBundle\Services\Import\ActivityCache;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
-class ActivityCacheTest extends \PHPUnit_Framework_TestCase
+class ActivityCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ActivityCache */
     protected $Cache;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Cache = new ActivityCache(
             new ArrayAdapter()

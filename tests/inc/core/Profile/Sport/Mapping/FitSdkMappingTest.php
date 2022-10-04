@@ -6,12 +6,12 @@ use Runalyze\Profile\FitSdk;
 use Runalyze\Profile\Sport\Mapping\FitSdkMapping;
 use Runalyze\Profile\Sport\SportProfile;
 
-class FitSdkMappingTest extends \PHPUnit_Framework_TestCase
+class FitSdkMappingTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FitSdkMapping */
     protected $Mapping;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Mapping = new FitSdkMapping();
     }

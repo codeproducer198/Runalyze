@@ -3,6 +3,7 @@
 namespace Doctrine\Common\Collections;
 
 use Closure;
+use LogicException;
 use ReturnTypeWillChange;
 use Traversable;
 
@@ -18,8 +19,8 @@ abstract class AbstractLazyCollection implements Collection
     /**
      * The backed collection to use
      *
-     * @psalm-var Collection<TKey,T>
-     * @var Collection<mixed>
+     * @psalm-var Collection<TKey,T>|null
+     * @var Collection<mixed>|null
      */
     protected $collection;
 
@@ -60,6 +61,8 @@ abstract class AbstractLazyCollection implements Collection
 
     /**
      * {@inheritDoc}
+     *
+     * @template TMaybeContained
      */
     public function contains($element)
     {
@@ -259,6 +262,8 @@ abstract class AbstractLazyCollection implements Collection
 
     /**
      * {@inheritDoc}
+     *
+     * @template TMaybeContained
      */
     public function indexOf($element)
     {
@@ -292,9 +297,7 @@ abstract class AbstractLazyCollection implements Collection
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @psalm-param TKey $offset
+     * @param TKey $offset
      *
      * @return bool
      */
@@ -307,10 +310,7 @@ abstract class AbstractLazyCollection implements Collection
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param int|string $offset
-     * @psalm-param TKey $offset
+     * @param TKey $offset
      *
      * @return mixed
      */
@@ -323,10 +323,8 @@ abstract class AbstractLazyCollection implements Collection
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param mixed $value
-     * @psalm-param TKey $offset
+     * @param TKey|null $offset
+     * @param T         $value
      *
      * @return void
      */
@@ -338,9 +336,7 @@ abstract class AbstractLazyCollection implements Collection
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @psalm-param TKey $offset
+     * @param TKey $offset
      *
      * @return void
      */
@@ -355,6 +351,8 @@ abstract class AbstractLazyCollection implements Collection
      * Is the lazy collection already initialized?
      *
      * @return bool
+     *
+     * @psalm-assert-if-true Collection<TKey,T> $this->collection
      */
     public function isInitialized()
     {
@@ -365,6 +363,8 @@ abstract class AbstractLazyCollection implements Collection
      * Initialize the collection
      *
      * @return void
+     *
+     * @psalm-assert Collection<TKey,T> $this->collection
      */
     protected function initialize()
     {
@@ -374,6 +374,10 @@ abstract class AbstractLazyCollection implements Collection
 
         $this->doInitialize();
         $this->initialized = true;
+
+        if ($this->collection === null) {
+            throw new LogicException('You must initialize the collection property in the doInitialize() method.');
+        }
     }
 
     /**

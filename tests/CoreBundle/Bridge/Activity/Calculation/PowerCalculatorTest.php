@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Profile\Sport\SportProfile;
 
-class PowerCalculatorTest extends \PHPUnit_Framework_TestCase
+class PowerCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PowerCalculator */
     protected $Calculator;
@@ -17,7 +17,7 @@ class PowerCalculatorTest extends \PHPUnit_Framework_TestCase
     /** @var Training */
     protected $Activity;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->Activity = new Training();
         $this->Activity->setSport(new Sport());

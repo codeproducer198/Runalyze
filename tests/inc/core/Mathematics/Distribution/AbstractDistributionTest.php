@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Mathematics\Distribution;
 
 use Runalyze\Mathematics\Distribution\AbstractDistribution;
 
-class AbstractDistributionTest extends \PHPUnit_Framework_TestCase
+class AbstractDistributionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param array $histogram
@@ -32,8 +32,8 @@ class AbstractDistributionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(15, $dist->mode());
         $this->assertEquals(20, $dist->max());
         $this->assertEquals(12.5, $dist->variance());
-        $this->assertEquals(3.5, $dist->stdDev(), '', 0.1);
-        $this->assertEquals(3.5 / 15, $dist->coefficientOfVariation(), '', 0.1);
+        $this->assertEqualsWithDelta(3.5, $dist->stdDev(), 0.1);
+        $this->assertEqualsWithDelta(3.5 / 15, $dist->coefficientOfVariation(), 0.1);
     }
 
     public function testAnotherHistogram()
@@ -47,8 +47,8 @@ class AbstractDistributionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(90, $dist->mode());
         $this->assertEquals(90, $dist->max());
         $this->assertEquals(818.75, $dist->variance());
-        $this->assertEquals(28.6, $dist->stdDev(), '', 0.1);
-        $this->assertEquals(28.6 / 75, $dist->coefficientOfVariation(), '', 0.1);
+        $this->assertEqualsWithDelta(28.6, $dist->stdDev(), 0.1);
+        $this->assertEqualsWithDelta(28.6 / 75, $dist->coefficientOfVariation(), 0.1);
     }
 
     public function testEmptyHistogram()
@@ -70,7 +70,7 @@ class AbstractDistributionTest extends \PHPUnit_Framework_TestCase
     {
         $dist = $this->getMockWithHistogram([]);
 
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $dist->quantile(0.1);
     }

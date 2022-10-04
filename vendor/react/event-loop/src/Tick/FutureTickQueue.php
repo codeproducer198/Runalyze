@@ -2,20 +2,22 @@
 
 namespace React\EventLoop\Tick;
 
-use React\EventLoop\LoopInterface;
 use SplQueue;
 
-class FutureTickQueue
+/**
+ * A tick queue implementation that can hold multiple callback functions
+ *
+ * This class should only be used internally, see LoopInterface instead.
+ *
+ * @see LoopInterface
+ * @internal
+ */
+final class FutureTickQueue
 {
-    private $eventLoop;
     private $queue;
 
-    /**
-     * @param LoopInterface $eventLoop The event loop passed as the first parameter to callbacks.
-     */
-    public function __construct(LoopInterface $eventLoop)
+    public function __construct()
     {
-        $this->eventLoop = $eventLoop;
         $this->queue = new SplQueue();
     }
 
@@ -26,7 +28,7 @@ class FutureTickQueue
      *
      * @param callable $listener The callback to invoke.
      */
-    public function add(callable $listener)
+    public function add($listener)
     {
         $this->queue->enqueue($listener);
     }
@@ -40,9 +42,8 @@ class FutureTickQueue
         $count = $this->queue->count();
 
         while ($count--) {
-            call_user_func(
-                $this->queue->dequeue(),
-                $this->eventLoop
+            \call_user_func(
+                $this->queue->dequeue()
             );
         }
     }

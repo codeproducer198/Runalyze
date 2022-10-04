@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\ConfRepository;
 use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class ConfigurationManagerTest extends \PHPUnit_Framework_TestCase
+class ConfigurationManagerTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyList()
     {

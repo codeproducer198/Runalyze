@@ -4,12 +4,12 @@ namespace Runalyze\Tests\Sports\ClimbScore;
 
 use Runalyze\Sports\ClimbScore\ClimbScore;
 
-class ClimbScoreTest extends \PHPUnit_Framework_TestCase
+class ClimbScoreTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ClimbScore */
     protected $Score;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->Score = new ClimbScore();
     }
@@ -36,7 +36,7 @@ class ClimbScoreTest extends \PHPUnit_Framework_TestCase
             0.43
         );
 
-        $this->assertEquals(5.9, $this->Score->getScore(), '', 0.05);
+        $this->assertEqualsWithDelta(5.9, $this->Score->getScore(), 0.05);
     }
 
     public function testSumOfFietsIndices()
@@ -54,10 +54,10 @@ class ClimbScoreTest extends \PHPUnit_Framework_TestCase
 
     public function testScaleForSumOfScores()
     {
-        $this->assertEquals(1.17, $this->Score->getScoreForSumOfSingleScores(0.0), '', 0.01);
+        $this->assertEqualsWithDelta(1.17, $this->Score->getScoreForSumOfSingleScores(0.0), 0.01);
         $this->assertEquals(2.0, $this->Score->getScoreForSumOfSingleScores(0.5));
         $this->assertEquals(4.0, $this->Score->getScoreForSumOfSingleScores(2.5));
-        $this->assertEquals(5.17, $this->Score->getScoreForSumOfSingleScores(4.5), '', 0.01);
+        $this->assertEqualsWithDelta(5.17, $this->Score->getScoreForSumOfSingleScores(4.5), 0.01);
         $this->assertEquals(6.0, $this->Score->getScoreForSumOfSingleScores(6.5));
         $this->assertEquals(8.0, $this->Score->getScoreForSumOfSingleScores(14.5));
         $this->assertEquals(10.0, $this->Score->getScoreForSumOfSingleScores(30.5));
@@ -66,14 +66,14 @@ class ClimbScoreTest extends \PHPUnit_Framework_TestCase
 
     public function testCompensationFactorForFlatParts()
     {
-        $this->assertEquals(0.0, $this->Score->getCompensationForFlatParts(2.50));
-        $this->assertEquals(0.0, $this->Score->getCompensationForFlatParts(-1.23));
-        $this->assertEquals(0.0, $this->Score->getCompensationForFlatParts(1.00));
-        $this->assertEquals(1.0, $this->Score->getCompensationForFlatParts(0.00));
+        $this->assertEqualsWithDelta(0.0, $this->Score->getCompensationForFlatParts(2.50), 0.0001);
+        $this->assertEqualsWithDelta(0.0, $this->Score->getCompensationForFlatParts(-1.23), 0.0001);
+        $this->assertEqualsWithDelta(0.0, $this->Score->getCompensationForFlatParts(1.00), 0.0001);
+        $this->assertEqualsWithDelta(1.0, $this->Score->getCompensationForFlatParts(0.00), 0.0001);
 
-        $this->assertEquals(0.99, $this->Score->getCompensationForFlatParts(0.10));
-        $this->assertEquals(0.75, $this->Score->getCompensationForFlatParts(0.50));
-        $this->assertEquals(0.64, $this->Score->getCompensationForFlatParts(0.60));
-        $this->assertEquals(0.36, $this->Score->getCompensationForFlatParts(0.80));
+        $this->assertEqualsWithDelta(0.99, $this->Score->getCompensationForFlatParts(0.10), 0.0001);
+        $this->assertEqualsWithDelta(0.75, $this->Score->getCompensationForFlatParts(0.50), 0.0001);
+        $this->assertEqualsWithDelta(0.64, $this->Score->getCompensationForFlatParts(0.60), 0.0001);
+        $this->assertEqualsWithDelta(0.36, $this->Score->getCompensationForFlatParts(0.80), 0.0001);
     }
 }

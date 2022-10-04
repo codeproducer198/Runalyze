@@ -5,7 +5,7 @@ namespace Runalyze\Activity;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\EnergyUnit;
 
-class EnergyTest extends \PHPUnit_Framework_TestCase
+class EnergyTest extends \PHPUnit\Framework\TestCase
 {
 	public function testConstructor()
 	{

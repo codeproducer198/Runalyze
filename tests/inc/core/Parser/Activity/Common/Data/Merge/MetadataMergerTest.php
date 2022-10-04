@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Parser\Activity\Data\Merge;
 use Runalyze\Parser\Activity\Common\Data\Merge\MetadataMerger;
 use Runalyze\Parser\Activity\Common\Data\Metadata;
 
-class MetadataMergerTest extends \PHPUnit_Framework_TestCase
+class MetadataMergerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Metadata */
     protected $FirstMetadata;
@@ -13,7 +13,7 @@ class MetadataMergerTest extends \PHPUnit_Framework_TestCase
     /** @var Metadata */
     protected $SecondMetadata;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->FirstMetadata = new Metadata();
         $this->SecondMetadata = new Metadata();

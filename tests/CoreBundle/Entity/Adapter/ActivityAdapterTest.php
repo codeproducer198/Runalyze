@@ -11,7 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Profile\Athlete\Gender;
 use Runalyze\Util\LocalTime;
 
-class ActivityAdapterTest extends \PHPUnit_Framework_TestCase
+class ActivityAdapterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Training */
     protected $Activity;
@@ -19,7 +19,7 @@ class ActivityAdapterTest extends \PHPUnit_Framework_TestCase
     /** @var ActivityAdapter */
     protected $Adapter;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Activity = new Training();
         $this->Adapter = new ActivityAdapter($this->Activity);
@@ -64,7 +64,7 @@ class ActivityAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $this->Activity->setTime(LocalTime::now());
 
-        $this->assertEquals(0, $this->Adapter->getAgeOfActivity(), '', 1);
+        $this->assertEqualsWithDelta(0, $this->Adapter->getAgeOfActivity(), 1);
         $this->assertTrue($this->Adapter->isNotOlderThanXDays(0));
     }
 

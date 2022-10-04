@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Common;
 
 use Runalyze\Metrics\Common\UnitConversionByFactorTrait;
 
-class UnitConversionByFactorTraitTest extends \PHPUnit_Framework_TestCase
+class UnitConversionByFactorTraitTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatConversionWorksAsExpected()
     {

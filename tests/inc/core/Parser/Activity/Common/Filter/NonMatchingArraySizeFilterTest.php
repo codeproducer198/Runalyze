@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 use Runalyze\Parser\Activity\Common\Filter\NonMatchingArraySizeFilter;
 
-class NonMatchingArraySizeFilterTest extends \PHPUnit_Framework_TestCase
+class NonMatchingArraySizeFilterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var NonMatchingArraySizeFilter */
     protected $Filter;
@@ -16,7 +16,7 @@ class NonMatchingArraySizeFilterTest extends \PHPUnit_Framework_TestCase
     /** @var ActivityDataContainer */
     protected $Container;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Filter = new NonMatchingArraySizeFilter();
         $this->Container = new ActivityDataContainer();
@@ -62,7 +62,7 @@ class NonMatchingArraySizeFilterTest extends \PHPUnit_Framework_TestCase
         $this->Container->ContinuousData->Time = [300, 600, 900, 1200];
         $this->Container->ContinuousData->Distance = [1.0, 2.0, 3.0, 4.0, 5.0];
 
-        $this->setExpectedException(InvalidDataException::class);
+        $this->expectException(InvalidDataException::class);
 
         $this->Filter->filter($this->Container, true);
     }
@@ -72,7 +72,7 @@ class NonMatchingArraySizeFilterTest extends \PHPUnit_Framework_TestCase
         $this->Container->ContinuousData->Time = range(0.0, 314.0, 1.0);
         $this->Container->ContinuousData->Distance = range(0.01, 0.27, 0.01);
 
-        $this->setExpectedException(InvalidDataException::class);
+        $this->expectException(InvalidDataException::class);
 
         $this->Filter->filter($this->Container, false);
     }

@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Service\ElevationCorrection\Strategy;
 
 use Runalyze\Service\ElevationCorrection\StepwiseElevationProfileFixer;
 
-class StepwiseElevationProfileFixerTest extends \PHPUnit_Framework_TestCase
+class StepwiseElevationProfileFixerTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyProfile()
     {

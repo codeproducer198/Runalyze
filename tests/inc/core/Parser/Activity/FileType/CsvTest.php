@@ -14,7 +14,7 @@ class CsvTest extends AbstractActivityParserTestCase
     /** @var Csv */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new Csv();
     }
@@ -30,9 +30,9 @@ class CsvTest extends AbstractActivityParserTestCase
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(4648, $this->Container->ActivityData->Duration);
-        $this->assertEquals(14.0, $this->Container->ActivityData->Distance, '', 0.01);
+        $this->assertEqualsWithDelta(14.0, $this->Container->ActivityData->Distance, 0.01);
         $this->assertEquals(1123, $this->Container->ActivityData->EnergyConsumption);
-        $this->assertEquals(169, $this->Container->ActivityData->AvgHeartRate, '', 2);
+        $this->assertEqualsWithDelta(169, $this->Container->ActivityData->AvgHeartRate, 2);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -44,7 +44,7 @@ class CsvTest extends AbstractActivityParserTestCase
 
         $lastIndex = count($this->Container->ContinuousData->Time) - 1;
 
-        $this->assertEquals(14.002, $this->Container->ContinuousData->Distance[$lastIndex], '', 0.01);
+        $this->assertEqualsWithDelta(14.002, $this->Container->ContinuousData->Distance[$lastIndex], 0.01);
         $this->assertEquals(4648, $this->Container->ContinuousData->Time[$lastIndex]);
         $this->assertEquals(82, $this->Container->ContinuousData->HeartRate[0]);
         $this->assertEquals(61, $this->Container->ContinuousData->Cadence[0]);
@@ -73,11 +73,11 @@ class CsvTest extends AbstractActivityParserTestCase
         $this->assertEquals('07-10-2016 17:24', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
 
         $this->assertEquals(490, $this->Container->ActivityData->Duration);
-        $this->assertEquals(1.086, $this->Container->ActivityData->Distance, '', 0.001);
-        $this->assertEquals(147, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
-        $this->assertEquals(82, $this->Container->ActivityData->AvgCadence, '', 0.5);
-        $this->assertEquals(300, $this->Container->ActivityData->AvgGroundContactTime, '', 0.5);
-        $this->assertEquals(75, $this->Container->ActivityData->AvgVerticalOscillation, '', 0.5);
+        $this->assertEqualsWithDelta(1.086, $this->Container->ActivityData->Distance, 0.001);
+        $this->assertEqualsWithDelta(147, $this->Container->ActivityData->AvgHeartRate, 0.5);
+        $this->assertEqualsWithDelta(82, $this->Container->ActivityData->AvgCadence, 0.5);
+        $this->assertEqualsWithDelta(300, $this->Container->ActivityData->AvgGroundContactTime, 0.5);
+        $this->assertEqualsWithDelta(75, $this->Container->ActivityData->AvgVerticalOscillation, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -90,8 +90,8 @@ class CsvTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->VerticalOscillation);
 
         $this->assertEquals(11, count($this->Container->Rounds));
-        $this->assertEquals(4618, $this->Container->Rounds->getTotalDuration(), '', 5);
-        $this->assertEquals(10.016, $this->Container->Rounds->getTotalDistance(), '', 0.01);
+        $this->assertEqualsWithDelta(4618, $this->Container->Rounds->getTotalDuration(), 5);
+        $this->assertEqualsWithDelta(10.016, $this->Container->Rounds->getTotalDistance(), 0.01);
 
         $this->assertGreaterThan(0, $this->Container->Pauses->count());
     }

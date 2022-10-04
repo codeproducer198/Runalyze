@@ -2,29 +2,29 @@
 
 namespace Runalyze\Activity;
 
-class TrainingEffectTest extends \PHPUnit_Framework_TestCase
+class TrainingEffectTest extends \PHPUnit\Framework\TestCase
 {
-    /** @expectedException \InvalidArgumentException */
 	public function testInvalidValueTooSmall()
 	{
-        new TrainingEffect(0.9);
+        $this->expectException(\InvalidArgumentException::class);
+        new TrainingEffect(-0.1);
 	}
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidValueTooBig()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new TrainingEffect(5.1);
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidValueNonNumeric()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new TrainingEffect(false);
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidValueString()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new TrainingEffect('foobar');
     }
 

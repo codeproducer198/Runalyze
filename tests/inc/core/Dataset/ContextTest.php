@@ -4,7 +4,7 @@ namespace Runalyze\Dataset;
 
 use Runalyze\Model\Activity;
 
-class ContextTest extends \PHPUnit_Framework_TestCase
+class ContextTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testThatAllStringMethodsWork()
@@ -51,9 +51,9 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('30.10.2015', date('d.m.Y', $Context->activity()->timestamp()));
 	}
 
-	/** @expectedException \InvalidArgumentException */
 	public function testUnknownData()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$Context = new Context(new Activity\Entity(array(
 			Activity\Entity::TIMESTAMP => mktime(12, 0, 0, 10, 30, 2015)
 				)), 0);
@@ -71,15 +71,15 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 		$this->assertNull($Context->data('null-data', true));
 	}
 
-	/** @expectedException \InvalidArgumentException */
 	public function testWrongConstructor()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new Context(0, 0);
 	}
 
-	/** @expectedException \InvalidArgumentException */
 	public function testWrongSetActivityData()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		new Context(array(), 0);
 	}
 

@@ -4,10 +4,10 @@ namespace Runalyze\Tests\Profile\Mapping;
 
 use Runalyze\Profile\Mapping\FitSdkExercise; 
 
-class FitSdkExcerciseTest extends \PHPUnit_Framework_TestCase {
+class FitSdkExcerciseTest extends \PHPUnit\Framework\TestCase {
     protected $underTest;
 
-    public function setUp() {
+    public function setUp() : void {
         $this->underTest = new FitSdkExercise();
     }
 

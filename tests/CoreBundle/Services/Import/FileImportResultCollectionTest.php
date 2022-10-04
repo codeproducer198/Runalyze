@@ -6,7 +6,7 @@ use Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult;
 use Runalyze\Bundle\CoreBundle\Services\Import\FileImportResultCollection;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
-class FileImportResultCollectionTest extends \PHPUnit_Framework_TestCase
+class FileImportResultCollectionTest extends \PHPUnit\Framework\TestCase
 {
     public function testArrayAccessAndIterator()
     {

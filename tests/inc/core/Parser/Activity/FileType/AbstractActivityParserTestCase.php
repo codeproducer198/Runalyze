@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\ParserInterface;
 use Runalyze\Parser\Common\FileContentAwareParserInterface;
 use Runalyze\Parser\Common\FileTypeConverterInterface;
 
-abstract class AbstractActivityParserTestCase extends \PHPUnit_Framework_TestCase
+abstract class AbstractActivityParserTestCase extends \PHPUnit\Framework\TestCase
 {
     /** @var null|ActivityDataContainer|ActivityDataContainer[] */
     protected $Container;
@@ -19,7 +19,7 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit_Framework_TestCas
     /** @var string[] */
     protected $FilesToClear = [];
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         foreach ($this->FilesToClear as $file) {
             if (file_exists($file)) {
@@ -156,8 +156,8 @@ abstract class AbstractActivityParserTestCase extends \PHPUnit_Framework_TestCas
         $this->assertEquals(count($expectedRounds), $container->Rounds->count());
 
         foreach ($expectedRounds as $i => $expectedRoundData) {
-            $this->assertEquals($expectedRoundData[0], $container->Rounds[$i]->getDuration(), 'Round #'.$i.' has wrong duration.', $deltaDuration);
-            $this->assertEquals($expectedRoundData[1], $container->Rounds[$i]->getDistance(), 'Round #'.$i.' has wrong distance.', $deltaDistance);
+            $this->assertEqualsWithDelta($expectedRoundData[0], $container->Rounds[$i]->getDuration(), $deltaDuration, 'Round #'.$i.' has wrong duration.');
+            $this->assertEqualsWithDelta($expectedRoundData[1], $container->Rounds[$i]->getDistance(), $deltaDistance, 'Round #'.$i.' has wrong distance.');
         }
     }
 

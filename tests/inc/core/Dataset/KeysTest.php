@@ -2,7 +2,7 @@
 
 namespace Runalyze\Dataset;
 
-class KeysTest extends \PHPUnit_Framework_TestCase
+class KeysTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testAllIDs()
@@ -52,9 +52,9 @@ class KeysTest extends \PHPUnit_Framework_TestCase
 		}
 	}
 
-	/** @expectedException \InvalidArgumentException */
 	public function testInvalidKeyForGet()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		Keys::get('key-ids-are-integers');
 	}
 

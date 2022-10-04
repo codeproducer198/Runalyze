@@ -4,26 +4,23 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator;
 
+use Laminas\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
+use ProxyManager\Exception\UnsupportedProxiedClassException;
 use ProxyManager\Generator\MethodGenerator;
-use Zend\Code\Generator\ParameterGenerator;
 use ProxyManager\ProxyGenerator\Util\Properties;
 use ReflectionClass;
-use Zend\Code\Generator\PropertyGenerator;
+
+use function implode;
+use function var_export;
 
 /**
  * The `bindProxyProperties` method implementation for access interceptor scope localizers
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class BindProxyProperties extends MethodGenerator
 {
     /**
      * Constructor
-     *
-     * @param ReflectionClass   $originalClass
-     * @param PropertyGenerator $prefixInterceptors
-     * @param PropertyGenerator $suffixInterceptors
      */
     public function __construct(
         ReflectionClass $originalClass,
@@ -37,17 +34,26 @@ class BindProxyProperties extends MethodGenerator
                 new ParameterGenerator('prefixInterceptors', 'array', []),
                 new ParameterGenerator('suffixInterceptors', 'array', []),
             ],
-            static::FLAG_PRIVATE,
+            self::FLAG_PRIVATE,
             null,
             "@override constructor to setup interceptors\n\n"
-            . "@param \\" . $originalClass->getName() . " \$localizedObject\n"
+            . '@param \\' . $originalClass->getName() . " \$localizedObject\n"
             . "@param \\Closure[] \$prefixInterceptors method interceptors to be used before method logic\n"
-            . "@param \\Closure[] \$suffixInterceptors method interceptors to be used before method logic"
+            . '@param \\Closure[] $suffixInterceptors method interceptors to be used before method logic'
         );
 
-        $localizedProperties = [];
+        $localizedProperties        = [];
+        $properties                 = Properties::fromReflectionClass($originalClass);
+        $nonReferenceableProperties = $properties
+            ->onlyNonReferenceableProperties()
+            ->onlyInstanceProperties();
 
-        $properties = Properties::fromReflectionClass($originalClass);
+        if (! $nonReferenceableProperties->empty()) {
+            throw UnsupportedProxiedClassException::nonReferenceableLocalizedReflectionProperties(
+                $originalClass,
+                $nonReferenceableProperties
+            );
+        }
 
         foreach ($properties->getAccessibleProperties() as $property) {
             $propertyName = $property->getName();
@@ -67,7 +73,7 @@ class BindProxyProperties extends MethodGenerator
         $this->setBody(
             ($localizedProperties ? implode("\n\n", $localizedProperties) . "\n\n" : '')
             . '$this->' . $prefixInterceptors->getName() . " = \$prefixInterceptors;\n"
-            . '$this->' . $suffixInterceptors->getName() . " = \$suffixInterceptors;"
+            . '$this->' . $suffixInterceptors->getName() . ' = $suffixInterceptors;'
         );
     }
 }

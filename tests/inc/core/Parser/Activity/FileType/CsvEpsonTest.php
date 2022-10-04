@@ -12,7 +12,7 @@ class CsvEpsonTest extends AbstractActivityParserTestCase
     /** @var CsvEpson */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new CsvEpson();
     }

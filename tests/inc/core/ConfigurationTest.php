@@ -8,37 +8,33 @@ use DB;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
 
 	/** @var \PDO */
 	protected $PDO;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->PDO = DB::getInstance();
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'conf`');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'conf`');
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testThatResettingRequiresAccountId()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		Configuration::loadAll(null);
 		Configuration::resetConfiguration();
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testInvalidAccountId()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		Configuration::resetConfiguration('foo');
 	}
 

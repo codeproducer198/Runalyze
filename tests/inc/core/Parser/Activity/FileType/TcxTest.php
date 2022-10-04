@@ -13,7 +13,7 @@ class TcxTest extends AbstractActivityParserTestCase
     /** @var Tcx */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new Tcx();
     }
@@ -25,13 +25,13 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2011-07-10 11:47', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(6523, $this->Container->ActivityData->Duration, '', 30);
-        $this->assertEquals(7200 - 8 * 60 - 21, $this->Container->ActivityData->ElapsedTime, '', 5);
+        $this->assertEqualsWithDelta(6523, $this->Container->ActivityData->Duration, 30);
+        $this->assertEqualsWithDelta(7200 - 8 * 60 - 21, $this->Container->ActivityData->ElapsedTime, 5);
 
-        $this->assertEquals(22.224, $this->Container->ActivityData->Distance, '', 0.1);
-        $this->assertEquals(1646, $this->Container->ActivityData->EnergyConsumption, '', 10);
-        $this->assertEquals(145, $this->Container->ActivityData->AvgHeartRate, '', 2);
-        $this->assertEquals(172, $this->Container->ActivityData->MaxHeartRate, '', 2);
+        $this->assertEqualsWithDelta(22.224, $this->Container->ActivityData->Distance, 0.1);
+        $this->assertEqualsWithDelta(1646, $this->Container->ActivityData->EnergyConsumption, 10);
+        $this->assertEqualsWithDelta(145, $this->Container->ActivityData->AvgHeartRate, 2);
+        $this->assertEqualsWithDelta(172, $this->Container->ActivityData->MaxHeartRate, 2);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Altitude);
@@ -56,8 +56,8 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2012-04-13 13:51', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(2100, $this->Container->ActivityData->Duration, '', 30);
-        $this->assertEquals(2100, $this->Container->ActivityData->ElapsedTime, '', 30);
+        $this->assertEqualsWithDelta(2100, $this->Container->ActivityData->Duration, 30);
+        $this->assertEqualsWithDelta(2100, $this->Container->ActivityData->ElapsedTime, 30);
 
         $this->assertEquals("Other", $this->Container->Metadata->getSportName());
         $this->assertEquals("Forerunner 310XT-000", $this->Container->Metadata->getCreatorDetails());
@@ -70,10 +70,10 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2012-02-10 16:48', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(7204, $this->Container->ActivityData->Duration, '', 70);
+        $this->assertEqualsWithDelta(7204, $this->Container->ActivityData->Duration, 70);
         $this->assertEquals(7204, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(122, $this->Container->ActivityData->AvgHeartRate, '', 2);
-        $this->assertEquals(149, $this->Container->ActivityData->MaxHeartRate, '', 2);
+        $this->assertEqualsWithDelta(122, $this->Container->ActivityData->AvgHeartRate, 2);
+        $this->assertEqualsWithDelta(149, $this->Container->ActivityData->MaxHeartRate, 2);
     }
 
     public function testMultiSport()
@@ -85,18 +85,18 @@ class TcxTest extends AbstractActivityParserTestCase
 
         $this->assertEquals('2013-04-18 18:14', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[0]->Metadata->getTimezoneOffset());
-        $this->assertEquals(494, $this->Container[0]->ActivityData->Duration, '', 20);
-        $this->assertEquals(2.355, $this->Container[0]->ActivityData->Distance, '', 0.1);
+        $this->assertEqualsWithDelta(494, $this->Container[0]->ActivityData->Duration, 20);
+        $this->assertEqualsWithDelta(2.355, $this->Container[0]->ActivityData->Distance, 0.1);
 
         $this->assertEquals('2013-04-18 18:24', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[1]->Metadata->getTimezoneOffset());
-        $this->assertEquals(3571, $this->Container[1]->ActivityData->Duration, '', 30);
-        $this->assertEquals(11.46, $this->Container[1]->ActivityData->Distance, '', 0.1);
+        $this->assertEqualsWithDelta(3571, $this->Container[1]->ActivityData->Duration, 30);
+        $this->assertEqualsWithDelta(11.46, $this->Container[1]->ActivityData->Distance, 0.1);
 
         $this->assertEquals('2013-04-18 19:35', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container[2]->Metadata->getTimezoneOffset());
-        $this->assertEquals(420, $this->Container[2]->ActivityData->Duration, '', 10);
-        $this->assertEquals(2.355, $this->Container[2]->ActivityData->Distance, '', 0.1);
+        $this->assertEqualsWithDelta(420, $this->Container[2]->ActivityData->Duration, 10);
+        $this->assertEqualsWithDelta(2.355, $this->Container[2]->ActivityData->Distance, 0.1);
     }
 
     public function testFileFromDakota()
@@ -106,7 +106,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2012-08-19 09:21', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(2.34, $this->Container->ActivityData->Distance, '', 0.1);
+        $this->assertEqualsWithDelta(2.34, $this->Container->ActivityData->Distance, 0.1);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Altitude);
@@ -161,8 +161,8 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2015-05-10 16:13', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(61, $this->Container->ActivityData->Duration, '', 5);
-        $this->assertEquals(0.113, $this->Container->ActivityData->Distance, '', 0.01);
+        $this->assertEqualsWithDelta(61, $this->Container->ActivityData->Duration, 5);
+        $this->assertEqualsWithDelta(0.113, $this->Container->ActivityData->Distance, 0.01);
         $this->assertNotEmpty($this->Container->ContinuousData->Altitude);
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
         $this->assertNotEmpty($this->Container->ContinuousData->Longitude);
@@ -182,7 +182,7 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/Route-only.tcx');
 
-        $this->assertEquals(0.4, $this->Container->ActivityData->Distance, '', 0.05);
+        $this->assertEqualsWithDelta(0.4, $this->Container->ActivityData->Distance, 0.05);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
@@ -202,7 +202,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Cadence);
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
 
-        $this->assertEquals(67, $this->Container->ActivityData->AvgCadence, '', 0.5);
+        $this->assertEqualsWithDelta(67, $this->Container->ActivityData->AvgCadence, 0.5);
     }
 
     /**
@@ -213,7 +213,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->parseFile($this->Parser, 'tcx/First-point-empty.tcx');
 
         $this->assertEquals(142, $this->Container->ActivityData->Duration);
-        $this->assertEquals(0.601, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(0.601, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
         $this->assertNotEmpty($this->Container->ContinuousData->Longitude);
@@ -235,8 +235,8 @@ class TcxTest extends AbstractActivityParserTestCase
             $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
         }
 
-        $this->assertEquals(1765, $this->Container->ActivityData->Duration, '', 10);
-        $this->assertEquals(3.64, $this->Container->ActivityData->Distance, '', 0.01);
+        $this->assertEqualsWithDelta(1765, $this->Container->ActivityData->Duration, 10);
+        $this->assertEqualsWithDelta(3.64, $this->Container->ActivityData->Distance, 0.01);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Altitude);
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
@@ -252,6 +252,7 @@ class TcxTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'tcx/negative-pause.tcx');
 
+        $this->assertGreaterThan(0, count($this->Container->Pauses));
         foreach ($this->Container->Pauses as $pause) {
             $this->assertGreaterThan(0, $pause->getDuration());
         }
@@ -265,7 +266,7 @@ class TcxTest extends AbstractActivityParserTestCase
         $this->parseFile($this->Parser, 'tcx/Polar-one-lap-indoor-with-distance.tcx');
 
         $this->assertEquals(13, $this->Container->ActivityData->Duration);
-        $this->assertEquals(0.094, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(0.094, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);

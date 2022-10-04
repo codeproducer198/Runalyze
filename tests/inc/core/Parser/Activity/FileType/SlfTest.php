@@ -13,7 +13,7 @@ class SlfTest extends AbstractActivityParserTestCase
     /** @var Slf */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new Slf();
     }
@@ -27,10 +27,10 @@ class SlfTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(1257, $this->Container->ActivityData->Duration);
         $this->assertEquals(1357, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(5.282, $this->Container->ActivityData->Distance, '', 0.1);
-        $this->assertEquals(163, $this->Container->ActivityData->AvgHeartRate, '', 1);
+        $this->assertEqualsWithDelta(5.282, $this->Container->ActivityData->Distance, 0.1);
+        $this->assertEqualsWithDelta(163, $this->Container->ActivityData->AvgHeartRate, 1);
         $this->assertEquals(174, $this->Container->ActivityData->MaxHeartRate);
-        $this->assertEquals(306, $this->Container->ActivityData->EnergyConsumption, '', 1);
+        $this->assertEqualsWithDelta(306, $this->Container->ActivityData->EnergyConsumption, 1);
 
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
     }
@@ -42,11 +42,11 @@ class SlfTest extends AbstractActivityParserTestCase
         $this->assertEquals('2012-10-14 13:19', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(1803, $this->Container->ActivityData->Duration, '', 30);
-        $this->assertEquals(4.109, $this->Container->ActivityData->Distance, '', 0.1);
-        $this->assertEquals(120, $this->Container->ActivityData->AvgHeartRate, '', 1);
+        $this->assertEqualsWithDelta(1803, $this->Container->ActivityData->Duration, 30);
+        $this->assertEqualsWithDelta(4.109, $this->Container->ActivityData->Distance, 0.1);
+        $this->assertEqualsWithDelta(120, $this->Container->ActivityData->AvgHeartRate, 1);
         $this->assertEquals(135, $this->Container->ActivityData->MaxHeartRate);
-        $this->assertEquals(243, $this->Container->ActivityData->EnergyConsumption, '', 1);
+        $this->assertEqualsWithDelta(243, $this->Container->ActivityData->EnergyConsumption, 1);
     }
 
     public function testVersion4File()
@@ -57,10 +57,10 @@ class SlfTest extends AbstractActivityParserTestCase
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(5559, $this->Container->ActivityData->Duration);
-        $this->assertEquals(20.88, $this->Container->ActivityData->Distance, '', 0.1);
-        $this->assertEquals(163, $this->Container->ActivityData->AvgHeartRate, '', 1);
+        $this->assertEqualsWithDelta(20.88, $this->Container->ActivityData->Distance, 0.1);
+        $this->assertEqualsWithDelta(163, $this->Container->ActivityData->AvgHeartRate, 1);
         $this->assertEquals(169, $this->Container->ActivityData->MaxHeartRate);
-        $this->assertEquals(1068, $this->Container->ActivityData->EnergyConsumption, '', 1);
+        $this->assertEqualsWithDelta(1068, $this->Container->ActivityData->EnergyConsumption, 1);
 
         $this->assertEquals(14, $this->Container->Rounds->count());
     }
@@ -73,10 +73,10 @@ class SlfTest extends AbstractActivityParserTestCase
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(2766, $this->Container->ActivityData->Duration);
-        $this->assertEquals(7.42, $this->Container->ActivityData->Distance, '', 0.1);
-        $this->assertEquals(138, $this->Container->ActivityData->AvgHeartRate, '', 1);
+        $this->assertEqualsWithDelta(7.42, $this->Container->ActivityData->Distance, 0.1);
+        $this->assertEqualsWithDelta(138, $this->Container->ActivityData->AvgHeartRate, 1);
         $this->assertEquals(162, $this->Container->ActivityData->MaxHeartRate);
-        $this->assertEquals(404, $this->Container->ActivityData->EnergyConsumption, '', 1);
+        $this->assertEqualsWithDelta(404, $this->Container->ActivityData->EnergyConsumption, 1);
 
         $this->assertTrue($this->Container->Rounds->isEmpty());
     }

@@ -5,12 +5,12 @@ namespace Runalyze\Tests\Parser\Activity\Common\Data\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
-class RoundCollectionTest extends \PHPUnit_Framework_TestCase
+class RoundCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RoundCollection */
     protected $Collection;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Collection = new RoundCollection();
     }
@@ -70,22 +70,18 @@ class RoundCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(261, $this->Collection[1]->getDuration());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testConstructorWithBadTypes()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new RoundCollection([
             new Round(1.0, 255),
             'foobar'
         ]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testOffsetSetWithBadType()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->Collection[] = 'foobar';
     }
 

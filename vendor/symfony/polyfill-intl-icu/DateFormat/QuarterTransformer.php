@@ -20,9 +20,6 @@ namespace Symfony\Polyfill\Intl\Icu\DateFormat;
  */
 class QuarterTransformer extends Transformer
 {
-    /**
-     * {@inheritdoc}
-     */
     public function format(\DateTime $dateTime, int $length): string
     {
         $month = (int) $dateTime->format('n');
@@ -33,16 +30,21 @@ class QuarterTransformer extends Transformer
                 return $this->padLeft($quarter, $length);
             case 3:
                 return 'Q'.$quarter;
-            default:
+            case 4:
                 $map = [1 => '1st quarter', 2 => '2nd quarter', 3 => '3rd quarter', 4 => '4th quarter'];
 
                 return $map[$quarter];
+            default:
+                if (\defined('INTL_ICU_VERSION') && version_compare(\INTL_ICU_VERSION, '70.1', '<')) {
+                    $map = [1 => '1st quarter', 2 => '2nd quarter', 3 => '3rd quarter', 4 => '4th quarter'];
+
+                    return $map[$quarter];
+                } else {
+                    return $quarter;
+                }
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getReverseMatchingRegExp(int $length): string
     {
         switch ($length) {
@@ -56,9 +58,6 @@ class QuarterTransformer extends Transformer
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function extractDateOptions(string $matched, int $length): array
     {
         return [];

@@ -2,29 +2,23 @@
 
 namespace Runalyze\Calculation\Math;
 
-class SubSegmentMaximizationTest extends \PHPUnit_Framework_TestCase
+class SubSegmentMaximizationTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
 	public function testEmptyInput()
     {
-		new SubSegmentMaximization([], [], []);
+        $this->expectException(\InvalidArgumentException::class);
+        new SubSegmentMaximization([], [], []);
 	}
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testNoSegmentLengths()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new SubSegmentMaximization([1, 1, 1], [1, 1, 1], []);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testUnbalancedInputSizes()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new SubSegmentMaximization([1, 1], [1, 1, 1], [1]);
     }
 

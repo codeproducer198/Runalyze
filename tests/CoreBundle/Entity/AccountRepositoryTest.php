@@ -16,7 +16,7 @@ class AccountRepositoryTest extends AbstractRepositoryTestCase
     /** @var AccountRepository */
     protected $AccountRepository;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->FixtureClasses = [];
 

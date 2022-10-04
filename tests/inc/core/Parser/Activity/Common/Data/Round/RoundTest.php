@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Parser\Activity\Common\Data\Round;
 
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 
-class RoundTest extends \PHPUnit_Framework_TestCase
+class RoundTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleRound()
     {

@@ -2,7 +2,7 @@
 
 namespace Runalyze\Data\Weather;
 
-class SourcesTest extends \PHPUnit_Framework_TestCase
+class SourcesTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testThatStringsAreDefined()

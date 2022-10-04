@@ -6,33 +6,34 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "~5.6|~7",
+        "php": "~7",
         "symfony/symfony": "~3.4.49",
         "sensio/framework-extra-bundle": "~5.4",
-        "twig/twig": "~1.44.5",
+        "twig/twig": "~1.44",
         "monolog/monolog": "^1.26",
         "nojacko/email-validator": "~1.0",
-        "league/geotools": "^0.8.0",
+        "league/geotools": "^0.8.3",
         "swiftmailer/swiftmailer": "~6.3",
         "phpfastcache/phpfastcache": "~3",
         "twig/extensions": "^1.5",
         "doctrine/doctrine-bundle": "~1.12",
         "doctrine/orm": "^2.7",
-        "symfony/monolog-bundle": "~3.5",
-        "doctrine/doctrine-migrations-bundle": "^2.0",
+        "symfony/monolog-bundle": "~3.6",
+        "doctrine/doctrine-migrations-bundle": "^2.2",
         "doctrine/doctrine-cache-bundle": "^1.4",
         "runalyze/dem-reader": "^1.1",
         "runalyze/age-grade": "^1.2",
         "symfony/swiftmailer-bundle": "^3.2",
         "beberlei/doctrineextensions": "~1.3",
-        "jms/translation-bundle": "~1.6",
+        "jms/translation-bundle": "~1.7",
         "bernard/bernard-bundle": "^2.0.0",
         "runalyze/gpxtrackposter": "^1.0.0",
         "runalyze/glossary": "v4.3.0",
-        "snc/redis-bundle": "^3.5",
+        "snc/redis-bundle": "^3.6",
         "predis/predis": "^1.0",
         "guzzlehttp/guzzle": "^7.0",
-        "p3k/picofeed": "@stable",
+        "p3k/picofeed": "^0.1.40",
+        "laminas/laminas-zendframework-bridge": "^1.6",
         "runalyze/translations": "dev-master"
     },
     "autoload": {
@@ -49,15 +50,16 @@
         }
     },
     "require-dev": {
-        "liip/functional-test-bundle": "^1.7",
+        "liip/functional-test-bundle": "^4.3.0",
+        "liip/test-fixtures-bundle": "^1.12.0",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "phpunit/phpunit": "5.7.*"
+        "phpunit/phpunit": "8.5.*"
     },
     "repositories": [
         {
             "type": "package",
             "package": {
-                "name": "runalyze/GpxTrackPoster",
+                "name": "runalyze/gpxtrackposter",
                 "version": "1.0.2",
                 "source": {
                     "url": "https://github.com/codeproducer198/GpxTrackPoster.git",

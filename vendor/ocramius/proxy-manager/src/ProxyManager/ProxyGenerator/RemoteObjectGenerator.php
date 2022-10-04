@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator;
 
+use Laminas\Code\Generator\ClassGenerator;
+use Laminas\Code\Generator\Exception\InvalidArgumentException;
+use Laminas\Code\Generator\MethodGenerator;
+use Laminas\Code\Reflection\MethodReflection;
 use ProxyManager\Exception\InvalidProxiedClassException;
 use ProxyManager\Generator\Util\ClassGeneratorUtils;
 use ProxyManager\Proxy\RemoteObjectInterface;
@@ -18,25 +22,24 @@ use ProxyManager\ProxyGenerator\RemoteObject\PropertyGenerator\AdapterProperty;
 use ProxyManager\ProxyGenerator\Util\ProxiedMethodsFilter;
 use ReflectionClass;
 use ReflectionMethod;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Reflection\MethodReflection;
+
+use function array_map;
+use function array_merge;
 
 /**
  * Generator for proxies implementing {@see \ProxyManager\Proxy\RemoteObjectInterface}
  *
  * {@inheritDoc}
- *
- * @author Vincent Blanchon <blanchon.vincent@gmail.com>
- * @license MIT
  */
 class RemoteObjectGenerator implements ProxyGeneratorInterface
 {
     /**
      * {@inheritDoc}
      *
+     * @return void
+     *
      * @throws InvalidProxiedClassException
-     * @throws \Zend\Code\Generator\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function generate(ReflectionClass $originalClass, ClassGenerator $classGenerator)
     {
@@ -54,12 +57,12 @@ class RemoteObjectGenerator implements ProxyGeneratorInterface
         $classGenerator->addPropertyFromGenerator($adapter = new AdapterProperty());
 
         array_map(
-            function (MethodGenerator $generatedMethod) use ($originalClass, $classGenerator) {
+            static function (MethodGenerator $generatedMethod) use ($originalClass, $classGenerator): void {
                 ClassGeneratorUtils::addMethodIfNotFinal($originalClass, $classGenerator, $generatedMethod);
             },
             array_merge(
                 array_map(
-                    function (ReflectionMethod $method) use ($adapter, $originalClass) : RemoteObjectMethod {
+                    static function (ReflectionMethod $method) use ($adapter, $originalClass): RemoteObjectMethod {
                         return RemoteObjectMethod::generateMethod(
                             new MethodReflection($method->getDeclaringClass()->getName(), $method->getName()),
                             $adapter,

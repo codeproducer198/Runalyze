@@ -2,7 +2,7 @@
 
 namespace Runalyze\Activity;
 
-class GroundcontactBalanceTest extends \PHPUnit_Framework_TestCase
+class GroundcontactBalanceTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testStaticFunction()

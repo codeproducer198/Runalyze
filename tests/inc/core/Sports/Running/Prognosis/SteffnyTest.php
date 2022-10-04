@@ -4,12 +4,12 @@ namespace Runalyze\Tests\Sports\Running\Prognosis;
 
 use Runalyze\Sports\Running\Prognosis\Steffny;
 
-class SteffnyTest extends \PHPUnit_Framework_TestCase
+class SteffnyTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Steffny */
     protected $Steffny;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->Steffny = new Steffny();
     }
@@ -32,7 +32,7 @@ class SteffnyTest extends \PHPUnit_Framework_TestCase
     public function testSetReferenceResult()
     {
         $this->Steffny->setReferenceResult(9.9, 40 * 60 + 35);
-        $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0), '', 1);
+        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
 
         $this->Steffny->setReferenceResult(5.1, 20 * 60 + 24);
         $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0));
@@ -41,40 +41,40 @@ class SteffnyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0));
 
         $this->Steffny->setReferenceResult(3.0, 11 * 60 + 40);
-        $this->assertEquals(11 * 60 + 40, $this->Steffny->getSeconds(3.0), '', 1);
-        $this->assertEquals(20 * 60 + 0, $this->Steffny->getSeconds(5.0), '', 1);
-        $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0), '', 1);
+        $this->assertEqualsWithDelta(11 * 60 + 40, $this->Steffny->getSeconds(3.0), 1);
+        $this->assertEqualsWithDelta(20 * 60 + 0, $this->Steffny->getSeconds(5.0), 1);
+        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
 
         $this->Steffny->setReferenceResult(1.5, 5 * 60 + 40);
-        $this->assertEquals(5 * 60 + 40, $this->Steffny->getSeconds(1.5), '', 1);
-        $this->assertEquals(11 * 60 + 40, $this->Steffny->getSeconds(3.0), '', 1);
-        $this->assertEquals(20 * 60 + 0, $this->Steffny->getSeconds(5.0), '', 1);
-        $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0), '', 1);
+        $this->assertEqualsWithDelta(5 * 60 + 40, $this->Steffny->getSeconds(1.5), 1);
+        $this->assertEqualsWithDelta(11 * 60 + 40, $this->Steffny->getSeconds(3.0), 1);
+        $this->assertEqualsWithDelta(20 * 60 + 0, $this->Steffny->getSeconds(5.0), 1);
+        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
 
 
         $this->Steffny->setReferenceResult(10.1, 41 * 60 + 25);
-        $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0), '', 1);
+        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
 
         $this->Steffny->setReferenceResult(21.0, 90 * 60 + 11);
-        $this->assertEquals(90 * 60 + 36, $this->Steffny->getSeconds(21.0975), '', 1);
-        $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0), '', 1);
+        $this->assertEqualsWithDelta(90 * 60 + 36, $this->Steffny->getSeconds(21.0975), 1);
+        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
 
         $this->Steffny->setReferenceResult(21.0975, 90 * 60 + 36);
-        $this->assertEquals(90 * 60 + 36, $this->Steffny->getSeconds(21.0975), '', 1);
-        $this->assertEquals(41 * 60 + 0, $this->Steffny->getSeconds(10.0), '', 1);
+        $this->assertEqualsWithDelta(90 * 60 + 36, $this->Steffny->getSeconds(21.0975), 1);
+        $this->assertEqualsWithDelta(41 * 60 + 0, $this->Steffny->getSeconds(10.0), 1);
     }
 
     public function testInSeconds()
     {
         $this->Steffny->setReferenceResult(1.5, 4 * 60 + 30);
 
-        $this->assertEquals(4 * 60 + 30, $this->Steffny->getSeconds(1.5), '', 1);
-        $this->assertEquals(9 * 60 + 20, $this->Steffny->getSeconds(3.0), '', 1);
-        $this->assertEquals(16 * 60 + 6, $this->Steffny->getSeconds(5.0), '', 1);
-        $this->assertEquals(33 * 60 + 12, $this->Steffny->getSeconds(10.0), '', 1);
-        $this->assertEquals(73 * 60 + 22, $this->Steffny->getSeconds(21.0975), '', 2);
-        $this->assertEquals(154 * 60 + 49, $this->Steffny->getSeconds(42.195), '', 5);
-        $this->assertEquals(464 * 60 + 27 - 25 * 60 - 11, $this->Steffny->getSeconds(100.0), '', 20);
+        $this->assertEqualsWithDelta(4 * 60 + 30, $this->Steffny->getSeconds(1.5), 1);
+        $this->assertEqualsWithDelta(9 * 60 + 20, $this->Steffny->getSeconds(3.0), 1);
+        $this->assertEqualsWithDelta(16 * 60 + 6, $this->Steffny->getSeconds(5.0), 1);
+        $this->assertEqualsWithDelta(33 * 60 + 12, $this->Steffny->getSeconds(10.0), 1);
+        $this->assertEqualsWithDelta(73 * 60 + 22, $this->Steffny->getSeconds(21.0975), 2);
+        $this->assertEqualsWithDelta(154 * 60 + 49, $this->Steffny->getSeconds(42.195), 5);
+        $this->assertEqualsWithDelta(464 * 60 + 27 - 25 * 60 - 11, $this->Steffny->getSeconds(100.0), 20);
     }
 
     /**
@@ -103,11 +103,11 @@ class SteffnyTest extends \PHPUnit_Framework_TestCase
 
         foreach ($Requirements as $Requirement) {
             $this->Steffny->setReferenceFrom10kTime($Requirement[0][0] * 60.0 + $Requirement[0][1]);
-            $this->assertEquals(
+            $this->assertEqualsWithDelta(
                 $Requirement[1][0] * 3600.0 + $Requirement[1][1] * 60.0 + $Requirement[1][2],
                 $this->Steffny->getSeconds(21.0975),
-                'Prediction failed for 10k in ' . ($Requirement[0][0]) . ':' . $Requirement[0][1],
-                15
+                15,
+                'Prediction failed for 10k in ' . ($Requirement[0][0]) . ':' . $Requirement[0][1]
             );
         }
     }
@@ -139,11 +139,11 @@ class SteffnyTest extends \PHPUnit_Framework_TestCase
         foreach ($Requirements as $Requirement) {
             $this->Steffny->setReferenceFrom10kTime($Requirement[0][0] * 60.0 + $Requirement[0][1]);
 
-            $this->assertEquals(
+            $this->assertEqualsWithDelta(
                 $Requirement[1][0] * 3600.0 + $Requirement[1][1] * 60.0 + $Requirement[1][2],
                 $this->Steffny->getSeconds(42.195),
-                'Prediction failed for 10k in ' . ($Requirement[0][0]) . ':' . $Requirement[0][1],
-                5 * 60
+                5 * 60,
+                'Prediction failed for 10k in ' . ($Requirement[0][0]) . ':' . $Requirement[0][1]
             );
         }
     }

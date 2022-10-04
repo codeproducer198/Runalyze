@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Parser\Activity\Data;
 use Runalyze\Parser\Activity\Common\Data\ContinuousData;
 use Runalyze\Parser\Activity\Common\Data\ContinuousDataAdapter;
 
-class ContinuousDataAdapterTest extends \PHPUnit_Framework_TestCase
+class ContinuousDataAdapterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ContinuousData */
     protected $Data;
@@ -13,7 +13,7 @@ class ContinuousDataAdapterTest extends \PHPUnit_Framework_TestCase
     /** @var ContinuousDataAdapter */
     protected $Adapter;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Data = new ContinuousData();
         $this->Adapter = new ContinuousDataAdapter($this->Data);
@@ -44,9 +44,9 @@ class ContinuousDataAdapterTest extends \PHPUnit_Framework_TestCase
 
         $this->Adapter->calculateDistancesIfRequired();
 
-        $this->assertEquals(0.0, $this->Data->Distance[0], '', 0.001);
-        $this->assertEquals(1.816, $this->Data->Distance[1], '', 0.001);
-        $this->assertEquals(3.140, $this->Data->Distance[2], '', 0.001);
+        $this->assertEqualsWithDelta(0.0, $this->Data->Distance[0], 0.001);
+        $this->assertEqualsWithDelta(1.816, $this->Data->Distance[1], 0.001);
+        $this->assertEqualsWithDelta(3.140, $this->Data->Distance[2], 0.001);
     }
 
     public function testClearingEmptyArraysIfAllArraysAreAlreadyEmpty()

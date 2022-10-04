@@ -4,12 +4,12 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 
 use Runalyze\Bundle\CoreBundle\Entity\Route;
 
-class RouteTest extends \PHPUnit_Framework_TestCase
+class RouteTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Route */
     protected $Route;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Route = new Route();
     }
@@ -23,7 +23,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 
     public function testThatLatitudesAndLongitudesMustBeOfSameSize()
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $this->Route->setLatitudesAndLongitudes(
             [49.77, 49.78, 49.79],

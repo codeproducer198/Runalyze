@@ -7,12 +7,12 @@ use Runalyze\Bundle\CoreBundle\Services\Configuration\ConfigurationManager;
 use Runalyze\Bundle\CoreBundle\Twig\ValueExtension;
 use Runalyze\Metrics;
 
-class ValueExtensionTest extends \PHPUnit_Framework_TestCase
+class ValueExtensionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ValueExtension */
     protected $Extension;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Extension = $this->getExtensionFor();
     }

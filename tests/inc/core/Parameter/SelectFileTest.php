@@ -2,12 +2,12 @@
 
 namespace Runalyze\Parameter;
 
-class ParameterSelectFileTest extends \PHPUnit_Framework_TestCase
+class ParameterSelectFileTest extends \PHPUnit\Framework\TestCase
 {
 	/** @var \Runalyze\Parameter\SelectFile */
 	protected $object;
 
-	protected function setUp()
+	protected function setUp() : void
     {
 		$this->object = new SelectFile('path/to/file.jpg', array(
 			'folder' => 'dir/',
@@ -24,35 +24,27 @@ class ParameterSelectFileTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('another/path/to/file.png', $this->object->value());
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testWrongExtension()
     {
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->set('path/to/file.php');
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testWrongPath()
     {
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->set('../private/file.jpg');
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testRootPath()
     {
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->set('/usr/file.jpg');
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testNoExtension()
     {
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->set('/bin/shell');
 	}
 
@@ -61,11 +53,9 @@ class ParameterSelectFileTest extends \PHPUnit_Framework_TestCase
 		$this->object->set('another/path/to/file.PNG');
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
 	public function testUppercaseVariantsDisallowed()
     {
+		$this->expectException(\InvalidArgumentException::class);
 		$this->object->allowUppercaseVariants(false);
 		$this->object->set('another/path/to/file.PNG');
 	}

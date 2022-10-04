@@ -2,23 +2,23 @@
 
 namespace Runalyze\Data\Weather;
 
-class HumidityTest extends \PHPUnit_Framework_TestCase
+class HumidityTest extends \PHPUnit\Framework\TestCase
 {
-    /** @expectedException \InvalidArgumentException */
     public function testNonNumericValue()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new Humidity('foobar');
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testNegativeValue()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new Humidity(-13);
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testTooLargeValue()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new Humidity(123);
     }
 

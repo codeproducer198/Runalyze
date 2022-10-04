@@ -35,6 +35,7 @@ class AppKernel extends \Symfony\Component\HttpKernel\Kernel
         } elseif ('test' == substr($this->getEnvironment(), 0, 4)) {
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+            $bundles[] = new Liip\TestFixturesBundle\LiipTestFixturesBundle();
         }
 
         return $bundles;

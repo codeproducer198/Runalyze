@@ -8,7 +8,7 @@ use DB;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class QueryTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends \PHPUnit\Framework\TestCase
 {
 
 	/** @var \PDO */
@@ -20,14 +20,14 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 	/** @var int */
 	protected $Running;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->PDO = DB::getInstance();
 		$this->Query = new Query(new DefaultConfiguration(), $this->PDO, 1);
 		$this->Running = \Runalyze\Configuration::General()->runningSport();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		$this->PDO->exec('DELETE FROM `runalyze_training`');
 	}
@@ -53,20 +53,20 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 	{
 		$this->insertActivity(array('time' => time() - DAY_IN_S, 's' => 100));
 
-		$this->assertInternalType('array', $this->Query->statementToFetchActivities(0, time())->fetchAll());
-		$this->assertInternalType('array', $this->Query->fetchSummaryForSport($this->Running));
-		$this->assertInternalType('array', $this->Query->fetchSummaryForTimerange($this->Running));
+		$this->assertIsArray($this->Query->statementToFetchActivities(0, time())->fetchAll());
+		$this->assertIsArray($this->Query->fetchSummaryForSport($this->Running));
+		$this->assertIsArray($this->Query->fetchSummaryForTimerange($this->Running));
 
 		$this->Query->showOnlyPublicActivities();
-		$this->assertInternalType('array', $this->Query->fetchSummaryForSport($this->Running, time() - 366*DAY_IN_S, time()));
-		$this->assertInternalType('array', $this->Query->fetchSummaryForTimerange($this->Running, 31*DAY_IN_S));
-		$this->assertInternalType('array', $this->Query->fetchSummaryForTimerange($this->Running, 366*DAY_IN_S, time() - 2*DAY_IN_S, time() + 366*DAY_IN_S));
+		$this->assertIsArray($this->Query->fetchSummaryForSport($this->Running, time() - 366*DAY_IN_S, time()));
+		$this->assertIsArray($this->Query->fetchSummaryForTimerange($this->Running, 31*DAY_IN_S));
+		$this->assertIsArray($this->Query->fetchSummaryForTimerange($this->Running, 366*DAY_IN_S, time() - 2*DAY_IN_S, time() + 366*DAY_IN_S));
 	}
 
 	public function testThatSelectQueriesAreValid()
 	{
-		$this->PDO->query('SELECT '.$this->Query->queryToSelectAllKeys().' FROM `runalyze_training` AS `t` LIMIT 1')->fetch();
-		$this->PDO->query('SELECT '.$this->Query->queryToSelectActiveKeys().' FROM `runalyze_training` AS `t` LIMIT 1')->fetch();
+		$this->assertNotNull($this->PDO->query('SELECT '.$this->Query->queryToSelectAllKeys().' FROM `runalyze_training` AS `t` LIMIT 1')->fetch());
+		$this->assertNotNull($this->PDO->query('SELECT '.$this->Query->queryToSelectActiveKeys().' FROM `runalyze_training` AS `t` LIMIT 1')->fetch());
 	}
 
 	public function testTimerangeAndPrivacyForSingleActivities()

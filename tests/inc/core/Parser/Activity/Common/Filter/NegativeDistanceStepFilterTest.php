@@ -8,7 +8,7 @@ use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 use Runalyze\Parser\Activity\Common\Filter\NegativeDistanceStepFilter;
 
-class NegativeDistanceStepFilterTest extends \PHPUnit_Framework_TestCase
+class NegativeDistanceStepFilterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var NegativeDistanceStepFilter */
     protected $Filter;
@@ -16,7 +16,7 @@ class NegativeDistanceStepFilterTest extends \PHPUnit_Framework_TestCase
     /** @var ActivityDataContainer */
     protected $Container;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Filter = new NegativeDistanceStepFilter();
         $this->Container = new ActivityDataContainer();
@@ -53,7 +53,7 @@ class NegativeDistanceStepFilterTest extends \PHPUnit_Framework_TestCase
     {
         $this->Container->ContinuousData->Distance = [1.0, 2.0, 0.0, 4.0, 5.0];
 
-        $this->setExpectedException(InvalidDataException::class);
+        $this->expectException(InvalidDataException::class);
 
         $this->Filter->filter($this->Container, true);
     }
@@ -62,7 +62,7 @@ class NegativeDistanceStepFilterTest extends \PHPUnit_Framework_TestCase
     {
         $this->Container->ContinuousData->Distance = [1.0, 2.0, 1.4, 1.6, 4.0, 5.0];
 
-        $this->setExpectedException(InvalidDataException::class);
+        $this->expectException(InvalidDataException::class);
 
         $this->Filter->filter($this->Container, false);
     }

@@ -4,37 +4,30 @@ declare(strict_types=1);
 
 namespace ProxyManager\GeneratorStrategy;
 
+use Closure;
+use Laminas\Code\Generator\ClassGenerator;
 use ProxyManager\Exception\FileNotWritableException;
 use ProxyManager\FileLocator\FileLocatorInterface;
-use Zend\Code\Generator\ClassGenerator;
+use Webimpress\SafeWriter\Exception\ExceptionInterface as FileWriterException;
+use Webimpress\SafeWriter\FileWriter;
+
+use function restore_error_handler;
+use function set_error_handler;
 
 /**
  * Generator strategy that writes the generated classes to disk while generating them
  *
  * {@inheritDoc}
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class FileWriterGeneratorStrategy implements GeneratorStrategyInterface
 {
-    /**
-     * @var \ProxyManager\FileLocator\FileLocatorInterface
-     */
-    protected $fileLocator;
+    protected FileLocatorInterface $fileLocator;
+    private Closure $emptyErrorHandler;
 
-    /**
-     * @var callable
-     */
-    private $emptyErrorHandler;
-
-    /**
-     * @param \ProxyManager\FileLocator\FileLocatorInterface $fileLocator
-     */
     public function __construct(FileLocatorInterface $fileLocator)
     {
         $this->fileLocator       = $fileLocator;
-        $this->emptyErrorHandler = function () {
+        $this->emptyErrorHandler = static function (): void {
         };
     }
 
@@ -45,44 +38,22 @@ class FileWriterGeneratorStrategy implements GeneratorStrategyInterface
      *
      * @throws FileNotWritableException
      */
-    public function generate(ClassGenerator $classGenerator) : string
+    public function generate(ClassGenerator $classGenerator): string
     {
-        $className     = trim($classGenerator->getNamespaceName(), '\\')
-            . '\\' . trim($classGenerator->getName(), '\\');
         $generatedCode = $classGenerator->generate();
+        $className     = (string) $classGenerator->getNamespaceName() . '\\' . $classGenerator->getName();
         $fileName      = $this->fileLocator->getProxyFileName($className);
 
         set_error_handler($this->emptyErrorHandler);
 
         try {
-            $this->writeFile("<?php\n\n" . $generatedCode, $fileName);
+            FileWriter::writeFile($fileName, "<?php\n\n" . $generatedCode);
 
             return $generatedCode;
+        } catch (FileWriterException $e) {
+            throw FileNotWritableException::fromPrevious($e);
         } finally {
             restore_error_handler();
-        }
-    }
-
-    /**
-     * Writes the source file in such a way that race conditions are avoided when the same file is written
-     * multiple times in a short time period
-     *
-     * @param string $source
-     * @param string $location
-     *
-     * @throws FileNotWritableException
-     */
-    private function writeFile(string $source, string $location) : void
-    {
-        $tmpFileName = tempnam($location, 'temporaryProxyManagerFile');
-
-        file_put_contents($tmpFileName, $source);
-        chmod($tmpFileName, 0666 & ~umask());
-
-        if (! rename($tmpFileName, $location)) {
-            unlink($tmpFileName);
-
-            throw FileNotWritableException::fromInvalidMoveOperation($tmpFileName, $location);
         }
     }
 }

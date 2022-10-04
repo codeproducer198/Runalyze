@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Common\Unit;
 
 use Runalyze\Metrics\Common\Unit\None;
 
-class NoneTest extends \PHPUnit_Framework_TestCase
+class NoneTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

@@ -10,11 +10,11 @@ use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 
-class ActiveRoundCalculatorTest extends \PHPUnit_Framework_TestCase
+class ActiveRoundCalculatorTest extends \PHPUnit\Framework\TestCase
 {
     protected $ContinuousData;
 
-    public function setUp() {
+    public function setUp() : void {
         $this->ContinuousData = new ContinuousData();
 
         // create 10 samples

@@ -2,7 +2,7 @@
 
 namespace Runalyze\Parameter\Application;
 
-class WeightUnitTest extends \PHPUnit_Framework_TestCase
+class WeightUnitTest extends \PHPUnit\Framework\TestCase
 {
 
 	/**
@@ -10,7 +10,7 @@ class WeightUnitTest extends \PHPUnit_Framework_TestCase
 	 */
 	protected $object;
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->object = new WeightUnit;
 	}

@@ -9,8 +9,7 @@ use RuntimeException;
 /**
  * Remote object exception
  *
- * @author Vincent Blanchon <blanchon.vincent@gmail.com>
- * @license MIT
+ * @deprecated this exception is not in use anymore, and should not be relied upon
  */
 class RemoteObjectException extends RuntimeException
 {

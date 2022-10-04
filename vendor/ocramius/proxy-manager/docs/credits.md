@@ -1,12 +1,7 @@
----
-title: Credits
----
-
 # Credits
 
-The idea was originated by a [talk about Proxies in PHP OOP](http://marco-pivetta.com/proxy-pattern-in-php/) that I gave at the [@phpugffm](https://twitter.com/phpugffm) in January 2013.
-
----
+The idea was originated by a [talk about Proxies in PHP OOP](https://ocramius.github.io/presentations/proxy-pattern-in-php/) that I gave at 
+the [@phpugffm](https://twitter.com/phpugffm) in January 2013.
 
 ### Contributors
 
@@ -24,3 +19,7 @@ The idea was originated by a [talk about Proxies in PHP OOP](http://marco-pivett
 - [Aleksey Khudyakov](https://github.com/Xerkus)
 - [Alexander](https://github.com/asm89)
 - [Raul Fraile](https://github.com/raulfraile)
+
+### Documentation
+
+[Gary Hockin](https://twitter.com/GeeH) is amazing and spent literally 20 minutes tidying up the documentation.

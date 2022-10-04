@@ -6,11 +6,11 @@ use Runalyze\Activity\Pace;
 use Runalyze\Activity\Temperature as ActivityTemperature;
 use Runalyze\Parameter\Application\TemperatureUnit;
 
-class WindChillFactorTest extends \PHPUnit_Framework_TestCase
+class WindChillFactorTest extends \PHPUnit\Framework\TestCase
 {
-    /** @expectedException \InvalidArgumentException */
     public function testUnknownInputData()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $WindChill = new WindChillFactor(
             new WindSpeed(20),
             new ActivityTemperature()
@@ -25,7 +25,7 @@ class WindChillFactorTest extends \PHPUnit_Framework_TestCase
             new Pace(5000, 5)
         );
 
-        $this->assertEquals(7.1, $WindChill->value(), '', 0.1);
+        $this->assertEqualsWithDelta(7.1, $WindChill->value(), 0.1);
     }
 
     public function testThatObjectIsCloned()

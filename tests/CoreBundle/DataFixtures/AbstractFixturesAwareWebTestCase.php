@@ -5,6 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\DataFixtures;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\ORM\EntityManager;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
@@ -14,6 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Client;
 
 abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
 {
+    use FixturesTrait;
+
     /** @var  Client */
     protected $Client;
 
@@ -26,7 +29,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
     /** @var EntityManager */
     protected $EntityManager;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         if (null === $this->FixtureClasses) {
             $this->FixtureClasses = [
@@ -45,7 +48,7 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
         parent::setUp();
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         parent::tearDown();
 
@@ -60,7 +63,9 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
      */
     protected function getDefaultAccount()
     {
-        return $this->Fixtures->getReference('account-default');
+        $ref = $this->Fixtures->getReference('account-default');
+        // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
+        return $this->EntityManager->getRepository('CoreBundle:Account')->find($ref->getId());
     }
 
     /**
@@ -68,7 +73,9 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
      */
     protected function getDefaultAccountsRunningSport()
     {
-        return $this->Fixtures->getReference('account-default.sport-running');
+        $ref = $this->Fixtures->getReference('account-default.sport-running');
+        // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
+        return $this->EntityManager->getRepository('CoreBundle:Sport')->find($ref->getId());
     }
 
     /**
@@ -76,7 +83,9 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
      */
     protected function getDefaultAccountsCyclingSport()
     {
-        return $this->Fixtures->getReference('account-default.sport-cycling');
+        $ref = $this->Fixtures->getReference('account-default.sport-cycling');
+        // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
+        return $this->EntityManager->getRepository('CoreBundle:Sport')->find($ref->getId());
     }
 
     /**
@@ -84,7 +93,9 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
      */
     protected function getDefaultAccountsClothesType()
     {
-        return $this->Fixtures->getReference('account-default.equipment-type-clothes');
+        $ref = $this->Fixtures->getReference('account-default.equipment-type-clothes');
+        // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
+        return $this->EntityManager->getRepository('CoreBundle:EquipmentType')->find($ref->getId());
     }
 
     /**
@@ -92,7 +103,9 @@ abstract class AbstractFixturesAwareWebTestCase extends WebTestCase
      */
     protected function getEmptyAccount()
     {
-        return $this->Fixtures->getReference('account-empty');
+        $ref = $this->Fixtures->getReference('account-empty');
+        // #TSC do not use directly the ref, reload it, so avoid "A new entity was found through the relationship xxx that was not configured to cascade persist operations for entity
+        return $this->EntityManager->getRepository('CoreBundle:Account')->find($ref->getId());
     }
 
     /**

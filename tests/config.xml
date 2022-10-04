@@ -4,7 +4,9 @@
          backupGlobals="false"
          bootstrap="../tests/bootstrap.php"
          colors="true"
-         verbose="true">
+         verbose="true"
+         convertWarningsToExceptions="false"
+         beStrictAboutTestsThatDoNotTestAnything="false">
 	<php>
 		<server name="KERNEL_DIR" value="../app/" />
 	</php>
@@ -20,6 +22,7 @@
 <!--
 	<logging>
 		<log type="coverage-text" target="php://stdout"/>
+		<log type="testdox-text" target="php://stdout"/>
 	</logging>
 -->
 </phpunit>

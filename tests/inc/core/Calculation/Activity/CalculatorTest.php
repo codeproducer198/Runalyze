@@ -8,7 +8,7 @@ use Runalyze\Model;
  * @group dependsOn
  * @group dependsOnOldFactory
  */
-class CalculatorTest extends \PHPUnit_Framework_TestCase {
+class CalculatorTest extends \PHPUnit\Framework\TestCase {
 
 	public function testGeneralFunctionality() {
 		$Calculator = new Calculator(new Model\Activity\Entity(array(

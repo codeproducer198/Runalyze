@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Sports\Running;
 use Runalyze\Bundle\CoreBundle\Component\Configuration\Category\BasicEndurance;
 use Runalyze\Sports\Running\MarathonShape;
 
-class MarathonShapeTest extends \PHPUnit_Framework_TestCase
+class MarathonShapeTest extends \PHPUnit\Framework\TestCase
 {
     protected function getDefaultConfiguration()
     {
@@ -16,13 +16,13 @@ class MarathonShapeTest extends \PHPUnit_Framework_TestCase
     {
         $shape = new MarathonShape(1.0, $this->getDefaultConfiguration());
 
-        $this->assertEquals(22.0, $shape->getTargetForLongJogEachWeek(), '', 0.1);
-        $this->assertEquals(38.0, $shape->getTargetForWeeklyMileage(), '', 1.0);
+        $this->assertEqualsWithDelta(22.0, $shape->getTargetForLongJogEachWeek(), 0.1);
+        $this->assertEqualsWithDelta(38.0, $shape->getTargetForWeeklyMileage(), 1.0);
 
         $shape->setEffectiveVO2max(20.0);
 
-        $this->assertEquals(22.0, $shape->getTargetForLongJogEachWeek(), '', 0.1);
-        $this->assertEquals(38.0, $shape->getTargetForWeeklyMileage(), '', 1.0);
+        $this->assertEqualsWithDelta(22.0, $shape->getTargetForLongJogEachWeek(), 0.1);
+        $this->assertEqualsWithDelta(38.0, $shape->getTargetForWeeklyMileage(), 1.0);
     }
 
     public function testSimpleExample()
@@ -34,8 +34,8 @@ class MarathonShapeTest extends \PHPUnit_Framework_TestCase
 
         $shape = new MarathonShape(60.0, $config);
 
-        $this->assertEquals(32.5, $shape->getTargetForLongJogEachWeek(), '', 1.0);
-        $this->assertEquals(104.0, $shape->getTargetForWeeklyMileage(), '', 1.0);
+        $this->assertEqualsWithDelta(32.5, $shape->getTargetForLongJogEachWeek(), 1.0);
+        $this->assertEqualsWithDelta(104.0, $shape->getTargetForWeeklyMileage(), 1.0);
         $this->assertEquals(75.0, $shape->getShapeFor(52.0, 1.0));
         $this->assertEquals(75.0, $shape->getShapeFor(104.0, 0.5));
         $this->assertEquals(100.0, $shape->getShapeFor(104.0, 1.0));

@@ -7,12 +7,12 @@ use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 
-class FlatOrHillyAnalyzerTest extends \PHPUnit_Framework_TestCase
+class FlatOrHillyAnalyzerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FlatOrHillyAnalyzer */
     protected $Analyzer;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->Analyzer = new FlatOrHillyAnalyzer();
     }

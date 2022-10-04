@@ -165,9 +165,7 @@ class ArrayCollection implements Collection, Selectable
     /**
      * Required by interface ArrayAccess.
      *
-     * {@inheritDoc}
-     *
-     * @psalm-param TKey $offset
+     * @param TKey $offset
      *
      * @return bool
      */
@@ -180,9 +178,7 @@ class ArrayCollection implements Collection, Selectable
     /**
      * Required by interface ArrayAccess.
      *
-     * {@inheritDoc}
-     *
-     * @psalm-param TKey $offset
+     * @param TKey $offset
      *
      * @return mixed
      */
@@ -195,7 +191,8 @@ class ArrayCollection implements Collection, Selectable
     /**
      * Required by interface ArrayAccess.
      *
-     * {@inheritDoc}
+     * @param TKey|null $offset
+     * @param T         $value
      *
      * @return void
      */
@@ -214,9 +211,7 @@ class ArrayCollection implements Collection, Selectable
     /**
      * Required by interface ArrayAccess.
      *
-     * {@inheritDoc}
-     *
-     * @psalm-param TKey $offset
+     * @param TKey $offset
      *
      * @return void
      */
@@ -236,6 +231,8 @@ class ArrayCollection implements Collection, Selectable
 
     /**
      * {@inheritDoc}
+     *
+     * @template TMaybeContained
      */
     public function contains($element)
     {
@@ -258,6 +255,12 @@ class ArrayCollection implements Collection, Selectable
 
     /**
      * {@inheritDoc}
+     *
+     * @psalm-param TMaybeContained $element
+     *
+     * @psalm-return (TMaybeContained is T ? TKey|false : false)
+     *
+     * @template TMaybeContained
      */
     public function indexOf($element)
     {
@@ -345,7 +348,7 @@ class ArrayCollection implements Collection, Selectable
     /**
      * {@inheritDoc}
      *
-     * @psalm-param Closure(T=):U $func
+     * @psalm-param Closure(T):U $func
      *
      * @return static
      * @psalm-return static<TKey, U>

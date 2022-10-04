@@ -2,13 +2,11 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage;
 
-class WithKernelTest extends \PHPUnit_Framework_TestCase
+class WithKernelTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testWithoutKernel()
     {
+        $this->expectException(\RuntimeException::class);
         $Object = new WithKernel([1, 2, 3]);
         $Object->calculate();
     }
@@ -19,7 +17,7 @@ class WithKernelTest extends \PHPUnit_Framework_TestCase
         $Object->setKernel(new Kernel\Uniform(5));
         $Object->calculate();
 
-        $this->assertEquals([
+        $this->assertEqualsWithDelta([
             16,
             18,
             22,
@@ -28,7 +26,7 @@ class WithKernelTest extends \PHPUnit_Framework_TestCase
             38,
             44,
             48
-        ], $Object->movingAverage());
+        ], $Object->movingAverage(), 0.0001);
     }
 
     public function testWithUniformKernelWithIndexData()
@@ -40,7 +38,7 @@ class WithKernelTest extends \PHPUnit_Framework_TestCase
         $Object->setKernel(new Kernel\Uniform(0.4));
         $Object->calculate();
 
-        $this->assertEquals([
+        $this->assertEqualsWithDelta([
             16.66666666666666,
             20.0,
             24.0,
@@ -49,6 +47,6 @@ class WithKernelTest extends \PHPUnit_Framework_TestCase
             50.0,
             41.66666666666666,
             41.66666666666666
-        ], $Object->movingAverage());
+        ], $Object->movingAverage(), 0.0001);
     }
 }

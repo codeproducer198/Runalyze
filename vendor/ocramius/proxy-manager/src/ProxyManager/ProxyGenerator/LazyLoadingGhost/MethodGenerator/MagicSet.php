@@ -4,28 +4,25 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\LazyLoadingGhost\MethodGenerator;
 
+use InvalidArgumentException;
+use Laminas\Code\Generator\MethodGenerator;
+use Laminas\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
 use ProxyManager\Generator\MagicMethodGenerator;
-use Zend\Code\Generator\ParameterGenerator;
 use ProxyManager\ProxyGenerator\LazyLoadingGhost\PropertyGenerator\PrivatePropertiesMap;
 use ProxyManager\ProxyGenerator\LazyLoadingGhost\PropertyGenerator\ProtectedPropertiesMap;
 use ProxyManager\ProxyGenerator\PropertyGenerator\PublicPropertiesMap;
 use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
 use ReflectionClass;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
+
+use function sprintf;
 
 /**
  * Magic `__set` for lazy loading ghost objects
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class MagicSet extends MagicMethodGenerator
 {
-    /**
-     * @var string
-     */
-    private $callParentTemplate = <<<'PHP'
+    private string $callParentTemplate = <<<'PHP'
 %s
 
 if (isset(self::$%s[$name])) {
@@ -60,7 +57,7 @@ if (isset(self::$%s[$name])) {
         $cacheKey = $class . '#' . $name;
         $accessor = isset($accessorCache[$cacheKey])
             ? $accessorCache[$cacheKey]
-            : $accessorCache[$cacheKey] = \Closure::bind(function ($instance, $value) use ($name) {
+            : $accessorCache[$cacheKey] = \Closure::bind(static function ($instance, $value) use ($name) {
                 return ($instance->$name = $value);
             }, null, $class);
 
@@ -72,7 +69,7 @@ if (isset(self::$%s[$name])) {
         $cacheKey = $tmpClass . '#' . $name;
         $accessor = isset($accessorCache[$cacheKey])
             ? $accessorCache[$cacheKey]
-            : $accessorCache[$cacheKey] = \Closure::bind(function ($instance, $value) use ($name) {
+            : $accessorCache[$cacheKey] = \Closure::bind(static function ($instance, $value) use ($name) {
                 return ($instance->$name = $value);
             }, null, $tmpClass);
 
@@ -84,15 +81,7 @@ if (isset(self::$%s[$name])) {
 PHP;
 
     /**
-     * @param ReflectionClass        $originalClass
-     * @param PropertyGenerator      $initializerProperty
-     * @param MethodGenerator        $callInitializer
-     * @param PublicPropertiesMap    $publicProperties
-     * @param ProtectedPropertiesMap $protectedProperties
-     * @param PrivatePropertiesMap   $privateProperties
-     *
-     * @throws \Zend\Code\Generator\Exception\InvalidArgumentException
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(
         ReflectionClass $originalClass,

@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType;
 
-class TinyIntTypeTest extends \PHPUnit_Framework_TestCase
+class TinyIntTypeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TinyIntType */
     protected $Type;
@@ -13,7 +13,7 @@ class TinyIntTypeTest extends \PHPUnit_Framework_TestCase
     /** @var AbstractPlatform */
     protected $PlatformMock;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Type = TinyIntType::getType(TinyIntType::TINYINT);
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);

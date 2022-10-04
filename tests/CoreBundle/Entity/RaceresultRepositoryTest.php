@@ -23,7 +23,7 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
     /** @var Account */
     protected $Account;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -77,10 +77,10 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
 
         $expectedFactor = $activity->getVO2maxByTime() / $activity->getVO2max();
 
-        $this->assertEquals($expectedFactor, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
+        $this->assertEqualsWithDelta($expectedFactor, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
             $this->Account,
             $this->getDefaultAccountsRunningSport()->getId()
-        ), '', 0.01);
+        ), 0.01);
 
         $this->assertTrue($this->getContainer()->get('app.recalculation_manager')->isTaskScheduled($this->Account, VO2maxCorrectionFactorCalculation::class));
     }
@@ -104,10 +104,10 @@ class RaceresultRepositoryTest extends AbstractRepositoryTestCase
         $activity->setPulseAvg(100)->setUseVO2max(true);
         $this->insertRace('foobar', $activity);
 
-        $this->assertEquals($expectedFactor, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
+        $this->assertEqualsWithDelta($expectedFactor, $this->RaceresultRepository->getEffectiveVO2maxCorrectionFactor(
             $this->Account,
             $this->getDefaultAccountsRunningSport()->getId()
-        ), '', 0.01);
+        ), 0.01);
     }
 
     /**

@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray;
 
-class GeohashArrayTest extends \PHPUnit_Framework_TestCase
+class GeohashArrayTest extends \PHPUnit\Framework\TestCase
 {
     /** @var GeohashArray */
     protected $Type;
@@ -13,7 +13,7 @@ class GeohashArrayTest extends \PHPUnit_Framework_TestCase
     /** @var AbstractPlatform */
     protected $PlatformMock;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Type = GeohashArray::getType(GeohashArray::GEOHASH_ARRAY);
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);

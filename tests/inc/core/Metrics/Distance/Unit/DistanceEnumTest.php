@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Distance\Unit;
 
 use Runalyze\Metrics\Distance\Unit\DistanceEnum;
 
-class DistanceEnumTest extends \PHPUnit_Framework_TestCase
+class DistanceEnumTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllUnitsCanBeConstructed()
     {

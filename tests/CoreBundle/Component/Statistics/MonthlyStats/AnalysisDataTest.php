@@ -8,7 +8,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 
-class AnalysisDataTest extends \PHPUnit_Framework_TestCase
+class AnalysisDataTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param array $results

@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Common;
 
 use Runalyze\Metrics\Common\AbstractMetric;
 
-class AbstractMetricTest extends \PHPUnit_Framework_TestCase
+class AbstractMetricTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatConversionWorksAsExpected()
     {

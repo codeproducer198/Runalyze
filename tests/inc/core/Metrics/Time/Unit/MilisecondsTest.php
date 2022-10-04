@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Time\Unit;
 
 use Runalyze\Metrics\Time\Unit\Miliseconds;
 
-class MilisecondsTest extends \PHPUnit_Framework_TestCase
+class MilisecondsTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

@@ -5,12 +5,12 @@ namespace Runalyze\Tests\Service\ElevationCorrection\Strategy;
 use Runalyze\Service\ElevationCorrection\Strategy\StrategyCollection;
 use Runalyze\Service\ElevationCorrection\Strategy\StrategyInterface;
 
-class StrategyCollectionTest extends \PHPUnit_Framework_TestCase
+class StrategyCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var StrategyCollection */
     protected $Collection;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->Collection = new StrategyCollection();
     }
@@ -24,7 +24,7 @@ class StrategyCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testNonMatchingArraySizes()
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $this->Collection->loadAltitudeData([49.9, 49.8], [7.7]);
     }

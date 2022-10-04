@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Velocity\Unit;
 
 use Runalyze\Metrics\Velocity\Unit\SecondsPer500m;
 
-class SecondsPer500mTest extends \PHPUnit_Framework_TestCase
+class SecondsPer500mTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

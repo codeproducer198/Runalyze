@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\ValueHolder\MethodGenerator;
 
+use Laminas\Code\Generator\PropertyGenerator;
 use ProxyManager\Generator\MagicMethodGenerator;
 use ReflectionClass;
-use Zend\Code\Generator\PropertyGenerator;
+
+use function var_export;
 
 /**
  * Magic `__sleep` for value holder objects
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class MagicSleep extends MagicMethodGenerator
 {
     /**
      * Constructor
-     *
-     * @param ReflectionClass   $originalClass
-     * @param PropertyGenerator $valueHolderProperty
      */
     public function __construct(ReflectionClass $originalClass, PropertyGenerator $valueHolderProperty)
     {

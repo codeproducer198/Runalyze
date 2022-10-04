@@ -2,7 +2,7 @@
 
 namespace Runalyze\Activity;
 
-class DistanceTest extends \PHPUnit_Framework_TestCase
+class DistanceTest extends \PHPUnit\Framework\TestCase
 {
 	public function testSimpleDistances()
 	{
@@ -16,7 +16,7 @@ class DistanceTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(21.1, $Distance->add(new Distance(1.1))->kilometer());
 		$this->assertFalse($Distance->isZero());
 
-		$this->assertEquals(-0.9, $Distance->subtract(new Distance(22))->kilometer());
+		$this->assertEqualsWithDelta(-0.9, $Distance->subtract(new Distance(22))->kilometer(), 0.0001);
 		$this->assertTrue($Distance->isNegative());
 	}
 

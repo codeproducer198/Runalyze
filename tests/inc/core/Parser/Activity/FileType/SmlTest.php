@@ -13,7 +13,7 @@ class SmlTest extends AbstractActivityParserTestCase
     /** @var Sml */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new Sml();
     }
@@ -24,10 +24,10 @@ class SmlTest extends AbstractActivityParserTestCase
 
         $this->assertEquals('2014-08-22 10:15', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
 
-        $this->assertEquals(0.100, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(0.100, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(3773, $this->Container->ActivityData->Duration);
         $this->assertEquals(752, $this->Container->ActivityData->EnergyConsumption);
-        $this->assertEquals(100, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(100, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(113, $this->Container->ActivityData->MaxHeartRate);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
@@ -65,10 +65,10 @@ class SmlTest extends AbstractActivityParserTestCase
 
         $this->assertEquals('2014-10-15 15:15', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
 
-        $this->assertEquals(6.060, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(6.060, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(3964, $this->Container->ActivityData->Duration);
         $this->assertEquals(624, $this->Container->ActivityData->EnergyConsumption);
-        $this->assertEquals(79, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(79, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(81, $this->Container->ActivityData->MaxHeartRate);
 
         $this->assertEquals(3.6, $this->Container->FitDetails->TrainingEffect);
@@ -89,7 +89,7 @@ class SmlTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->RRIntervals);
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
 
-        $this->assertEquals(118, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(118, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(131, $this->Container->ActivityData->MaxHeartRate);
     }
 }

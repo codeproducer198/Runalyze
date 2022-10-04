@@ -34,7 +34,7 @@ class TopologicalSorter
     /**
      * Volatile variable holding calculated nodes during sorting process.
      *
-     * @var array
+     * @var ClassMetadata[]
      */
     private $sortedNodeList = [];
 
@@ -45,11 +45,7 @@ class TopologicalSorter
      */
     private $allowCyclicDependencies;
 
-    /**
-     * Construct TopologicalSorter object
-     *
-     * @param bool $allowCyclicDependencies
-     */
+    /** @param bool $allowCyclicDependencies */
     public function __construct($allowCyclicDependencies = true)
     {
         $this->allowCyclicDependencies = $allowCyclicDependencies;
@@ -100,7 +96,7 @@ class TopologicalSorter
      *
      * Note: Highly performance-sensitive method.
      *
-     * @return array
+     * @return ClassMetadata[]
      *
      * @throws RuntimeException
      * @throws CircularReferenceException
@@ -127,6 +123,8 @@ class TopologicalSorter
      * Visit a given node definition for reordering.
      *
      * Note: Highly performance-sensitive method.
+     *
+     * @return void
      *
      * @throws RuntimeException
      * @throws CircularReferenceException

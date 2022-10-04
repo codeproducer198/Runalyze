@@ -10,12 +10,12 @@ use Runalyze\Bundle\CoreBundle\Services\Import\TimezoneLookupException;
  * @group dependsOnTimezoneDatabase
  * @group requiresSqlite
  */
-class TimezoneLookupTest extends \PHPUnit_Framework_TestCase
+class TimezoneLookupTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TimezoneLookup */
     protected $Lookup;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->Lookup = new TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', 'libspatialite.so.5');
     }
@@ -33,7 +33,7 @@ class TimezoneLookupTest extends \PHPUnit_Framework_TestCase
     {
         $lookup = new TimezoneLookup('here/is/no/timezone/database.sqlite', 'libspatialite.so.5');
 
-        $this->setExpectedException(TimezoneLookupException::class);
+        $this->expectException(TimezoneLookupException::class);
 
         $lookup->isPossible();
     }
@@ -42,7 +42,7 @@ class TimezoneLookupTest extends \PHPUnit_Framework_TestCase
     {
         $lookup = new TimezoneLookup(TESTS_ROOT.'/../data/timezone.sqlite', 'non-existant-extension.so');
 
-        $this->setExpectedException(TimezoneLookupException::class);
+        $this->expectException(TimezoneLookupException::class);
 
         $lookup->isPossible();
     }

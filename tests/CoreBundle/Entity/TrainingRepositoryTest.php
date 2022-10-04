@@ -34,7 +34,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
     /** @var Account */
     protected $Account;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -194,7 +194,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2015)->getScalarResult()[0]);
 
         $this->assertEquals([
-            'num' => '2', 'total_distance' => '22.5', 'min_distance' => '10.0', 'max_distance' => '12.5'
+            'num' => '2', 'total_distance' => '22.5', 'min_distance' => '10', 'max_distance' => '12.5'
         ], $this->TrainingRepository->getStatsForPoster($this->Account, $this->getDefaultAccountsRunningSport(), 2016)->getScalarResult()[0]);
 
         $this->assertEquals([
@@ -226,7 +226,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->TrainingRepository->save($activity);
 
-        $this->assertEquals(time(), $activity->getCreated(), '', 1);
+        $this->assertEqualsWithDelta(time(), $activity->getCreated(), 1);
         $this->assertNull($activity->getEdited());
 
         $createdAt = mktime(12, 0, 0, 3, 14, 2017);
@@ -235,7 +235,7 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
         $this->TrainingRepository->save($activity);
 
         $this->assertEquals($createdAt, $activity->getCreated());
-        $this->assertEquals(time(), $activity->getEdited(), '', 1);
+        $this->assertEqualsWithDelta(time(), $activity->getEdited(), 1);
     }
 
     public function testThatActivityCanExistWithoutRelatedObjects()
@@ -465,12 +465,12 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $this->TrainingRepository->save($activity);
 
-        $this->assertEquals($activity->getVO2max(), $this->TrainingRepository->calculateVO2maxShape(
+        $this->assertEqualsWithDelta($activity->getVO2max(), $this->TrainingRepository->calculateVO2maxShape(
             $this->getDefaultAccount(),
             new VO2max(),
             $this->getDefaultAccountsRunningSport()->getId(),
             time()
-        ), '', 0.01);
+        ), 0.01);
     }
 
     public function testVO2maxShapeCalculationForSomeActivities()
@@ -488,12 +488,12 @@ class TrainingRepositoryTest extends AbstractRepositoryTestCase
 
         $expectedShape = ($activity1->getVO2max() + 2 * $activity2->getVO2max()) / 3;
 
-        $this->assertEquals($expectedShape, $this->TrainingRepository->calculateVO2maxShape(
+        $this->assertEqualsWithDelta($expectedShape, $this->TrainingRepository->calculateVO2maxShape(
             $this->getDefaultAccount(),
             $config,
             $this->getDefaultAccountsRunningSport()->getId(),
             time()
-        ), '', 0.01);
+        ), 0.01);
     }
 
     public function testMarathonShapeCalculationForEmptyAccount()

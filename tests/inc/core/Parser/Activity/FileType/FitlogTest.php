@@ -14,7 +14,7 @@ class FitlogTest extends AbstractActivityParserTestCase
     /** @var Fitlog */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new Fitlog();
     }
@@ -23,7 +23,7 @@ class FitlogTest extends AbstractActivityParserTestCase
     {
         $this->Parser->setFileContent('<any><xml><file></file></xml></any>');
 
-        $this->setExpectedException(UnsupportedFileException::class);
+        $this->expectException(UnsupportedFileException::class);
 
         $this->Parser->parse();
     }
@@ -60,11 +60,11 @@ class FitlogTest extends AbstractActivityParserTestCase
         $this->assertEquals('11-04-2011 18:52', LocalTime::date('d-m-Y H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(1399, $this->Container->ActivityData->Duration, '', 30);
-        $this->assertEquals(4.09, $this->Container->ActivityData->Distance, '', 0.1);
-        $this->assertEquals(361, $this->Container->ActivityData->EnergyConsumption, '', 10);
-        $this->assertEquals(161, $this->Container->ActivityData->AvgHeartRate, '', 2);
-        $this->assertEquals(176, $this->Container->ActivityData->MaxHeartRate, '', 2);
+        $this->assertEqualsWithDelta(1399, $this->Container->ActivityData->Duration, 30);
+        $this->assertEqualsWithDelta(4.09, $this->Container->ActivityData->Distance, 0.1);
+        $this->assertEqualsWithDelta(361, $this->Container->ActivityData->EnergyConsumption, 10);
+        $this->assertEqualsWithDelta(161, $this->Container->ActivityData->AvgHeartRate, 2);
+        $this->assertEqualsWithDelta(176, $this->Container->ActivityData->MaxHeartRate, 2);
 
         $this->checkExpectedRoundData([
             [0, 0.002],
@@ -85,7 +85,7 @@ class FitlogTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(1803, $this->Container->ActivityData->Duration);
         $this->assertEquals(0.0, $this->Container->ActivityData->Distance);
-        $this->assertEquals(108, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(108, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(144, $this->Container->ActivityData->MaxHeartRate);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
@@ -115,7 +115,7 @@ class FitlogTest extends AbstractActivityParserTestCase
             [1771, 228, 150, 108]
         ]);
 
-        $this->assertEquals(4384, $this->Container->Rounds->getTotalDuration(), '', 30);
-        $this->assertEquals(14.67, $this->Container->Rounds->getTotalDistance(), '', 1.0);
+        $this->assertEqualsWithDelta(4384, $this->Container->Rounds->getTotalDuration(), 30);
+        $this->assertEqualsWithDelta(14.67, $this->Container->Rounds->getTotalDistance(), 1.0);
     }
 }

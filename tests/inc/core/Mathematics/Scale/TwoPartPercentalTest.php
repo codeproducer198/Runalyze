@@ -4,26 +4,26 @@ namespace Runalyze\Tests\Mathematics\Scale;
 
 use Runalyze\Mathematics\Scale\TwoPartPercental;
 
-class TwoPartPercentalTest extends \PHPUnit_Framework_TestCase
+class TwoPartPercentalTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TwoPartPercental */
     protected $Scale;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->Scale = new TwoPartPercental();
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
     }
 
     public function testNoTransformation()
     {
-        $this->assertEquals(0, $this->Scale->transform(-10));
-        $this->assertEquals(26, $this->Scale->transform(26));
-        $this->assertEquals(50, $this->Scale->transform(50));
-        $this->assertEquals(100, $this->Scale->transform(120));
+        $this->assertEqualsWithDelta(0, $this->Scale->transform(-10), 0.0001);
+        $this->assertEqualsWithDelta(26, $this->Scale->transform(26), 0.0001);
+        $this->assertEqualsWithDelta(50, $this->Scale->transform(50), 0.0001);
+        $this->assertEqualsWithDelta(100, $this->Scale->transform(120), 0.0001);
     }
 
     public function testSimpleScale()
@@ -33,11 +33,11 @@ class TwoPartPercentalTest extends \PHPUnit_Framework_TestCase
         $this->Scale->setMaximum(10);
 
         $this->assertEquals(0, $this->Scale->transform(1));
-        $this->assertEquals(5, $this->Scale->transform(1.1));
-        $this->assertEquals(25, $this->Scale->transform(1.5));
-        $this->assertEquals(50, $this->Scale->transform(2.0));
-        $this->assertEquals(50, $this->Scale->transform(2.0));
-        $this->assertEquals(56, $this->Scale->transform(3.0), '', 0.5);
-        $this->assertEquals(75, $this->Scale->transform(6.0));
+        $this->assertEqualsWithDelta(5, $this->Scale->transform(1.1), 0.0001);
+        $this->assertEqualsWithDelta(25, $this->Scale->transform(1.5), 0.0001);
+        $this->assertEqualsWithDelta(50, $this->Scale->transform(2.0), 0.0001);
+        $this->assertEqualsWithDelta(50, $this->Scale->transform(2.0), 0.0001);
+        $this->assertEqualsWithDelta(56, $this->Scale->transform(3.0), 0.5);
+        $this->assertEqualsWithDelta(75, $this->Scale->transform(6.0), 0.0001);
     }
 }

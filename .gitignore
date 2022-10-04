@@ -4,4 +4,5 @@ node_modules
 vendor/composer/tmp-*
 # test responses from geocoder are not needed
 vendor/willdurand/geocoder/tests/.cached_responses/
-
+# tmp cache for unit-tests
+tests/.phpunit.result.cache

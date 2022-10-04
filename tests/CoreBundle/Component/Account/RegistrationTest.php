@@ -4,6 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Account;
 
 use Doctrine\ORM\EntityManager;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Runalyze\Bundle\CoreBundle\Component\Account\Registration;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Bundle\CoreBundle\Entity\AccountRepository;
@@ -15,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Client;
  */
 class RegistrationTest extends WebTestCase
 {
+    use FixturesTrait;
+
     /** @var Client */
     protected $Client;
 
@@ -24,7 +27,7 @@ class RegistrationTest extends WebTestCase
     /** @var AccountRepository */
     protected $AccountRepository;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->loadFixtures([])->getReferenceRepository();
 

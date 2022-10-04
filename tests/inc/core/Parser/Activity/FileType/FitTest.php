@@ -18,7 +18,7 @@ class FitTest extends AbstractActivityParserTestCase
     /** @var FitConverter */
     protected $Converter;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new Fit();
         $this->Converter = new FitConverter(
@@ -63,8 +63,8 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/Standard.fit');
 
         $this->assertEquals('2014-03-29 12:17', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
-        $this->assertEquals(8.983, $this->Container->ActivityData->Distance, '', 0.001);
-        $this->assertEquals(124, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(8.983, $this->Container->ActivityData->Distance, 0.001);
+        $this->assertEqualsWithDelta(124, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(146, $this->Container->ActivityData->MaxHeartRate);
         $this->assertEquals(305, $this->Container->ActivityData->EnergyConsumption);
 
@@ -86,12 +86,12 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(975, $this->Container->ActivityData->Duration);
         $this->assertEquals(1210, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(2.94, $this->Container->ActivityData->Distance, '', 0.01);
-        $this->assertEquals(137, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(2.94, $this->Container->ActivityData->Distance, 0.01);
+        $this->assertEqualsWithDelta(137, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(169, $this->Container->ActivityData->MaxHeartRate);
         $this->assertEquals(159, $this->Container->ActivityData->EnergyConsumption);
-        $this->assertEquals(216, $this->Container->ActivityData->AvgGroundContactTime, '', 0.5);
-        $this->assertEquals(92, $this->Container->ActivityData->AvgVerticalOscillation, '', 0.5);
+        $this->assertEqualsWithDelta(216, $this->Container->ActivityData->AvgGroundContactTime, 0.5);
+        $this->assertEqualsWithDelta(92, $this->Container->ActivityData->AvgVerticalOscillation, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
@@ -115,9 +115,9 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(2810, $this->Container->ActivityData->Duration);
         $this->assertEquals(3046, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(10.547, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(10.547, $this->Container->ActivityData->Distance, 0.001);
 
-        $this->assertEquals(2810, end($this->Container->ContinuousData->Time), '', 2);
+        $this->assertEqualsWithDelta(2810, end($this->Container->ContinuousData->Time), 2);
 
 		$this->assertEquals(65, $this->Container->FitDetails->VO2maxEstimate);
 		$this->assertEquals(932, $this->Container->FitDetails->RecoveryTime);
@@ -165,13 +165,13 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals('2015-05-23 12:52', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
         $this->assertEquals(1131, $this->Container[0]->ActivityData->Duration);
         $this->assertEquals(1173, $this->Container[0]->ActivityData->ElapsedTime);
-        $this->assertEquals(4.111, $this->Container[0]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(4.111, $this->Container[0]->ActivityData->Distance, 0.001);
 
         $this->assertEquals('2015-05-23 14:31', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
         $this->assertEquals(1001, $this->Container[1]->ActivityData->Duration);
         $this->assertEquals(1118, $this->Container[1]->ActivityData->ElapsedTime);
-        $this->assertEquals(3.746, $this->Container[1]->ActivityData->Distance, '', 0.001);
-        $this->assertEquals(1001, end($this->Container[1]->ContinuousData->Time), '', 2);
+        $this->assertEqualsWithDelta(3.746, $this->Container[1]->ActivityData->Distance, 0.001);
+        $this->assertEqualsWithDelta(1001, end($this->Container[1]->ContinuousData->Time), 2);
 	}
 
 	public function testSimplePauseExample()
@@ -180,10 +180,10 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(60, $this->Container->ActivityData->Duration);
         $this->assertEquals(129, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(70, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(70, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(100, $this->Container->ActivityData->MaxHeartRate);
 
-        $this->assertEquals(60, end($this->Container->ContinuousData->Time), '', 2);
+        $this->assertEqualsWithDelta(60, end($this->Container->ContinuousData->Time), 2);
 
         $this->checkExpectedPauseData([
 			 [41, 69, 100, 69]
@@ -204,7 +204,7 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals('fr910xt', $this->Container->Metadata->getCreator());
 		$this->assertEquals(2500, $this->Container->ActivityData->PoolLength);
 		$this->assertEquals(890, $this->Container->ActivityData->TotalStrokes);
-		$this->assertEquals(25, $this->Container->ActivityData->AvgCadence, '', 0.5);
+		$this->assertEqualsWithDelta(25, $this->Container->ActivityData->AvgCadence, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Strokes);
@@ -229,7 +229,7 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals('fenix3', $this->Container->Metadata->getCreator());
 		$this->assertEquals(5000, $this->Container->ActivityData->PoolLength);
 		$this->assertEquals(1750, $this->Container->ActivityData->TotalStrokes);
-		$this->assertEquals(32, $this->Container->ActivityData->AvgCadence, '', 0.5);
+		$this->assertEqualsWithDelta(32, $this->Container->ActivityData->AvgCadence, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Strokes);
@@ -252,12 +252,12 @@ class FitTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(1007, $this->Container->ActivityData->Duration);
         $this->assertEquals(1007, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(0.985, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(0.985, $this->Container->ActivityData->Distance, 0.001);
 
 		$this->assertEquals('fr910xt', $this->Container->Metadata->getCreator());
 		$this->assertNull($this->Container->ActivityData->PoolLength);
 		$this->assertEquals(424, $this->Container->ActivityData->TotalStrokes);
-		$this->assertEquals(25, $this->Container->ActivityData->AvgCadence, '', 0.5);
+		$this->assertEqualsWithDelta(25, $this->Container->ActivityData->AvgCadence, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -286,7 +286,7 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(3600 + 18*60 + 9, $this->Container->ActivityData->Duration);
-        $this->assertEquals(39.023, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(39.023, $this->Container->ActivityData->Distance, 0.001);
 		$this->assertEquals('edge810', $this->Container->Metadata->getCreator());
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
@@ -312,7 +312,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals('2015-08-09 09:13', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
 		$this->assertEquals(120, $this->Container[0]->Metadata->getTimezoneOffset());
         $this->assertEquals(2033, $this->Container[0]->ActivityData->Duration);
-        $this->assertEquals(1.526, $this->Container[0]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(1.526, $this->Container[0]->ActivityData->Distance, 0.001);
         $this->assertNotEmpty($this->Container[0]->ContinuousData->Distance);
         $this->assertNotEmpty($this->Container[0]->ContinuousData->Cadence);
 
@@ -320,15 +320,15 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals('2015-08-09 09:48', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
 		$this->assertEquals(120, $this->Container[1]->Metadata->getTimezoneOffset());
         $this->assertEquals(165, $this->Container[1]->ActivityData->Duration);
-        $this->assertEquals(165, end($this->Container[1]->ContinuousData->Time), '', 1);
-        $this->assertEquals(0.367, $this->Container[1]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(165, end($this->Container[1]->ContinuousData->Time), 1);
+        $this->assertEqualsWithDelta(0.367, $this->Container[1]->ActivityData->Distance, 0.001);
 
 		$this->assertEquals('cycling', $this->Container[2]->Metadata->getSportName());
         $this->assertEquals('2015-08-09 09:51', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
 		$this->assertEquals(120, $this->Container[2]->Metadata->getTimezoneOffset());
         $this->assertEquals(4455, $this->Container[2]->ActivityData->Duration);
-        $this->assertEquals(4451, end($this->Container[2]->ContinuousData->Time), '', 5);
-        $this->assertEquals(40.261, $this->Container[2]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(4451, end($this->Container[2]->ContinuousData->Time), 5);
+        $this->assertEqualsWithDelta(40.261, $this->Container[2]->ActivityData->Distance, 0.001);
         $this->assertNotEmpty($this->Container[2]->ContinuousData->Distance);
         $this->assertNotEmpty($this->Container[2]->ContinuousData->HeartRate);
         $this->assertNotEmpty($this->Container[2]->ContinuousData->Altitude);
@@ -337,15 +337,15 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals('2015-08-09 11:05', LocalTime::date('Y-m-d H:i', $this->Container[3]->Metadata->getTimestamp()));
 		$this->assertEquals(120, $this->Container[3]->Metadata->getTimezoneOffset());
         $this->assertEquals(109, $this->Container[3]->ActivityData->Duration);
-        $this->assertEquals(109, end($this->Container[3]->ContinuousData->Time), '', 1);
-        $this->assertEquals(0.419, $this->Container[3]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(109, end($this->Container[3]->ContinuousData->Time), 1);
+        $this->assertEqualsWithDelta(0.419, $this->Container[3]->ActivityData->Distance, 0.001);
 
 		$this->assertEquals('running', $this->Container[4]->Metadata->getSportName());
         $this->assertEquals('2015-08-09 11:07', LocalTime::date('Y-m-d H:i', $this->Container[4]->Metadata->getTimestamp()));
 		$this->assertEquals(120, $this->Container[4]->Metadata->getTimezoneOffset());
         $this->assertEquals(2381, $this->Container[4]->ActivityData->Duration);
-        $this->assertEquals(2381, end($this->Container[4]->ContinuousData->Time), '', 5);
-        $this->assertEquals(9.317, $this->Container[4]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(2381, end($this->Container[4]->ContinuousData->Time), 5);
+        $this->assertEqualsWithDelta(9.317, $this->Container[4]->ActivityData->Distance, 0.001);
         $this->assertNotEmpty($this->Container[4]->ContinuousData->Distance);
         $this->assertNotEmpty($this->Container[4]->ContinuousData->Cadence);
         $this->assertNotEmpty($this->Container[4]->ContinuousData->HeartRate);
@@ -366,27 +366,27 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals('running', $this->Container[0]->Metadata->getSportName());
         $this->assertEquals('2016-04-17 09:44', LocalTime::date('Y-m-d H:i', $this->Container[0]->Metadata->getTimestamp()));
         $this->assertEquals(1134, $this->Container[0]->ActivityData->Duration);
-        $this->assertEquals(4.460, $this->Container[0]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(4.460, $this->Container[0]->ActivityData->Distance, 0.001);
 
 		$this->assertEquals('transition', $this->Container[1]->Metadata->getSportName());
         $this->assertEquals('2016-04-17 10:03', LocalTime::date('Y-m-d H:i', $this->Container[1]->Metadata->getTimestamp()));
         $this->assertEquals(130, $this->Container[1]->ActivityData->Duration);
-        $this->assertEquals(0.266, $this->Container[1]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(0.266, $this->Container[1]->ActivityData->Distance, 0.001);
 
 		$this->assertEquals('cycling', $this->Container[2]->Metadata->getSportName());
         $this->assertEquals('2016-04-17 10:05', LocalTime::date('Y-m-d H:i', $this->Container[2]->Metadata->getTimestamp()));
         $this->assertEquals(2692, $this->Container[2]->ActivityData->Duration);
-        $this->assertEquals(23.572, $this->Container[2]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(23.572, $this->Container[2]->ActivityData->Distance, 0.001);
 
 		$this->assertEquals('transition', $this->Container[3]->Metadata->getSportName());
         $this->assertEquals('2016-04-17 10:50', LocalTime::date('Y-m-d H:i', $this->Container[3]->Metadata->getTimestamp()));
         $this->assertEquals(134, $this->Container[3]->ActivityData->Duration);
-        $this->assertEquals(0.193, $this->Container[3]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(0.193, $this->Container[3]->ActivityData->Distance, 0.001);
 
 		$this->assertEquals('running', $this->Container[4]->Metadata->getSportName());
         $this->assertEquals('2016-04-17 10:52', LocalTime::date('Y-m-d H:i', $this->Container[4]->Metadata->getTimestamp()));
         $this->assertEquals(544, $this->Container[4]->ActivityData->Duration);
-        $this->assertEquals(2.083, $this->Container[4]->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(2.083, $this->Container[4]->ActivityData->Distance, 0.001);
 	}
 
 	public function testOsynceTimeProblem()
@@ -398,8 +398,8 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals('osynce', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(2826, $this->Container->ActivityData->Duration);
-        $this->assertEquals(2826, end($this->Container->ContinuousData->Time), '', 1);
-        $this->assertEquals(15.536, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(2826, end($this->Container->ContinuousData->Time), 1);
+        $this->assertEqualsWithDelta(15.536, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -421,7 +421,7 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(8270, $this->Container->ActivityData->Duration);
-        $this->assertEquals(23.509, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(23.509, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -429,7 +429,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->GroundContactTime);
         $this->assertNotEmpty($this->Container->ContinuousData->GroundContactBalance);
 
-        $this->assertEquals(5199, $this->Container->ActivityData->AvgGroundContactBalance, '', 0.5);
+        $this->assertEqualsWithDelta(5199, $this->Container->ActivityData->AvgGroundContactBalance, 0.5);
         $this->assertEquals(3.6, $this->Container->FitDetails->TrainingEffect);
 	}
 
@@ -441,9 +441,9 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(3163, $this->Container->ActivityData->Duration);
-        $this->assertEquals(6.240, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(6.240, $this->Container->ActivityData->Distance, 0.001);
 
-        $this->assertEquals(130, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(130, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(172, $this->Container->ActivityData->MaxHeartRate);
 
         $this->assertNull($this->Container->FitDetails->TrainingEffect);
@@ -468,7 +468,7 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals('fr630', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(819, $this->Container->ActivityData->Duration);
-        $this->assertEquals(2.029, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(2.029, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertEquals(40.62, $this->Container->FitDetails->VO2maxEstimate);
         $this->assertEquals(1307, $this->Container->FitDetails->RecoveryTime);
@@ -494,7 +494,7 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals('suunto', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(4961, $this->Container->ActivityData->Duration);
-        $this->assertEquals(15.220, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(15.220, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertEquals(22, $this->Container->Rounds->count());
         $this->assertEquals(4961, $this->Container->Rounds->getTotalDuration());
@@ -511,7 +511,7 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals('fenix2', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(7115, $this->Container->ActivityData->Duration);
-        $this->assertEquals(42.801, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(42.801, $this->Container->ActivityData->Distance, 0.001);
 
         $this->checkThatTimeIsStrictIncreasing();
 	}
@@ -526,7 +526,7 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals('fenix3', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(1401, $this->Container->ActivityData->Duration);
-        $this->assertEquals(3.60, $this->Container->ActivityData->Distance, '', 0.01);
+        $this->assertEqualsWithDelta(3.60, $this->Container->ActivityData->Distance, 0.01);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -551,10 +551,10 @@ class FitTest extends AbstractActivityParserTestCase
 		$this->assertEquals('fr920xt', $this->Container->Metadata->getCreator());
 
         $this->assertEquals(1931, $this->Container->ActivityData->Duration);
-        $this->assertEquals(7.255, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(7.255, $this->Container->ActivityData->Distance, 0.001);
 
-        $this->assertEquals(214, $this->Container->ActivityData->AvgGroundContactTime, '', 0.5);
-        $this->assertEquals(97, $this->Container->ActivityData->AvgVerticalOscillation, '', 0.5);
+        $this->assertEqualsWithDelta(214, $this->Container->ActivityData->AvgGroundContactTime, 0.5);
+        $this->assertEqualsWithDelta(97, $this->Container->ActivityData->AvgVerticalOscillation, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -572,7 +572,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/moxy-2sensors.fit');
 
         $this->assertEquals(83, $this->Container->ActivityData->Duration);
-        $this->assertEquals(0.117, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(0.117, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertEquals(
             [57, 57, 57, 56, 57, 57, 58, 58, 59, 59],
@@ -598,8 +598,8 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/moxy-fr735.fit');
 
         $this->assertEquals(61, $this->Container->ActivityData->Duration);
-        $this->assertEquals(0.100, $this->Container->ActivityData->Distance, '', 0.001);
-        $this->assertEquals(61, $this->Container->ActivityData->AvgCadence, '', 0.5);
+        $this->assertEqualsWithDelta(0.100, $this->Container->ActivityData->Distance, 0.001);
+        $this->assertEqualsWithDelta(61, $this->Container->ActivityData->AvgCadence, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->MuscleOxygenation);
         $this->assertEmpty($this->Container->ContinuousData->MuscleOxygenation_2);
@@ -621,7 +621,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/Zwift-bad-training-effect.fit');
 
         $this->assertEquals(2764, $this->Container->ActivityData->Duration);
-        $this->assertEquals(16.721, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(16.721, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertNull($this->Container->FitDetails->TrainingEffect);
 	}
@@ -631,7 +631,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/swim-via-iq.fit');
 
         $this->assertEquals(83, $this->Container->ActivityData->Duration);
-        $this->assertEquals(0.15, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(0.15, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(2500, $this->Container->ActivityData->PoolLength);
 	}
 
@@ -640,7 +640,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/swim-pool-via-iq.fit');
 
         $this->assertEquals(2095, $this->Container->ActivityData->Duration);
-        $this->assertEquals(1.25, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(1.25, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(2500, $this->Container->ActivityData->PoolLength);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
@@ -684,7 +684,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/IPBike-cadence.fit');
 
         $this->assertNotEmpty($this->Container->ContinuousData->Cadence);
-        $this->assertEquals(76, $this->Container->ActivityData->AvgCadence, '', 0.5);
+        $this->assertEqualsWithDelta(76, $this->Container->ActivityData->AvgCadence, 0.5);
     }
 
     public function testThatInvalidAltitudeAndEmptyRecordAreIgnored()
@@ -706,7 +706,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertEquals(3389, $this->Container->ActivityData->Duration);
         $this->assertEquals(3389, $this->Container->ActivityData->ElapsedTime);
 
-        $this->assertEquals(3389, end($this->Container->ContinuousData->Time), '', 10);
+        $this->assertEqualsWithDelta(3389, end($this->Container->ContinuousData->Time), 10);
     }
 
     /**
@@ -717,7 +717,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/garmin-runPower.fit');
 
         $this->assertNotEmpty($this->Container->ContinuousData->Power);
-        $this->assertEquals(360, $this->Container->ActivityData->AvgPower, '', 5);
+        $this->assertEqualsWithDelta(360, $this->Container->ActivityData->AvgPower, 5);
     }
 
     /**
@@ -728,7 +728,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/garmin-runPower-2.fit');
 
         $this->assertNotEmpty($this->Container->ContinuousData->Power);
-        $this->assertEquals(335, $this->Container->ActivityData->AvgPower, '', 5);
+        $this->assertEqualsWithDelta(335, $this->Container->ActivityData->AvgPower, 5);
     }
 
     public function testRunScribeDataForAdditionalFields()
@@ -744,14 +744,14 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->PronationExcursionLeft);
         $this->assertNotEmpty($this->Container->ContinuousData->PronationExcursionRight);
 
-        $this->assertEquals(11.3, $this->Container->ActivityData->AvgImpactGsLeft, '', 0.1);
-        $this->assertEquals(10.7, $this->Container->ActivityData->AvgImpactGsRight, '', 0.1);
-        $this->assertEquals(12.2, $this->Container->ActivityData->AvgBrakingGsLeft, '', 0.1);
-        $this->assertEquals(12.5, $this->Container->ActivityData->AvgBrakingGsRight, '', 0.1);
-        $this->assertEquals(11.9, $this->Container->ActivityData->AvgFootstrikeTypeLeft, '', 0.1);
-        $this->assertEquals(10.1, $this->Container->ActivityData->AvgFootstrikeTypeRight, '', 0.1);
-        $this->assertEquals(-10.0, $this->Container->ActivityData->AvgPronationExcursionLeft, '', 0.1);
-        $this->assertEquals(-7.0, $this->Container->ActivityData->AvgPronationExcursionRight, '', 0.1);
+        $this->assertEqualsWithDelta(11.3, $this->Container->ActivityData->AvgImpactGsLeft, 0.1);
+        $this->assertEqualsWithDelta(10.7, $this->Container->ActivityData->AvgImpactGsRight, 0.1);
+        $this->assertEqualsWithDelta(12.2, $this->Container->ActivityData->AvgBrakingGsLeft, 0.1);
+        $this->assertEqualsWithDelta(12.5, $this->Container->ActivityData->AvgBrakingGsRight, 0.1);
+        $this->assertEqualsWithDelta(11.9, $this->Container->ActivityData->AvgFootstrikeTypeLeft, 0.1);
+        $this->assertEqualsWithDelta(10.1, $this->Container->ActivityData->AvgFootstrikeTypeRight, 0.1);
+        $this->assertEqualsWithDelta(-10.0, $this->Container->ActivityData->AvgPronationExcursionLeft, 0.1);
+        $this->assertEqualsWithDelta(-7.0, $this->Container->ActivityData->AvgPronationExcursionRight, 0.1);
     }
 
     public function testRunScribeDataFromPlusDatafieldForAdditionalFields()
@@ -767,17 +767,17 @@ class FitTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->PronationExcursionLeft);
         $this->assertNotEmpty($this->Container->ContinuousData->PronationExcursionRight);
 
-        $this->assertEquals(13.1, $this->Container->ActivityData->AvgImpactGsLeft, '', 0.1);
-        $this->assertEquals(13.7, $this->Container->ActivityData->AvgImpactGsRight, '', 0.1);
-        $this->assertEquals(7.3, $this->Container->ActivityData->AvgBrakingGsLeft, '', 0.1);
-        $this->assertEquals(8.0, $this->Container->ActivityData->AvgBrakingGsRight, '', 0.1);
-        $this->assertEquals(1.4, $this->Container->ActivityData->AvgFootstrikeTypeLeft, '', 0.1);
-        $this->assertEquals(1.9, $this->Container->ActivityData->AvgFootstrikeTypeRight, '', 0.1);
-        $this->assertEquals(-12.6, $this->Container->ActivityData->AvgPronationExcursionLeft, '', 0.1);
-        $this->assertEquals(-10.2, $this->Container->ActivityData->AvgPronationExcursionRight, '', 0.1);
+        $this->assertEqualsWithDelta(13.1, $this->Container->ActivityData->AvgImpactGsLeft, 0.1);
+        $this->assertEqualsWithDelta(13.7, $this->Container->ActivityData->AvgImpactGsRight, 0.1);
+        $this->assertEqualsWithDelta(7.3, $this->Container->ActivityData->AvgBrakingGsLeft, 0.1);
+        $this->assertEqualsWithDelta(8.0, $this->Container->ActivityData->AvgBrakingGsRight, 0.1);
+        $this->assertEqualsWithDelta(1.4, $this->Container->ActivityData->AvgFootstrikeTypeLeft, 0.1);
+        $this->assertEqualsWithDelta(1.9, $this->Container->ActivityData->AvgFootstrikeTypeRight, 0.1);
+        $this->assertEqualsWithDelta(-12.6, $this->Container->ActivityData->AvgPronationExcursionLeft, 0.1);
+        $this->assertEqualsWithDelta(-10.2, $this->Container->ActivityData->AvgPronationExcursionRight,0.1);
 
-        $this->assertEquals(253, $this->Container->ActivityData->AvgGroundContactTime, '', 0.5);
-        $this->assertEquals(4940, $this->Container->ActivityData->AvgGroundContactBalance, '', 0.5);
+        $this->assertEqualsWithDelta(253, $this->Container->ActivityData->AvgGroundContactTime, 0.5);
+        $this->assertEqualsWithDelta(4940, $this->Container->ActivityData->AvgGroundContactBalance, 0.5);
 
         $this->assertEquals([652, 653, 654, 658, 655, 510, 328], array_slice($this->Container->ContinuousData->GroundContactTime, 0, 7));
         $this->assertEquals([5027, 5031, 5023, 5034, 5053, 4975, 4975], array_slice($this->Container->ContinuousData->GroundContactBalance, 0, 7));
@@ -831,7 +831,7 @@ class FitTest extends AbstractActivityParserTestCase
         $this->convertAndParse('fit/FR735XT-with-performance-condition.fit');
 
         $this->assertEquals(2671, $this->Container->ActivityData->Duration);
-        $this->assertEquals(10.194, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(10.194, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertEquals(64.02, $this->Container->FitDetails->VO2maxEstimate);
         $this->assertEquals(1842, $this->Container->FitDetails->RecoveryTime);

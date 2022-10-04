@@ -167,6 +167,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('session')
+                    ->setDeprecated('snc/redis-bundle', '3.6', 'Use Symfony built-int RedisSessionHandler instead.')
                     ->canBeUnset()
                     ->children()
                         ->scalarNode('client')->isRequired()->end()
@@ -186,7 +187,11 @@ class Configuration implements ConfigurationInterface
      */
     private function addDoctrineSection(ArrayNodeDefinition $rootNode)
     {
-        $doctrineNode = $rootNode->children()->arrayNode('doctrine')->canBeUnset();
+        $doctrineNode = $rootNode->children()
+            ->arrayNode('doctrine')
+            ->setDeprecated('snc/redis-bundle', '3.6', 'Set up your cache pools via framework.yaml and follow doctrine-bundle documentation to configure Doctrine to use them.')
+            ->canBeUnset()
+        ;
         foreach (array('metadata_cache', 'result_cache', 'query_cache', 'second_level_cache') as $type) {
             $doctrineNode
                 ->children()
@@ -251,6 +256,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('swiftmailer')
+                    ->setDeprecated('snc/redis-bundle', '3.6')
                     ->canBeUnset()
                     ->children()
                         ->scalarNode('client')->isRequired()->end()

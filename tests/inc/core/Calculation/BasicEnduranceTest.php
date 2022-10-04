@@ -10,19 +10,19 @@ use Runalyze\Util\LocalTime;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class BasicEnduranceTest extends \PHPUnit_Framework_TestCase {
+class BasicEnduranceTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @var BasicEndurance
 	 */
 	protected $object;
 
-	protected function setUp() {
+	protected function setUp() : void {
 		$this->object = new BasicEndurance;
 		DB::getInstance()->exec('DELETE FROM `runalyze_training`');
 	}
 
-	protected function tearDown() {
+	protected function tearDown() : void {
 		DB::getInstance()->exec('DELETE FROM `runalyze_training`');
 	}
 
@@ -67,28 +67,28 @@ class BasicEnduranceTest extends \PHPUnit_Framework_TestCase {
 		$this->object->setMinimalDistanceForLongjogs(10);
 
 		$this->object->setEffectiveVO2max(30);
-		$this->assertEquals(47.5, $this->object->getTargetWeekKm(), '', 1);
-		$this->assertEquals(24, $this->object->getRealTargetLongjogKmPerWeek(), '', 1);
+		$this->assertEqualsWithDelta(47.5, $this->object->getTargetWeekKm(), 1);
+		$this->assertEqualsWithDelta(24, $this->object->getRealTargetLongjogKmPerWeek(), 1);
 
 		$this->object->setEffectiveVO2max(40);
-		$this->assertEquals(66, $this->object->getTargetWeekKm(), '', 1);
-		$this->assertEquals(27.5, $this->object->getRealTargetLongjogKmPerWeek(), '', 1);
+		$this->assertEqualsWithDelta(66, $this->object->getTargetWeekKm(), 1);
+		$this->assertEqualsWithDelta(27.5, $this->object->getRealTargetLongjogKmPerWeek(), 1);
 
 		$this->object->setEffectiveVO2max(50);
-		$this->assertEquals(85, $this->object->getTargetWeekKm(), '', 1);
-		$this->assertEquals(30, $this->object->getRealTargetLongjogKmPerWeek(), '', 1);
+		$this->assertEqualsWithDelta(85, $this->object->getTargetWeekKm(), 1);
+		$this->assertEqualsWithDelta(30, $this->object->getRealTargetLongjogKmPerWeek(), 1);
 
 		$this->object->setEffectiveVO2max(60);
-		$this->assertEquals(104, $this->object->getTargetWeekKm(), '', 1);
-		$this->assertEquals(32.5, $this->object->getRealTargetLongjogKmPerWeek(), '', 1);
+		$this->assertEqualsWithDelta(104, $this->object->getTargetWeekKm(), 1);
+		$this->assertEqualsWithDelta(32.5, $this->object->getRealTargetLongjogKmPerWeek(), 1);
 
 		$this->object->setEffectiveVO2max(70);
-		$this->assertEquals(124, $this->object->getTargetWeekKm(), '', 1);
-		$this->assertEquals(34.5, $this->object->getRealTargetLongjogKmPerWeek(), '', 1);
+		$this->assertEqualsWithDelta(124, $this->object->getTargetWeekKm(), 1);
+		$this->assertEqualsWithDelta(34.5, $this->object->getRealTargetLongjogKmPerWeek(), 1);
 
 		$this->object->setEffectiveVO2max(80);
-		$this->assertEquals(145, $this->object->getTargetWeekKm(), '', 1);
-		$this->assertEquals(36, $this->object->getRealTargetLongjogKmPerWeek(), '', 1);
+		$this->assertEqualsWithDelta(145, $this->object->getTargetWeekKm(), 1);
+		$this->assertEqualsWithDelta(36, $this->object->getRealTargetLongjogKmPerWeek(), 1);
 	}
 
 	public function testForVO2max30() {
@@ -106,10 +106,10 @@ class BasicEnduranceTest extends \PHPUnit_Framework_TestCase {
 
 		$Results = $this->object->asArray();
 		$this->assertEquals(30, $Results['weekkm-result']);
-		$this->assertEquals(0.36, $Results['longjog-result'], '', 0.01);
-		$this->assertEquals(0.63, $Results['weekkm-percentage'], '', 0.01);
-		$this->assertEquals(0.36, $Results['longjog-percentage'], '', 0.01);
-		$this->assertEquals(54, $Results['percentage'], '', 0.01);
+		$this->assertEqualsWithDelta(0.36, $Results['longjog-result'], 0.01);
+		$this->assertEqualsWithDelta(0.63, $Results['weekkm-percentage'], 0.01);
+		$this->assertEqualsWithDelta(0.36, $Results['longjog-percentage'], 0.01);
+		$this->assertEqualsWithDelta(54, $Results['percentage'], 0.01);
 		$this->assertEquals(54, $this->object->value());
 		$this->assertEquals('54 &#37;', $this->object->valueInPercent());
 

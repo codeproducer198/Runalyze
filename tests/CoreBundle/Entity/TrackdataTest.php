@@ -7,12 +7,12 @@ use Runalyze\Bundle\CoreBundle\Entity\Trackdata;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Parser\Activity\Common\Data\Pause\PauseCollection;
 
-class TrackdataTest extends \PHPUnit_Framework_TestCase
+class TrackdataTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Trackdata */
     protected $Data;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Data = new Trackdata();
     }
@@ -88,9 +88,9 @@ class TrackdataTest extends \PHPUnit_Framework_TestCase
         $this->assertLessThan(300, $gradeAdjustedPace[30]);
         $this->assertGreaterThan(300, $gradeAdjustedPace[50]);
 
-        $this->assertEquals(5.0, $gradient[10], '', 0.5);
-        $this->assertEquals(5.0, $gradient[30], '', 0.5);
-        $this->assertEquals(-5.0, $gradient[50], '', 0.5);
+        $this->assertEqualsWithDelta(5.0, $gradient[10], 0.5);
+        $this->assertEqualsWithDelta(5.0, $gradient[30], 0.5);
+        $this->assertEqualsWithDelta(-5.0, $gradient[50], 0.5);
 
         $this->assertEquals(array_fill(0, 61, 300), $this->Data->getPace());
     }

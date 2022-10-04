@@ -77,7 +77,11 @@ class TrainingEffect implements ValueInterface
             return $this;
         }
 
-		$this->Value = (float)str_replace(',', '.', $value);
+        if (!is_numeric($value)) {
+            throw new \InvalidArgumentException(sprintf('Training Effect must be a number, not ' . $value));
+        }
+
+        $this->Value = (float)str_replace(',', '.', $value);
 
         if ($this->Value < self::LOWER_LIMIT || self::UPPER_LIMIT < $this->Value) {
             throw new \InvalidArgumentException(sprintf('Training Effect must be between %s and %s', self::LOWER_LIMIT, self::UPPER_LIMIT));

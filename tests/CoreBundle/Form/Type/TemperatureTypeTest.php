@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Form\Type;
 use Runalyze\Bundle\CoreBundle\Form\Type\TemperatureType;
 use Runalyze\Metrics\Temperature\Unit\Fahrenheit;
 
-class TemperatureTypeTest extends \PHPUnit_Framework_TestCase
+class TemperatureTypeTest extends \PHPUnit\Framework\TestCase
 {
     public function testReverseTransformWithFahrenheit()
     {

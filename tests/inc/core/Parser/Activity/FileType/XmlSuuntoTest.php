@@ -14,7 +14,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
     /** @var XmlSuunto */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new XmlSuunto();
     }
@@ -23,7 +23,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
     {
         $this->Parser->setFileContent('<?xml version="1.0" encoding="utf-8"?><any><xml><file></file></xml></any>');
 
-        $this->setExpectedException(UnsupportedFileException::class);
+        $this->expectException(UnsupportedFileException::class);
 
         $this->Parser->parse();
     }
@@ -34,11 +34,11 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
 
         $this->assertEquals('2013-04-28 15:27', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
 
-        $this->assertEquals(0.264, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(0.264, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(107, $this->Container->ActivityData->Duration);
         $this->assertEquals(151, $this->Container->ActivityData->ElapsedTime);
         $this->assertEquals(461, $this->Container->ActivityData->EnergyConsumption);
-        $this->assertEquals(131, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(131, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(143, $this->Container->ActivityData->MaxHeartRate);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
@@ -49,7 +49,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
         $this->assertNotEmpty($this->Container->ContinuousData->Temperature);
 
-        $this->assertEquals(0.264, end($this->Container->ContinuousData->Distance), '', 0.001);
+        $this->assertEqualsWithDelta(0.264, end($this->Container->ContinuousData->Distance), 0.001);
     }
 
     public function testReducedAmbitFileWithLaps()
@@ -58,12 +58,12 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
 
         $this->assertEquals('2014-04-26 16:17', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
 
-        $this->assertEquals(5.013, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(5.013, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(1551, $this->Container->ActivityData->Duration);
         $this->assertEquals(361, $this->Container->ActivityData->EnergyConsumption);
-        $this->assertEquals(111, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(111, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(123, $this->Container->ActivityData->MaxHeartRate);
-        $this->assertEquals(86, $this->Container->ActivityData->AvgCadence, '', 0.5);
+        $this->assertEqualsWithDelta(86, $this->Container->ActivityData->AvgCadence, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -74,7 +74,7 @@ class XmlSuuntoTest extends AbstractActivityParserTestCase
         $this->assertNotEmpty($this->Container->ContinuousData->Cadence);
         $this->assertNotEmpty($this->Container->ContinuousData->Temperature);
 
-        $this->assertEquals(0.085, end($this->Container->ContinuousData->Distance), '', 0.001);
+        $this->assertEqualsWithDelta(0.085, end($this->Container->ContinuousData->Distance), 0.001);
 
         $this->checkExpectedRoundData([
             [333, 1.002],

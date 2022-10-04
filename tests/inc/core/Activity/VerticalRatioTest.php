@@ -2,7 +2,7 @@
 
 namespace Runalyze\Activity;
 
-class VerticalRatioTest extends \PHPUnit_Framework_TestCase
+class VerticalRatioTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testStaticFunction()

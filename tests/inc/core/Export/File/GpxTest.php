@@ -4,7 +4,7 @@ namespace Runalyze\Export\File;
 
 use Runalyze\View\Activity\FakeContext;
 
-class GpxTest extends \PHPUnit_Framework_TestCase
+class GpxTest extends \PHPUnit\Framework\TestCase
 {
 	public function testFileCreationForOutdoorActivity()
 	{

@@ -4,12 +4,12 @@ namespace Runalyze\Tests\Sports\ClimbQuantification;
 
 use Runalyze\Sports\ClimbQuantification\CodifavaIndex;
 
-class CodifavaIndexTest extends \PHPUnit_Framework_TestCase
+class CodifavaIndexTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CodifavaIndex */
     protected $Codifava;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Codifava = new CodifavaIndex();
     }
@@ -36,11 +36,11 @@ class CodifavaIndexTest extends \PHPUnit_Framework_TestCase
         ];
 
         foreach ($testMatrix as $testValues) {
-            $this->assertEquals(
+            $this->assertEqualsWithDelta(
                 $testValues[2],
                 $this->Codifava->getScoreFor($testValues[0], $testValues[1]),
-                sprintf('Score for %.2f km with %u m fails.', $testValues[0], $testValues[1]),
-                0.1
+                0.1,
+                sprintf('Score for %.2f km with %u m fails.', $testValues[0], $testValues[1])
             );
         }
     }
@@ -52,7 +52,7 @@ class CodifavaIndexTest extends \PHPUnit_Framework_TestCase
             $this->Codifava->getScoreForProfile([[5.0, 0.05], [5.0, 0.05]])
         );
 
-        $this->assertEquals(45, $this->Codifava->getScoreForProfile([[5.0, 0.05], [5.0, 0.05]]), '', 0.1);
-        $this->assertEquals(60, $this->Codifava->getScoreForProfile([[2.5, 0.10], [7.5, 0.0333]]), '', 0.1);
+        $this->assertEqualsWithDelta(45, $this->Codifava->getScoreForProfile([[5.0, 0.05], [5.0, 0.05]]), 0.1);
+        $this->assertEqualsWithDelta(60, $this->Codifava->getScoreForProfile([[2.5, 0.10], [7.5, 0.0333]]), 0.1);
     }
 }

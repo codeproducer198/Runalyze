@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Common;
 
 use Runalyze\Metrics\Common\BaseUnitTrait;
 
-class BaseUnitTraitTest extends \PHPUnit_Framework_TestCase
+class BaseUnitTraitTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatConversionWorksAsExpected()
     {

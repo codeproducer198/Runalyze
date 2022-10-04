@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Velocity\Unit;
 
 use Runalyze\Metrics\Velocity\Unit\SecondsPerKilometer;
 
-class SecondsPerKilometerTest extends \PHPUnit_Framework_TestCase
+class SecondsPerKilometerTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatNothingChanges()
     {

@@ -9,7 +9,7 @@ use Runalyze\Configuration;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class JsonImporterTest extends \PHPUnit_Framework_TestCase
+class JsonImporterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var string */
     protected $Base;
@@ -23,7 +23,7 @@ class JsonImporterTest extends \PHPUnit_Framework_TestCase
     /** @var string */
     protected $Prefix = 'runalyze_';
 
-	protected function setUp()
+	protected function setUp() : void
     {
         $this->Base = __DIR__.'/../../../../testfiles/backup/';
 		$this->DB = \DB::getInstance();
@@ -31,7 +31,7 @@ class JsonImporterTest extends \PHPUnit_Framework_TestCase
 		$this->truncateTables();
 	}
 
-	protected function tearDown()
+	protected function tearDown() : void
     {
 		$this->truncateTables();
 	}

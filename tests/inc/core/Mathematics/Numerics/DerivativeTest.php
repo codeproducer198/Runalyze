@@ -4,17 +4,17 @@ namespace Runalyze\Tests\Mathematics\Numerics;
 
 use Runalyze\Mathematics\Numerics\Derivative;
 
-class DerivativeTest extends \PHPUnit_Framework_TestCase
+class DerivativeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @expectedException \InvalidArgumentException */
     public function testEmptyArrays()
     {
+        $this->expectException(\InvalidArgumentException::class);
         (new Derivative())->calculate([], []);
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testWrongArraySizes()
     {
+        $this->expectException(\InvalidArgumentException::class);
         (new Derivative())->calculate([1, 2, 3], [1, 2]);
     }
 

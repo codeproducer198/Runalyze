@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace ProxyManager\Proxy;
 
+use Closure;
+
 /**
  * Lazy loading object identifier
  *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
+ * @psalm-template LazilyLoadedObjectType of object
  */
 interface LazyLoadingInterface extends ProxyInterface
 {
@@ -20,29 +21,50 @@ interface LazyLoadingInterface extends ProxyInterface
      * An initializer should have a signature like following:
      *
      * <code>
-     * $initializer = function (& $wrappedObject, $proxy, string $method, array $parameters, & $initializer) {};
+     * $initializer = function (
+     *   & ?object $wrappedObject,
+     *   LazyLoadingInterface $proxy,
+     *   string $calledMethod,
+     *   array $callParameters,
+     *   & ?\Closure $initializer,
+     *   array $propertiesToBeSet = [] // works only on ghost objects
+     * ) {};
      * </code>
      *
-     * @param \Closure|null $initializer
+     * @return void
      *
-     * @return mixed
+     * @psalm-param null|Closure(
+     *   LazilyLoadedObjectType|null=,
+     *   LazilyLoadedObjectType&LazyLoadingInterface<LazilyLoadedObjectType>=,
+     *   string=,
+     *   array<string, mixed>=,
+     *   ?Closure=,
+     *   array<string, mixed>=
+     * ) : bool $initializer
      */
-    public function setProxyInitializer(\Closure $initializer = null);
+    public function setProxyInitializer(?Closure $initializer = null);
 
     /**
-     * @return \Closure|null
+     * @psalm-return null|Closure(
+     *   LazilyLoadedObjectType|null=,
+     *   LazilyLoadedObjectType&LazyLoadingInterface<LazilyLoadedObjectType>=,
+     *   string,
+     *   array<string, mixed>=,
+     *   ?Closure=,
+     *   array<string, mixed>=
+     * ) : bool
      */
-    public function getProxyInitializer();
+    public function getProxyInitializer(): ?Closure;
 
     /**
      * Force initialization of the proxy
      *
      * @return bool true if the proxy could be initialized
      */
-    public function initializeProxy() : bool;
+    public function initializeProxy(): bool;
 
     /**
      * Retrieves current initialization status of the proxy
      */
-    public function isProxyInitialized() : bool;
+    public function isProxyInitialized(): bool;
 }

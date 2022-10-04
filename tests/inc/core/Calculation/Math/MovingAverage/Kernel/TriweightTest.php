@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class TriweightTest extends \PHPUnit_Framework_TestCase
+class TriweightTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForWidth2()
     {
@@ -25,7 +25,7 @@ class TriweightTest extends \PHPUnit_Framework_TestCase
     {
         $Kernel = new Triweight(10);
 
-        $this->assertEquals([
+        $this->assertEqualsWithDelta([
             0.0,
             0.421875,
             1.0,
@@ -35,6 +35,6 @@ class TriweightTest extends \PHPUnit_Framework_TestCase
             -2.5,
             0.0,
             3.0
-        ]));
+        ]), 0.0001);
     }
 }

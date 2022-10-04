@@ -4,18 +4,18 @@
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class PDOforRunalyzeTest extends PHPUnit_Framework_TestCase
+class PDOforRunalyzeTest extends \PHPUnit\Framework\TestCase
 {
 	/** @var PDOforRunalyze */
 	protected $object;
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->object = DB::getInstance();
 		$this->object->stopAddingAccountID();
 	}
 
-	protected function tearDown()
+	protected function tearDown() : void
 	{
 		$this->object->exec('DELETE FROM `runalyze_training`');
 	}

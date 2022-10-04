@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7\Response;
 use Runalyze\Service\ElevationCorrection\Strategy\Geonames;
 use Runalyze\Tests\Service\HttpClientAwareTestCaseTrait;
 
-class GeonamesTest extends \PHPUnit_Framework_TestCase
+class GeonamesTest extends \PHPUnit\Framework\TestCase
 {
     use HttpClientAwareTestCaseTrait;
 

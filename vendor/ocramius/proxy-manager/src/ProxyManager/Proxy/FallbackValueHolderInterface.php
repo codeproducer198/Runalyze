@@ -7,8 +7,7 @@ namespace ProxyManager\Proxy;
 /**
  * Fallback value holder object marker
  *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
+ * @deprecated this interface is not in use anymore, and should not be relied upon
  */
 interface FallbackValueHolderInterface extends ProxyInterface
 {

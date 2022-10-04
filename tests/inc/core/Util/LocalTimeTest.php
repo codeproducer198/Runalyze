@@ -5,12 +5,12 @@ namespace Runalyze\Util;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\WeekStart;
 
-class LocalTimeTest extends \PHPUnit_Framework_TestCase
+class LocalTimeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var string */
     protected $DefaultTimezone;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->DefaultTimezone = date_default_timezone_get();
 
@@ -18,31 +18,27 @@ class LocalTimeTest extends \PHPUnit_Framework_TestCase
         date_default_timezone_set('Europe/Moscow');
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         date_default_timezone_set($this->DefaultTimezone);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidParameterForConstructor()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new LocalTime('today');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidParameterForServerTime()
     {
+        $this->expectException(\InvalidArgumentException::class);
         LocalTime::fromServerTime('today');
     }
 
     public function testThatConstructorDoesNotChangeTimestamps()
     {
-        $this->assertEquals(time(), (new LocalTime())->getTimestamp(), '', 1);
-        $this->assertEquals(time(), (new LocalTime(time()))->getTimestamp(), '', 1);
+        $this->assertEqualsWithDelta(time(), (new LocalTime())->getTimestamp(), 1);
+        $this->assertEqualsWithDelta(time(), (new LocalTime(time()))->getTimestamp(), 1);
     }
 
 	public function testThatServerTimezoneIsIgnored()

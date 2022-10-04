@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Cadence\Unit;
 
 use Runalyze\Metrics\Cadence\Unit\StepsPerMinute;
 
-class StepsPerMinuteTest extends \PHPUnit_Framework_TestCase
+class StepsPerMinuteTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

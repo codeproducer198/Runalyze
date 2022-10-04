@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services\Selection;
 
 use Runalyze\Bundle\CoreBundle\Services\Selection\Selection;
 
-class SelectionTest extends \PHPUnit_Framework_TestCase
+class SelectionTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptySelection()
     {

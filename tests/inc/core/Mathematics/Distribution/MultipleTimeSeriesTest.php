@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Mathematics\Distribution;
 use Runalyze\Mathematics\Distribution\EmpiricalDistribution;
 use Runalyze\Mathematics\Distribution\MultipleTimeSeries;
 
-class MultipleTimeSeriesTest extends \PHPUnit_Framework_TestCase
+class MultipleTimeSeriesTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleExample()
     {
@@ -28,7 +28,7 @@ class MultipleTimeSeriesTest extends \PHPUnit_Framework_TestCase
             'foo' => [10, 20, 15]
         ], [1, 2, 3]);
 
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $object->getDistribution('bar');
     }

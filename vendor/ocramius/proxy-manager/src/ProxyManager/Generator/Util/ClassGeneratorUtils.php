@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace ProxyManager\Generator\Util;
 
+use Laminas\Code\Generator\ClassGenerator;
+use Laminas\Code\Generator\MethodGenerator;
 use ReflectionClass;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Generator\MethodGenerator;
 
 /**
  * Util class to help to generate code
- *
- * @author Jefersson Nathan <malukenho@phpse.net>
- * @license MIT
  */
 final class ClassGeneratorUtils
 {
@@ -20,7 +17,7 @@ final class ClassGeneratorUtils
         ReflectionClass $originalClass,
         ClassGenerator $classGenerator,
         MethodGenerator $generatedMethod
-    ) : bool {
+    ): bool {
         $methodName = $generatedMethod->getName();
 
         if ($originalClass->hasMethod($methodName) && $originalClass->getMethod($methodName)->isFinal()) {

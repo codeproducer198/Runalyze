@@ -2,13 +2,11 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class KernelsTest extends \PHPUnit_Framework_TestCase
+class KernelsTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidKernel()
     {
+        $this->expectException(\InvalidArgumentException::class);
         Kernels::get(-1, 5);
     }
 
@@ -28,7 +26,7 @@ class KernelsTest extends \PHPUnit_Framework_TestCase
             $Kernel = Kernels::get($kernelid, 2.0);
             $sum = array_sum($Kernel->valuesAt($x, true));
 
-            $this->assertEquals(1.0, $sum / $num, 'Kernel with id "'.$kernelid.'" is not normalized, sum is '.$sum, 0.02);
+            $this->assertEqualsWithDelta(1.0, $sum / $num, 0.02, 'Kernel with id "'.$kernelid.'" is not normalized, sum is '.$sum);
         }
     }
 }

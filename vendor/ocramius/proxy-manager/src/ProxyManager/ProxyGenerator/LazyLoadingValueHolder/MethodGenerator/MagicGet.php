@@ -4,31 +4,23 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\LazyLoadingValueHolder\MethodGenerator;
 
+use InvalidArgumentException;
+use Laminas\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
 use ProxyManager\Generator\MagicMethodGenerator;
-use Zend\Code\Generator\ParameterGenerator;
 use ProxyManager\ProxyGenerator\PropertyGenerator\PublicPropertiesMap;
 use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
 use ReflectionClass;
-use Zend\Code\Generator\PropertyGenerator;
 
 /**
  * Magic `__get` for lazy loading value holder objects
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class MagicGet extends MagicMethodGenerator
 {
     /**
      * Constructor
      *
-     * @param ReflectionClass     $originalClass
-     * @param PropertyGenerator   $initializerProperty
-     * @param PropertyGenerator   $valueHolderProperty
-     * @param PublicPropertiesMap $publicProperties
-     *
-     * @throws \Zend\Code\Generator\Exception\InvalidArgumentException
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(
         ReflectionClass $originalClass,
@@ -63,12 +55,14 @@ class MagicGet extends MagicMethodGenerator
                 PublicScopeSimulator::OPERATION_GET,
                 'name',
                 null,
-                $valueHolderProperty
+                $valueHolderProperty,
+                null,
+                $originalClass
             )
         );
     }
 
-    private function setInitializerBody(string $initializer, string $valueHolder, string $callParent) : void
+    private function setInitializerBody(string $initializer, string $valueHolder, string $callParent): void
     {
         $this->setBody(
             '$this->' . $initializer . ' && $this->' . $initializer

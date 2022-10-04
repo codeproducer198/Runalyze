@@ -4,12 +4,12 @@ namespace Runalyze\Tests\Sports\ClimbQuantification;
 
 use Runalyze\Sports\ClimbQuantification\FietsIndex;
 
-class FietsIndexTest extends \PHPUnit_Framework_TestCase
+class FietsIndexTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FietsIndex */
     protected $Fiets;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Fiets = new FietsIndex();
     }
@@ -36,11 +36,11 @@ class FietsIndexTest extends \PHPUnit_Framework_TestCase
         ];
 
         foreach ($testMatrix as $testValues) {
-            $this->assertEquals(
+            $this->assertEqualsWithDelta(
                 $testValues[2],
                 $this->Fiets->getScoreFor($testValues[0], $testValues[1]),
-                sprintf('Score for %.2f km with %u m fails.', $testValues[0], $testValues[1]),
-                0.005
+                0.005,
+                sprintf('Score for %.2f km with %u m fails.', $testValues[0], $testValues[1])
             );
         }
     }
@@ -75,7 +75,7 @@ class FietsIndexTest extends \PHPUnit_Framework_TestCase
 
     public function testManuaKea()
     {
-        $this->assertEquals(28.48, $this->Fiets->getScoreFor(69.2, 4182, 4213), '', 0.01);
+        $this->assertEqualsWithDelta(28.48, $this->Fiets->getScoreFor(69.2, 4182, 4213), 0.01);
     }
 
     public function testAdditiveCalculationForExactProfile()
@@ -85,8 +85,8 @@ class FietsIndexTest extends \PHPUnit_Framework_TestCase
             $this->Fiets->getScoreForProfile([[5.0, 0.05], [5.0, 0.05]])
         );
 
-        $this->assertEquals(2.5, $this->Fiets->getScoreForProfile([[5.0, 0.05], [5.0, 0.05]]), '', 0.01);
-        $this->assertEquals(3.33, $this->Fiets->getScoreForProfile([[2.5, 0.10], [7.5, 0.0333]]), '', 0.01);
-        $this->assertEquals(4.33, $this->Fiets->getScoreForProfile([[2.5, 0.10], [7.5, 0.0333]], 2000), '', 0.01);
+        $this->assertEqualsWithDelta(2.5, $this->Fiets->getScoreForProfile([[5.0, 0.05], [5.0, 0.05]]), 0.01);
+        $this->assertEqualsWithDelta(3.33, $this->Fiets->getScoreForProfile([[2.5, 0.10], [7.5, 0.0333]]), 0.01);
+        $this->assertEqualsWithDelta(4.33, $this->Fiets->getScoreForProfile([[2.5, 0.10], [7.5, 0.0333]], 2000), 0.01);
     }
 }

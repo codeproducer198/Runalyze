@@ -4,7 +4,7 @@ namespace Runalyze\Data\Weather;
 
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
-class WindSpeedTest extends \PHPUnit_Framework_TestCase
+class WindSpeedTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsUnknown()
     {
@@ -26,8 +26,8 @@ class WindSpeedTest extends \PHPUnit_Framework_TestCase
     {
         $WindSpeed = new WindSpeed();
         $WindSpeed->setMilesPerHour(30);
-        $this->assertEquals(48.28, $WindSpeed->value(), '', 0.01);
-        $this->assertEquals(30, $WindSpeed->inMilesPerHour(), '', 0.01);
+        $this->assertEqualsWithDelta(48.28, $WindSpeed->value(), 0.01);
+        $this->assertEqualsWithDelta(30, $WindSpeed->inMilesPerHour(), 0.01);
         $this->assertFalse($WindSpeed->isUnknown());
     }
 

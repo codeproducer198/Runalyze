@@ -5,7 +5,7 @@ namespace Runalyze\Activity;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\TemperatureUnit;
 
-class TemperatureTest extends \PHPUnit_Framework_TestCase
+class TemperatureTest extends \PHPUnit\Framework\TestCase
 {
 	public function testConstructor()
 	{
@@ -15,8 +15,8 @@ class TemperatureTest extends \PHPUnit_Framework_TestCase
 
 	public function testSettingInPreferredUnit()
 	{
-		$this->assertEquals(15, (new Temperature(0, new TemperatureUnit(TemperatureUnit::CELSIUS)))->setInPreferredUnit(15)->celsius(), '', 0.1);
-		$this->assertEquals(15.00, (new Temperature(0, new TemperatureUnit(TemperatureUnit::FAHRENHEIT)))->setInPreferredUnit(59)->celsius(), '', 0.1);
+		$this->assertEqualsWithDelta(15, (new Temperature(0, new TemperatureUnit(TemperatureUnit::CELSIUS)))->setInPreferredUnit(15)->celsius(), 0.1);
+		$this->assertEqualsWithDelta(15.00, (new Temperature(0, new TemperatureUnit(TemperatureUnit::FAHRENHEIT)))->setInPreferredUnit(59)->celsius(), 0.1);
 	}
 
 	public function testFromCelsius()
@@ -25,7 +25,7 @@ class TemperatureTest extends \PHPUnit_Framework_TestCase
 		$Temperature->set(15);
 
 		$this->assertEquals(15.00, $Temperature->celsius());
-		$this->assertEquals(59.00, $Temperature->fahrenheit(), '', 0.01);
+		$this->assertEqualsWithDelta(59.00, $Temperature->fahrenheit(), 0.01);
 	}
 
 	public function testFromFahrenheit()
@@ -34,7 +34,7 @@ class TemperatureTest extends \PHPUnit_Framework_TestCase
 		$Temperature->setFahrenheit(59);
 
 		$this->assertEquals(59.00, $Temperature->fahrenheit());
-		$this->assertEquals(15, $Temperature->celsius(), '', 0.01);
+		$this->assertEqualsWithDelta(15, $Temperature->celsius(), 0.01);
 	}
 
 	public function testStaticMethod()

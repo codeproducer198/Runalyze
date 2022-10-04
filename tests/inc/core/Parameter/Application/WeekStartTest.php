@@ -2,7 +2,7 @@
 
 namespace Runalyze\Parameter\Application;
 
-class WeekStartTest extends \PHPUnit_Framework_TestCase
+class WeekStartTest extends \PHPUnit\Framework\TestCase
 {
 	/** @var \Runalyze\Parameter\Application\WeekStart */
 	protected $Object;
@@ -21,7 +21,7 @@ class WeekStartTest extends \PHPUnit_Framework_TestCase
         '3 January 2016' => [53, 1]
     ];
 
-	protected function setUp()
+	protected function setUp() : void
     {
 		$this->Object = new WeekStart;
         $this->PDO = \DB::getInstance();

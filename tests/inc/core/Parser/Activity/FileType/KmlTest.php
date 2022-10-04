@@ -15,7 +15,7 @@ class KmlTest extends AbstractActivityParserTestCase
     /** @var Kml */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new Kml();
     }
@@ -24,7 +24,7 @@ class KmlTest extends AbstractActivityParserTestCase
     {
         $this->Parser->setFileContent('<any><xml><file></file></xml></any>');
 
-        $this->setExpectedException(UnsupportedFileException::class);
+        $this->expectException(UnsupportedFileException::class);
 
         $this->Parser->parse();
     }
@@ -33,7 +33,7 @@ class KmlTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'kml/Route-only.kml');
 
-        $this->assertEquals(0.4, $this->Container->ActivityData->Distance, '', 0.05);
+        $this->assertEqualsWithDelta(0.4, $this->Container->ActivityData->Distance, 0.05);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
@@ -47,7 +47,7 @@ class KmlTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'kml/Route-only-with-zeros.kml');
 
-        $this->assertEquals(0.4, $this->Container->ActivityData->Distance, '', 0.05);
+        $this->assertEqualsWithDelta(0.4, $this->Container->ActivityData->Distance, 0.05);
 
         $this->assertEquals(11, count($this->Container->ContinuousData->Distance));
     }
@@ -56,7 +56,7 @@ class KmlTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'kml/multi-line-without-altitude.kml');
 
-        $this->assertEquals(2.25, $this->Container->ActivityData->Distance, '', 0.05);
+        $this->assertEqualsWithDelta(2.25, $this->Container->ActivityData->Distance, 0.05);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
@@ -76,8 +76,8 @@ class KmlTest extends AbstractActivityParserTestCase
 
         $this->assertEquals(3637, $this->Container->ActivityData->Duration);
         $this->assertEquals(3788, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(12.816, $this->Container->ActivityData->Distance, '', 0.1);
-        $this->assertEquals(808, $this->Container->ActivityData->EnergyConsumption, '', 10);
+        $this->assertEqualsWithDelta(12.816, $this->Container->ActivityData->Distance, 0.1);
+        $this->assertEqualsWithDelta(808, $this->Container->ActivityData->EnergyConsumption, 10);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -95,7 +95,7 @@ class KmlTest extends AbstractActivityParserTestCase
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(5 * 3600 + 50 * 60 + 6, $this->Container->ActivityData->Duration);
-        $this->assertEquals(12.816, $this->Container->ActivityData->Distance, '', 0.1);
+        $this->assertEqualsWithDelta(12.816, $this->Container->ActivityData->Distance, 0.1);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -107,7 +107,7 @@ class KmlTest extends AbstractActivityParserTestCase
     {
         $this->parseFile($this->Parser, 'kml/Suunto-Spartan-Ultra.kml');
 
-        $this->assertEquals(0.098, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(0.098, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -124,7 +124,7 @@ class KmlTest extends AbstractActivityParserTestCase
             'kmz/Baechenstock.kmz.doc.kml'
         ]);
 
-        $this->assertEquals(12.896, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(12.896, $this->Container->ActivityData->Distance, 0.001);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
         $this->assertNotEmpty($this->Container->ContinuousData->Longitude);

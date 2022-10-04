@@ -4,12 +4,12 @@ namespace Runalyze\Tests\Sports\Running\GradeAdjustedPace\Algorithm;
 
 use Runalyze\Sports\Running\GradeAdjustedPace\Algorithm\Minetti;
 
-class MinettiTest extends \PHPUnit_Framework_TestCase
+class MinettiTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Minetti */
     protected $Minetti;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Minetti = new Minetti();
     }
@@ -23,34 +23,34 @@ class MinettiTest extends \PHPUnit_Framework_TestCase
 
     public function testSomeEnergyCostsVerifiedByOwnSpreadsheet()
     {
-        $this->assertEquals(0.5099, $this->Minetti->getEnergyCost(-0.15), '', 0.0001);
-        $this->assertEquals(0.5977, $this->Minetti->getEnergyCost(-0.10), '', 0.0001);
-        $this->assertEquals(0.7628, $this->Minetti->getEnergyCost(-0.05), '', 0.0001);
-        $this->assertEquals(0.8047, $this->Minetti->getEnergyCost(-0.04), '', 0.0001);
-        $this->assertEquals(0.8969, $this->Minetti->getEnergyCost(-0.02), '', 0.0001);
-        $this->assertEquals(0.9471, $this->Minetti->getEnergyCost(-0.01), '', 0.0001);
-        $this->assertEquals(1.0554, $this->Minetti->getEnergyCost(0.01), '', 0.0001);
-        $this->assertEquals(1.1134, $this->Minetti->getEnergyCost(0.02), '', 0.0001);
-        $this->assertEquals(1.2365, $this->Minetti->getEnergyCost(0.04), '', 0.0001);
-        $this->assertEquals(1.3014, $this->Minetti->getEnergyCost(0.05), '', 0.0001);
-        $this->assertEquals(1.6578, $this->Minetti->getEnergyCost(0.10), '', 0.0001);
-        $this->assertEquals(2.0603, $this->Minetti->getEnergyCost(0.15), '', 0.0001);
+        $this->assertEqualsWithDelta(0.5099, $this->Minetti->getEnergyCost(-0.15), 0.0001);
+        $this->assertEqualsWithDelta(0.5977, $this->Minetti->getEnergyCost(-0.10), 0.0001);
+        $this->assertEqualsWithDelta(0.7628, $this->Minetti->getEnergyCost(-0.05), 0.0001);
+        $this->assertEqualsWithDelta(0.8047, $this->Minetti->getEnergyCost(-0.04), 0.0001);
+        $this->assertEqualsWithDelta(0.8969, $this->Minetti->getEnergyCost(-0.02), 0.0001);
+        $this->assertEqualsWithDelta(0.9471, $this->Minetti->getEnergyCost(-0.01), 0.0001);
+        $this->assertEqualsWithDelta(1.0554, $this->Minetti->getEnergyCost(0.01), 0.0001);
+        $this->assertEqualsWithDelta(1.1134, $this->Minetti->getEnergyCost(0.02), 0.0001);
+        $this->assertEqualsWithDelta(1.2365, $this->Minetti->getEnergyCost(0.04), 0.0001);
+        $this->assertEqualsWithDelta(1.3014, $this->Minetti->getEnergyCost(0.05), 0.0001);
+        $this->assertEqualsWithDelta(1.6578, $this->Minetti->getEnergyCost(0.10), 0.0001);
+        $this->assertEqualsWithDelta(2.0603, $this->Minetti->getEnergyCost(0.15), 0.0001);
     }
 
     public function testSomeTimeFactorsVerifiedByOwnSpreadsheet()
     {
-        $this->assertEquals(1.7489, $this->Minetti->getTimeFactor(-0.15), '', 0.0001);
-        $this->assertEquals(1.5329, $this->Minetti->getTimeFactor(-0.10), '', 0.0001);
-        $this->assertEquals(1.2520, $this->Minetti->getTimeFactor(-0.05), '', 0.0001);
-        $this->assertEquals(1.1977, $this->Minetti->getTimeFactor(-0.04), '', 0.0001);
-        $this->assertEquals(1.0945, $this->Minetti->getTimeFactor(-0.02), '', 0.0001);
-        $this->assertEquals(1.0461, $this->Minetti->getTimeFactor(-0.01), '', 0.0001);
-        $this->assertEquals(0.9562, $this->Minetti->getTimeFactor(0.01), '', 0.0001);
-        $this->assertEquals(0.9147, $this->Minetti->getTimeFactor(0.02), '', 0.0001);
-        $this->assertEquals(0.8385, $this->Minetti->getTimeFactor(0.04), '', 0.0001);
-        $this->assertEquals(0.8036, $this->Minetti->getTimeFactor(0.05), '', 0.0001);
-        $this->assertEquals(0.6573, $this->Minetti->getTimeFactor(0.10), '', 0.0001);
-        $this->assertEquals(0.5488, $this->Minetti->getTimeFactor(0.15), '', 0.0001);
+        $this->assertEqualsWithDelta(1.7489, $this->Minetti->getTimeFactor(-0.15), 0.0001);
+        $this->assertEqualsWithDelta(1.5329, $this->Minetti->getTimeFactor(-0.10), 0.0001);
+        $this->assertEqualsWithDelta(1.2520, $this->Minetti->getTimeFactor(-0.05), 0.0001);
+        $this->assertEqualsWithDelta(1.1977, $this->Minetti->getTimeFactor(-0.04), 0.0001);
+        $this->assertEqualsWithDelta(1.0945, $this->Minetti->getTimeFactor(-0.02), 0.0001);
+        $this->assertEqualsWithDelta(1.0461, $this->Minetti->getTimeFactor(-0.01), 0.0001);
+        $this->assertEqualsWithDelta(0.9562, $this->Minetti->getTimeFactor(0.01), 0.0001);
+        $this->assertEqualsWithDelta(0.9147, $this->Minetti->getTimeFactor(0.02), 0.0001);
+        $this->assertEqualsWithDelta(0.8385, $this->Minetti->getTimeFactor(0.04), 0.0001);
+        $this->assertEqualsWithDelta(0.8036, $this->Minetti->getTimeFactor(0.05), 0.0001);
+        $this->assertEqualsWithDelta(0.6573, $this->Minetti->getTimeFactor(0.10), 0.0001);
+        $this->assertEqualsWithDelta(0.5488, $this->Minetti->getTimeFactor(0.15), 0.0001);
     }
 
     public function testSomeExemplaryPacesVerifiedByOwnSpreadsheet()
@@ -84,11 +84,11 @@ class MinettiTest extends \PHPUnit_Framework_TestCase
      */
     protected function assertPaceEquivalence($achievedPace, $gradient, $flatPace)
     {
-        $this->assertEquals(
+        $this->assertEqualsWithDelta(
             60 * (int)$flatPace[0] + (int)($flatPace[2].$flatPace[3]),
             $this->Minetti->adjustPace(60 * (int)$achievedPace[0] + (int)($achievedPace[2].$achievedPace[3]), $gradient),
-            sprintf('Pace equivalence does not match for %s @ %d %%', $achievedPace, 100 * $gradient),
-            0.5
+            0.5,
+            sprintf('Pace equivalence does not match for %s @ %d %%', $achievedPace, 100 * $gradient)
         );
     }
 }

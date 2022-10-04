@@ -2,7 +2,7 @@
 
 use Runalyze\Data\Weather\HeatIndexEffect;
 
-class HeatIndexEffectTest extends \PHPUnit_Framework_TestCase
+class HeatIndexEffectTest extends \PHPUnit\Framework\TestCase
 {
 	public function testThatDescriptionCanBeCalledForAllLevels()
 	{

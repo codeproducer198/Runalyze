@@ -7,7 +7,7 @@ use Runalyze\Parser\Activity\Common\Data\Merge\ActivityDataContainerMerger;
 use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Data\Round\Round;
 
-class ActivityDataContainerMergerTest extends \PHPUnit_Framework_TestCase
+class ActivityDataContainerMergerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ActivityDataContainer */
     protected $FirstContainer;
@@ -15,7 +15,7 @@ class ActivityDataContainerMergerTest extends \PHPUnit_Framework_TestCase
     /** @var ActivityDataContainer */
     protected $SecondContainer;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->FirstContainer = new ActivityDataContainer();
         $this->SecondContainer = new ActivityDataContainer();

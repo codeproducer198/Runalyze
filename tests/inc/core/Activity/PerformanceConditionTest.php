@@ -2,7 +2,7 @@
 
 namespace Runalyze\Activity;
 
-class PerformanceConditionTest extends \PHPUnit_Framework_TestCase
+class PerformanceConditionTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testFormattingValues()

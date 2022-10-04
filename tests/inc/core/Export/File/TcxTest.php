@@ -8,7 +8,7 @@ use Runalyze\Model\Trackdata;
 use Runalyze\View\Activity\FakeContext;
 use Runalyze\Parser\Activity\FileType\Tcx as TcxParser;
 
-class TcxTest extends \PHPUnit_Framework_TestCase
+class TcxTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatEmptyContextIsNotPossible()
     {

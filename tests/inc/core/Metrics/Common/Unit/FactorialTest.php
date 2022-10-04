@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Common\Unit;
 
 use Runalyze\Metrics\Common\Unit\Factorial;
 
-class FactorialTest extends \PHPUnit_Framework_TestCase
+class FactorialTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

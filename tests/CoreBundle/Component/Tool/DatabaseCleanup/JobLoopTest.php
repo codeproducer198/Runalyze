@@ -8,12 +8,12 @@ use Runalyze\Configuration;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class JobLoopTest extends \PHPUnit_Framework_TestCase
+class JobLoopTest extends \PHPUnit\Framework\TestCase
 {
 	/** @var \PDO */
 	protected $PDO;
 
-	protected function setUp()
+	protected function setUp() : void
     {
 		$this->PDO = \DB::getInstance();
 		$this->PDO->exec('TRUNCATE TABLE `runalyze_route`');
@@ -21,7 +21,7 @@ class JobLoopTest extends \PHPUnit_Framework_TestCase
 		$this->PDO->exec('DELETE FROM `runalyze_training`');
 	}
 
-	protected function tearDown()
+	protected function tearDown() : void
     {
 		$this->PDO->exec('TRUNCATE TABLE `runalyze_route`');
 		$this->PDO->exec('TRUNCATE TABLE `runalyze_trackdata`');

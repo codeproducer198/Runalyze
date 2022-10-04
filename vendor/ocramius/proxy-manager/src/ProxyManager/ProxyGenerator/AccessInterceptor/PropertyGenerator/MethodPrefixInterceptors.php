@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\AccessInterceptor\PropertyGenerator;
 
+use Laminas\Code\Generator\Exception\InvalidArgumentException;
+use Laminas\Code\Generator\PropertyGenerator;
 use ProxyManager\Generator\Util\IdentifierSuffixer;
-use Zend\Code\Generator\PropertyGenerator;
 
 /**
  * Property that contains the interceptor for operations to be executed before method execution
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class MethodPrefixInterceptors extends PropertyGenerator
 {
     /**
      * Constructor
      *
-     * @throws \Zend\Code\Generator\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct()
     {

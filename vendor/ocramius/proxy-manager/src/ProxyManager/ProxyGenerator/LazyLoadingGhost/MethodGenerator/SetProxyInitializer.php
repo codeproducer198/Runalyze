@@ -4,23 +4,18 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\LazyLoadingGhost\MethodGenerator;
 
+use Laminas\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
 use ProxyManager\Generator\MethodGenerator;
-use Zend\Code\Generator\ParameterGenerator;
-use Zend\Code\Generator\PropertyGenerator;
 
 /**
  * Implementation for {@see \ProxyManager\Proxy\LazyLoadingInterface::setProxyInitializer}
  * for lazy loading value holder objects
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class SetProxyInitializer extends MethodGenerator
 {
     /**
      * Constructor
-     *
-     * @param PropertyGenerator $initializerProperty
      */
     public function __construct(PropertyGenerator $initializerProperty)
     {
@@ -30,5 +25,7 @@ class SetProxyInitializer extends MethodGenerator
             self::FLAG_PUBLIC,
             '$this->' . $initializerProperty->getName() . ' = $initializer;'
         );
+
+        $this->setReturnType('void');
     }
 }

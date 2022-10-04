@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class EpanechnikovTest extends \PHPUnit_Framework_TestCase
+class EpanechnikovTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForWidth2()
     {
@@ -25,7 +25,7 @@ class EpanechnikovTest extends \PHPUnit_Framework_TestCase
     {
         $Kernel = new Epanechnikov(10);
 
-        $this->assertEquals([
+        $this->assertEqualsWithDelta([
             0.0,
             0.75,
             1.0,
@@ -35,6 +35,6 @@ class EpanechnikovTest extends \PHPUnit_Framework_TestCase
             -2.5,
             0.0,
             3.0
-        ]));
+        ]), 0.0001);
     }
 }

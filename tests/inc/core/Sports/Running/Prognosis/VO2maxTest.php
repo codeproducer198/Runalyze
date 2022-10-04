@@ -4,12 +4,12 @@ namespace Runalyze\Tests\Sports\Running\Prognosis;
 
 use Runalyze\Sports\Running\Prognosis\VO2max;
 
-class VO2maxTest extends \PHPUnit_Framework_TestCase
+class VO2maxTest extends \PHPUnit\Framework\TestCase
 {
     /** @var VO2max */
     protected $VO2max;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->VO2max = new VO2max();
     }
@@ -41,11 +41,11 @@ class VO2maxTest extends \PHPUnit_Framework_TestCase
             $this->VO2max->setEffectiveVO2max($effectiveVO2max);
 
             foreach ($times as $i => $time) {
-                $this->assertEquals(
+                $this->assertEqualsWithDelta(
                     $time[0] * 60 * 60 + $time[1] * 60 + $time[2],
                     $this->VO2max->getSeconds($distances[$i]),
-                    'Failure for VO2max = ' . $effectiveVO2max . ' at ' . $distances[$i] . ' km ',
-                    $distances[$i] * 1.5
+                    $distances[$i] * 1.5,
+                    'Failure for VO2max = ' . $effectiveVO2max . ' at ' . $distances[$i] . ' km '
                 );
             }
         }
@@ -77,7 +77,7 @@ class VO2maxTest extends \PHPUnit_Framework_TestCase
         $this->VO2max->setMarathonShape(100.0);
 
         $this->assertEquals(30 * 1.0, $this->VO2max->getAdjustedVO2maxForDistance(40.0));
-        $this->assertEquals(30 * 0.91, $this->VO2max->getAdjustedVO2maxForDistance(50.0), '', 0.2);
+        $this->assertEqualsWithDelta(30 * 0.91, $this->VO2max->getAdjustedVO2maxForDistance(50.0), 0.2);
 
         $this->VO2max->setEffectiveVO2max(60.0);
         $this->VO2max->setMarathonShape(0.0);
@@ -88,42 +88,42 @@ class VO2maxTest extends \PHPUnit_Framework_TestCase
         $this->VO2max->setMarathonShape(100.0);
 
         $this->assertEquals(60 * 1.0, $this->VO2max->getAdjustedVO2maxForDistance(40.0));
-        $this->assertEquals(60 * 0.91, $this->VO2max->getAdjustedVO2maxForDistance(50.0), '', 0.2);
+        $this->assertEqualsWithDelta(60 * 0.91, $this->VO2max->getAdjustedVO2maxForDistance(50.0), 0.2);
     }
 
     public function testGetAdjustmentFactor()
     {
         $this->VO2max->setMarathonShape(0.0);
 
-        $this->assertEquals(1.00, $this->VO2max->getAdjustmentFactor(0.0), '', 0);
-        $this->assertEquals(0.93, $this->VO2max->getAdjustmentFactor(10.0), '', 0.01);
-        $this->assertEquals(0.84, $this->VO2max->getAdjustmentFactor(20.0), '', 0.01);
-        $this->assertEquals(0.625, $this->VO2max->getAdjustmentFactor(40.0), '', 0.01);
-        $this->assertEquals(0.60, $this->VO2max->getAdjustmentFactor(50.0), '', 0.01);
-        $this->assertEquals(0.60, $this->VO2max->getAdjustmentFactor(100.0), '', 0.01);
+        $this->assertEqualsWithDelta(1.00, $this->VO2max->getAdjustmentFactor(0.0), 0);
+        $this->assertEqualsWithDelta(0.93, $this->VO2max->getAdjustmentFactor(10.0), 0.01);
+        $this->assertEqualsWithDelta(0.84, $this->VO2max->getAdjustmentFactor(20.0), 0.01);
+        $this->assertEqualsWithDelta(0.625, $this->VO2max->getAdjustmentFactor(40.0), 0.01);
+        $this->assertEqualsWithDelta(0.60, $this->VO2max->getAdjustmentFactor(50.0), 0.01);
+        $this->assertEqualsWithDelta(0.60, $this->VO2max->getAdjustmentFactor(100.0), 0.01);
 
         $this->VO2max->setMarathonShape(50.0);
 
-        $this->assertEquals(1.00, $this->VO2max->getAdjustmentFactor(0.0), '', 0);
-        $this->assertEquals(1.00, $this->VO2max->getAdjustmentFactor(10.0), '', 0.01);
-        $this->assertEquals(1.00, $this->VO2max->getAdjustmentFactor(20.0), '', 0.01);
-        $this->assertEquals(0.825, $this->VO2max->getAdjustmentFactor(40.0), '', 0.01);
-        $this->assertEquals(0.71, $this->VO2max->getAdjustmentFactor(50.0), '', 0.01);
-        $this->assertEquals(0.60, $this->VO2max->getAdjustmentFactor(100.0), '', 0.01);
+        $this->assertEqualsWithDelta(1.00, $this->VO2max->getAdjustmentFactor(0.0), 0);
+        $this->assertEqualsWithDelta(1.00, $this->VO2max->getAdjustmentFactor(10.0), 0.01);
+        $this->assertEqualsWithDelta(1.00, $this->VO2max->getAdjustmentFactor(20.0), 0.01);
+        $this->assertEqualsWithDelta(0.825, $this->VO2max->getAdjustmentFactor(40.0), 0.01);
+        $this->assertEqualsWithDelta(0.71, $this->VO2max->getAdjustmentFactor(50.0), 0.01);
+        $this->assertEqualsWithDelta(0.60, $this->VO2max->getAdjustmentFactor(100.0), 0.01);
 
         $this->VO2max->setMarathonShape(100.0);
 
-        $this->assertEquals(1.00, $this->VO2max->getAdjustmentFactor(40.0), '', 0.01);
-        $this->assertEquals(0.91, $this->VO2max->getAdjustmentFactor(50.0), '', 0.01);
-        $this->assertEquals(0.60, $this->VO2max->getAdjustmentFactor(100.0), '', 0.01);
+        $this->assertEqualsWithDelta(1.00, $this->VO2max->getAdjustmentFactor(40.0), 0.01);
+        $this->assertEqualsWithDelta(0.91, $this->VO2max->getAdjustmentFactor(50.0), 0.01);
+        $this->assertEqualsWithDelta(0.60, $this->VO2max->getAdjustmentFactor(100.0), 0.01);
 
         $this->VO2max->setMarathonShape(200.0);
 
-        $this->assertEquals(1.00, $this->VO2max->getAdjustmentFactor(50.0), '', 0.01);
-        $this->assertEquals(0.65, $this->VO2max->getAdjustmentFactor(100.0), '', 0.01);
+        $this->assertEqualsWithDelta(1.00, $this->VO2max->getAdjustmentFactor(50.0), 0.01);
+        $this->assertEqualsWithDelta(0.65, $this->VO2max->getAdjustmentFactor(100.0), 0.01);
 
         $this->VO2max->setMarathonShape(300.0);
 
-        $this->assertEquals(1.00, $this->VO2max->getAdjustmentFactor(100.0), '', 0.01);
+        $this->assertEqualsWithDelta(1.00, $this->VO2max->getAdjustmentFactor(100.0), 0.01);
     }
 }

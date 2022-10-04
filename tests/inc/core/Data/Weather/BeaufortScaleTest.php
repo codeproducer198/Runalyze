@@ -2,7 +2,7 @@
 
 namespace Runalyze\Data\Weather;
 
-class BeaufortScaleTest extends \PHPUnit_Framework_TestCase
+class BeaufortScaleTest extends \PHPUnit\Framework\TestCase
 {
 	public function testString()
 	{

@@ -7,7 +7,7 @@ use Runalyze\Service\WeatherForecast\DatabaseCacheInterface;
 use Runalyze\Service\WeatherForecast\Location;
 use Runalyze\Service\WeatherForecast\Strategy\DatabaseCache;
 
-class DatabaseCacheTest extends \PHPUnit_Framework_TestCase
+class DatabaseCacheTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @param WeatherData|null $data

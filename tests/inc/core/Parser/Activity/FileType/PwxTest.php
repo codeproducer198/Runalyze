@@ -13,7 +13,7 @@ class PwxTest extends AbstractActivityParserTestCase
     /** @var Pwx */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new Pwx();
     }
@@ -25,8 +25,8 @@ class PwxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2009-02-10 06:15', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(null, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(1646, $this->Container->ActivityData->Duration, '', 30);
-        $this->assertEquals(4.891, $this->Container->ActivityData->Distance, '', 0.1);
+        $this->assertEqualsWithDelta(1646, $this->Container->ActivityData->Duration, 30);
+        $this->assertEqualsWithDelta(4.891, $this->Container->ActivityData->Distance, 0.1);
 
         $this->assertEquals('Stuart', $this->Container->Metadata->getDescription());
         $this->assertEquals("Apple, iPhone (SERIAL_NUMBER)", $this->Container->Metadata->getCreatorDetails());
@@ -44,8 +44,8 @@ class PwxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2008-11-16 11:40', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(null, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(6978, $this->Container->ActivityData->Duration, '', 30);
-        $this->assertEquals(16.049, $this->Container->ActivityData->Distance, '', 0.1);
+        $this->assertEqualsWithDelta(6978, $this->Container->ActivityData->Duration, 30);
+        $this->assertEqualsWithDelta(16.049, $this->Container->ActivityData->Distance, 0.1);
 
         $this->assertEquals('Blue Sky trail with Dan and Ian', $this->Container->Metadata->getDescription());
         $this->assertEquals("Garmin, Edge 205/305 (EDGE305 Software Version 3.20)", $this->Container->Metadata->getCreatorDetails());
@@ -60,10 +60,10 @@ class PwxTest extends AbstractActivityParserTestCase
     public function test_withDistAndHr() {
         $this->parseFile($this->Parser, 'pwx/with-dist-and-hr.pwx');
 
-        $this->assertEquals(13539, $this->Container->ActivityData->Duration, '', 30);
-        $this->assertEquals(89.535, $this->Container->ActivityData->Distance, '', 0.1);
-        $this->assertEquals(148, $this->Container->ActivityData->AvgHeartRate, '', 2);
-        $this->assertEquals(174, $this->Container->ActivityData->MaxHeartRate, '', 2);
+        $this->assertEqualsWithDelta(13539, $this->Container->ActivityData->Duration, 30);
+        $this->assertEqualsWithDelta(89.535, $this->Container->ActivityData->Distance, 0.1);
+        $this->assertEqualsWithDelta(148, $this->Container->ActivityData->AvgHeartRate, 2);
+        $this->assertEqualsWithDelta(174, $this->Container->ActivityData->MaxHeartRate, 2);
     }
 
     public function testFileWithPower()
@@ -82,8 +82,8 @@ class PwxTest extends AbstractActivityParserTestCase
 
         $this->assertEquals('2015-08-05', LocalTime::date('Y-m-d', $this->Container->Metadata->getTimestamp()));
 
-        $this->assertEquals(4813 - 289, $this->Container->ActivityData->Duration, '', 30);
-        $this->assertEquals(15.00, $this->Container->ActivityData->Distance, '', 0.1);
+        $this->assertEqualsWithDelta(4813 - 289, $this->Container->ActivityData->Duration, 30);
+        $this->assertEqualsWithDelta(15.00, $this->Container->ActivityData->Distance, 0.1);
 
         $this->assertEquals(9, $this->Container->Rounds->count());
 

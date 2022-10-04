@@ -2,202 +2,203 @@
 
 namespace React\EventLoop;
 
+use BadMethodCallException;
 use Event;
 use EventBase;
-use EventConfig as EventBaseConfig;
 use React\EventLoop\Tick\FutureTickQueue;
-use React\EventLoop\Tick\NextTickQueue;
 use React\EventLoop\Timer\Timer;
-use React\EventLoop\Timer\TimerInterface;
 use SplObjectStorage;
 
 /**
- * An ext-event based event-loop.
+ * An `ext-event` based event loop.
+ *
+ * This uses the [`event` PECL extension](https://pecl.php.net/package/event),
+ * that provides an interface to `libevent` library.
+ * `libevent` itself supports a number of system-specific backends (epoll, kqueue).
+ *
+ * This loop is known to work with PHP 5.4 through PHP 8+.
+ *
+ * @link https://pecl.php.net/package/event
  */
-class ExtEventLoop implements LoopInterface
+final class ExtEventLoop implements LoopInterface
 {
     private $eventBase;
-    private $nextTickQueue;
     private $futureTickQueue;
     private $timerCallback;
     private $timerEvents;
     private $streamCallback;
-    private $streamEvents = [];
-    private $streamFlags = [];
-    private $readListeners = [];
-    private $writeListeners = [];
+    private $readEvents = array();
+    private $writeEvents = array();
+    private $readListeners = array();
+    private $writeListeners = array();
+    private $readRefs = array();
+    private $writeRefs = array();
     private $running;
+    private $signals;
+    private $signalEvents = array();
 
-    public function __construct(EventBaseConfig $config = null)
+    public function __construct()
     {
+        if (!\class_exists('EventBase', false)) {
+            throw new BadMethodCallException('Cannot create ExtEventLoop, ext-event extension missing');
+        }
+
+        // support arbitrary file descriptors and not just sockets
+        // Windows only has limited file descriptor support, so do not require this (will fail otherwise)
+        // @link http://www.wangafu.net/~nickm/libevent-book/Ref2_eventbase.html#_setting_up_a_complicated_event_base
+        $config = new \EventConfig();
+        if (\DIRECTORY_SEPARATOR !== '\\') {
+            $config->requireFeatures(\EventConfig::FEATURE_FDS);
+        }
+
         $this->eventBase = new EventBase($config);
-        $this->nextTickQueue = new NextTickQueue($this);
-        $this->futureTickQueue = new FutureTickQueue($this);
+        $this->futureTickQueue = new FutureTickQueue();
         $this->timerEvents = new SplObjectStorage();
+        $this->signals = new SignalsHandler();
 
         $this->createTimerCallback();
         $this->createStreamCallback();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addReadStream($stream, callable $listener)
+    public function __destruct()
+    {
+        // explicitly clear all references to Event objects to prevent SEGFAULTs on Windows
+        foreach ($this->timerEvents as $timer) {
+            $this->timerEvents->detach($timer);
+        }
+
+        $this->readEvents = array();
+        $this->writeEvents = array();
+    }
+
+    public function addReadStream($stream, $listener)
     {
         $key = (int) $stream;
+        if (isset($this->readListeners[$key])) {
+            return;
+        }
 
-        if (!isset($this->readListeners[$key])) {
-            $this->readListeners[$key] = $listener;
-            $this->subscribeStreamEvent($stream, Event::READ);
+        $event = new Event($this->eventBase, $stream, Event::PERSIST | Event::READ, $this->streamCallback);
+        $event->add();
+        $this->readEvents[$key] = $event;
+        $this->readListeners[$key] = $listener;
+
+        // ext-event does not increase refcount on stream resources for PHP 7+
+        // manually keep track of stream resource to prevent premature garbage collection
+        if (\PHP_VERSION_ID >= 70000) {
+            $this->readRefs[$key] = $stream;
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addWriteStream($stream, callable $listener)
+    public function addWriteStream($stream, $listener)
     {
         $key = (int) $stream;
+        if (isset($this->writeListeners[$key])) {
+            return;
+        }
 
-        if (!isset($this->writeListeners[$key])) {
-            $this->writeListeners[$key] = $listener;
-            $this->subscribeStreamEvent($stream, Event::WRITE);
+        $event = new Event($this->eventBase, $stream, Event::PERSIST | Event::WRITE, $this->streamCallback);
+        $event->add();
+        $this->writeEvents[$key] = $event;
+        $this->writeListeners[$key] = $listener;
+
+        // ext-event does not increase refcount on stream resources for PHP 7+
+        // manually keep track of stream resource to prevent premature garbage collection
+        if (\PHP_VERSION_ID >= 70000) {
+            $this->writeRefs[$key] = $stream;
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function removeReadStream($stream)
     {
         $key = (int) $stream;
 
-        if (isset($this->readListeners[$key])) {
-            unset($this->readListeners[$key]);
-            $this->unsubscribeStreamEvent($stream, Event::READ);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeWriteStream($stream)
-    {
-        $key = (int) $stream;
-
-        if (isset($this->writeListeners[$key])) {
-            unset($this->writeListeners[$key]);
-            $this->unsubscribeStreamEvent($stream, Event::WRITE);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeStream($stream)
-    {
-        $key = (int) $stream;
-
-        if (isset($this->streamEvents[$key])) {
-            $this->streamEvents[$key]->free();
-
+        if (isset($this->readEvents[$key])) {
+            $this->readEvents[$key]->free();
             unset(
-                $this->streamFlags[$key],
-                $this->streamEvents[$key],
+                $this->readEvents[$key],
                 $this->readListeners[$key],
-                $this->writeListeners[$key]
+                $this->readRefs[$key]
             );
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addTimer($interval, callable $callback)
+    public function removeWriteStream($stream)
     {
-        $timer = new Timer($this, $interval, $callback, false);
+        $key = (int) $stream;
+
+        if (isset($this->writeEvents[$key])) {
+            $this->writeEvents[$key]->free();
+            unset(
+                $this->writeEvents[$key],
+                $this->writeListeners[$key],
+                $this->writeRefs[$key]
+            );
+        }
+    }
+
+    public function addTimer($interval, $callback)
+    {
+        $timer = new Timer($interval, $callback, false);
 
         $this->scheduleTimer($timer);
 
         return $timer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addPeriodicTimer($interval, callable $callback)
+    public function addPeriodicTimer($interval, $callback)
     {
-        $timer = new Timer($this, $interval, $callback, true);
+        $timer = new Timer($interval, $callback, true);
 
         $this->scheduleTimer($timer);
 
         return $timer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function cancelTimer(TimerInterface $timer)
     {
-        if ($this->isTimerActive($timer)) {
+        if ($this->timerEvents->contains($timer)) {
             $this->timerEvents[$timer]->free();
             $this->timerEvents->detach($timer);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isTimerActive(TimerInterface $timer)
-    {
-        return $this->timerEvents->contains($timer);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function nextTick(callable $listener)
-    {
-        $this->nextTickQueue->add($listener);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function futureTick(callable $listener)
+    public function futureTick($listener)
     {
         $this->futureTickQueue->add($listener);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function tick()
+    public function addSignal($signal, $listener)
     {
-        $this->nextTickQueue->tick();
+        $this->signals->add($signal, $listener);
 
-        $this->futureTickQueue->tick();
-
-        // @-suppression: https://github.com/reactphp/react/pull/234#discussion-diff-7759616R226
-        @$this->eventBase->loop(EventBase::LOOP_ONCE | EventBase::LOOP_NONBLOCK);
+        if (!isset($this->signalEvents[$signal])) {
+            $this->signalEvents[$signal] = Event::signal($this->eventBase, $signal, array($this->signals, 'call'));
+            $this->signalEvents[$signal]->add();
+        }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function removeSignal($signal, $listener)
+    {
+        $this->signals->remove($signal, $listener);
+
+        if (isset($this->signalEvents[$signal]) && $this->signals->count($signal) === 0) {
+            $this->signalEvents[$signal]->free();
+            unset($this->signalEvents[$signal]);
+        }
+    }
+
     public function run()
     {
         $this->running = true;
 
         while ($this->running) {
-            $this->nextTickQueue->tick();
-
             $this->futureTickQueue->tick();
 
             $flags = EventBase::LOOP_ONCE;
-            if (!$this->running || !$this->nextTickQueue->isEmpty() || !$this->futureTickQueue->isEmpty()) {
+            if (!$this->running || !$this->futureTickQueue->isEmpty()) {
                 $flags |= EventBase::LOOP_NONBLOCK;
-            } elseif (!$this->streamEvents && !$this->timerEvents->count()) {
+            } elseif (!$this->readEvents && !$this->writeEvents && !$this->timerEvents->count() && $this->signals->isEmpty()) {
                 break;
             }
 
@@ -205,9 +206,6 @@ class ExtEventLoop implements LoopInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function stop()
     {
         $this->running = false;
@@ -233,58 +231,6 @@ class ExtEventLoop implements LoopInterface
     }
 
     /**
-     * Create a new ext-event Event object, or update the existing one.
-     *
-     * @param resource $stream
-     * @param integer  $flag   Event::READ or Event::WRITE
-     */
-    private function subscribeStreamEvent($stream, $flag)
-    {
-        $key = (int) $stream;
-
-        if (isset($this->streamEvents[$key])) {
-            $event = $this->streamEvents[$key];
-            $flags = ($this->streamFlags[$key] |= $flag);
-
-            $event->del();
-            $event->set($this->eventBase, $stream, Event::PERSIST | $flags, $this->streamCallback);
-        } else {
-            $event = new Event($this->eventBase, $stream, Event::PERSIST | $flag, $this->streamCallback);
-
-            $this->streamEvents[$key] = $event;
-            $this->streamFlags[$key] = $flag;
-        }
-
-        $event->add();
-    }
-
-    /**
-     * Update the ext-event Event object for this stream to stop listening to
-     * the given event type, or remove it entirely if it's no longer needed.
-     *
-     * @param resource $stream
-     * @param integer  $flag   Event::READ or Event::WRITE
-     */
-    private function unsubscribeStreamEvent($stream, $flag)
-    {
-        $key = (int) $stream;
-
-        $flags = $this->streamFlags[$key] &= ~$flag;
-
-        if (0 === $flags) {
-            $this->removeStream($stream);
-
-            return;
-        }
-
-        $event = $this->streamEvents[$key];
-
-        $event->del();
-        $event->set($this->eventBase, $stream, Event::PERSIST | $flags, $this->streamCallback);
-        $event->add();
-    }
-
-    /**
      * Create a callback used as the target of timer events.
      *
      * A reference is kept to the callback for the lifetime of the loop
@@ -293,10 +239,11 @@ class ExtEventLoop implements LoopInterface
      */
     private function createTimerCallback()
     {
-        $this->timerCallback = function ($_, $__, $timer) {
-            call_user_func($timer->getCallback(), $timer);
+        $timers = $this->timerEvents;
+        $this->timerCallback = function ($_, $__, $timer) use ($timers) {
+            \call_user_func($timer->getCallback(), $timer);
 
-            if (!$timer->isPeriodic() && $this->isTimerActive($timer)) {
+            if (!$timer->isPeriodic() && $timers->contains($timer)) {
                 $this->cancelTimer($timer);
             }
         };
@@ -311,15 +258,17 @@ class ExtEventLoop implements LoopInterface
      */
     private function createStreamCallback()
     {
-        $this->streamCallback = function ($stream, $flags) {
+        $read =& $this->readListeners;
+        $write =& $this->writeListeners;
+        $this->streamCallback = function ($stream, $flags) use (&$read, &$write) {
             $key = (int) $stream;
 
-            if (Event::READ === (Event::READ & $flags) && isset($this->readListeners[$key])) {
-                call_user_func($this->readListeners[$key], $stream, $this);
+            if (Event::READ === (Event::READ & $flags) && isset($read[$key])) {
+                \call_user_func($read[$key], $stream);
             }
 
-            if (Event::WRITE === (Event::WRITE & $flags) && isset($this->writeListeners[$key])) {
-                call_user_func($this->writeListeners[$key], $stream, $this);
+            if (Event::WRITE === (Event::WRITE & $flags) && isset($write[$key])) {
+                \call_user_func($write[$key], $stream);
             }
         };
     }

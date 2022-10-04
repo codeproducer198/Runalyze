@@ -41,6 +41,7 @@ use function key;
  * lazy connecting and more.
  *
  * @psalm-import-type Params from DriverManager
+ * @psalm-consistent-constructor
  */
 class Connection implements DriverConnection
 {
@@ -798,7 +799,7 @@ class Connection implements DriverConnection
      * @param array<string, mixed>                                                 $criteria Deletion criteria
      * @param array<int, int|string|Type|null>|array<string, int|string|Type|null> $types    Parameter types
      *
-     * @return int The number of affected rows.
+     * @return int|string The number of affected rows.
      *
      * @throws Exception
      */
@@ -834,7 +835,7 @@ class Connection implements DriverConnection
      *
      * @param int $level The level to set.
      *
-     * @return int
+     * @return int|string
      */
     public function setTransactionIsolation($level)
     {
@@ -867,7 +868,7 @@ class Connection implements DriverConnection
      * @param array<string, mixed>                                                 $criteria Update criteria
      * @param array<int, int|string|Type|null>|array<string, int|string|Type|null> $types    Parameter types
      *
-     * @return int The number of affected rows.
+     * @return int|string The number of affected rows.
      *
      * @throws Exception
      */
@@ -902,7 +903,7 @@ class Connection implements DriverConnection
      * @param array<string, mixed>                                                 $data  Column-value pairs
      * @param array<int, int|string|Type|null>|array<string, int|string|Type|null> $types Parameter types
      *
-     * @return int The number of affected rows.
+     * @return int|string The number of affected rows.
      *
      * @throws Exception
      */
@@ -1471,7 +1472,7 @@ class Connection implements DriverConnection
      * @param array<int, mixed>|array<string, mixed>                               $params Statement parameters
      * @param array<int, int|string|Type|null>|array<string, int|string|Type|null> $types  Parameter types
      *
-     * @return int The number of affected rows.
+     * @return int|string The number of affected rows.
      *
      * @throws Exception
      */
@@ -1502,7 +1503,7 @@ class Connection implements DriverConnection
      * @param array<int, mixed>|array<string, mixed>                               $params Statement parameters
      * @param array<int, int|string|Type|null>|array<string, int|string|Type|null> $types  Parameter types
      *
-     * @return int The number of affected rows.
+     * @return int|string The number of affected rows.
      *
      * @throws Exception
      */
@@ -1555,7 +1556,7 @@ class Connection implements DriverConnection
      *
      * @param string $sql
      *
-     * @return int The number of affected rows.
+     * @return int|string The number of affected rows.
      *
      * @throws Exception
      */
@@ -1641,7 +1642,7 @@ class Connection implements DriverConnection
      *
      * @param string|null $name Name of the sequence object from which the ID should be returned.
      *
-     * @return string A string representation of the last inserted ID.
+     * @return string|int|false A string representation of the last inserted ID.
      */
     public function lastInsertId($name = null)
     {
@@ -2083,9 +2084,9 @@ class Connection implements DriverConnection
      * @param mixed                $value The value to bind.
      * @param int|string|Type|null $type  The type to bind (PDO or DBAL).
      *
-     * @return mixed[] [0] => the (escaped) value, [1] => the binding type.
+     * @return array{mixed, int} [0] => the (escaped) value, [1] => the binding type.
      */
-    private function getBindingInfo($value, $type)
+    private function getBindingInfo($value, $type): array
     {
         if (is_string($type)) {
             $type = Type::getType($type);
@@ -2095,7 +2096,7 @@ class Connection implements DriverConnection
             $value       = $type->convertToDatabaseValue($value, $this->getDatabasePlatform());
             $bindingType = $type->getBindingType();
         } else {
-            $bindingType = $type;
+            $bindingType = $type ?? ParameterType::STRING;
         }
 
         return [$value, $bindingType];

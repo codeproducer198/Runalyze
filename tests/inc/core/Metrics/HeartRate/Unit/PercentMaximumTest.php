@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\HeartRate\Unit;
 
 use Runalyze\Metrics\HeartRate\Unit\PercentMaximum;
 
-class PercentMaximumTest extends \PHPUnit_Framework_TestCase
+class PercentMaximumTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {
@@ -25,8 +25,8 @@ class PercentMaximumTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(180, $unit->getMaximalHeartRate());
 
-        $this->assertEquals(0.67, $unit->fromBaseUnit(120), '', 0.01);
-        $this->assertEquals(120.6, $unit->toBaseUnit(0.67), '', 0.01);
+        $this->assertEqualsWithDelta(0.67, $unit->fromBaseUnit(120), 0.01);
+        $this->assertEqualsWithDelta(120.6, $unit->toBaseUnit(0.67), 0.01);
 
         $this->assertEquals(0.75, $unit->fromBaseUnit(135));
         $this->assertEquals(135, $unit->toBaseUnit(0.75));

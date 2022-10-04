@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Common\Unit;
 
 use Runalyze\Metrics\Common\Unit\Simple;
 
-class SimpleTest extends \PHPUnit_Framework_TestCase
+class SimpleTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

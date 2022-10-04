@@ -2,7 +2,7 @@
 
 namespace Runalyze\Activity\PaceUnit;
 
-class MinPer500mTest extends \PHPUnit_Framework_TestCase
+class MinPer500mTest extends \PHPUnit\Framework\TestCase
 {
 	public function testSomePaces()
 	{

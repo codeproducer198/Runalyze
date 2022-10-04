@@ -5,7 +5,7 @@ namespace Runalyze\Export\Share;
 use Runalyze\View\Activity\FakeContext;
 use Runalyze\Model\Activity;
 
-class IFrameTest extends \PHPUnit_Framework_TestCase
+class IFrameTest extends \PHPUnit\Framework\TestCase
 {
 	public function checkFeasibility()
 	{

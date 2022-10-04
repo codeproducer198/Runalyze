@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Temperature\Unit;
 
 use Runalyze\Metrics\Temperature\Unit\Fahrenheit;
 
-class FahrenheitTest extends \PHPUnit_Framework_TestCase
+class FahrenheitTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

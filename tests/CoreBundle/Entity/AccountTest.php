@@ -5,12 +5,12 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Entity;
 use Runalyze\Bundle\CoreBundle\Entity\Account;
 use Runalyze\Profile\Athlete\Gender;
 
-class AccountTest extends \PHPUnit_Framework_TestCase
+class AccountTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Account */
     protected $Account;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Account = new Account();
     }

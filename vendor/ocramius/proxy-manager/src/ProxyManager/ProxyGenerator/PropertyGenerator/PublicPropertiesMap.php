@@ -4,27 +4,21 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\PropertyGenerator;
 
+use Laminas\Code\Generator\Exception\InvalidArgumentException;
+use Laminas\Code\Generator\PropertyGenerator;
 use ProxyManager\Generator\Util\IdentifierSuffixer;
 use ProxyManager\ProxyGenerator\Util\Properties;
-use Zend\Code\Generator\PropertyGenerator;
 
 /**
  * Map of public properties that exist in the class being proxied
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class PublicPropertiesMap extends PropertyGenerator
 {
-    /**
-     * @var bool[]
-     */
-    private $publicProperties = [];
+    /** @var array<string, bool> */
+    private array $publicProperties = [];
 
     /**
-     * @param Properties $properties
-     *
-     * @throws \Zend\Code\Generator\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(Properties $properties)
     {
@@ -40,7 +34,7 @@ class PublicPropertiesMap extends PropertyGenerator
         $this->setDocBlock('@var bool[] map of public properties of the parent class');
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return ! $this->publicProperties;
     }

@@ -1,109 +1,53 @@
 /usr/share/zoneinfo/posix/Europe/Moscow
 Timezone 'Europe/Moscow' available - continue
 ----------------------------- import -----------------------------------------------
-PHPUnit 5.7.27 by Sebastian Bergmann and contributors.
+PHPUnit 8.5.33 by Sebastian Bergmann and contributors.
 
-Runtime:       PHP 7.3.31-1~deb10u1
+Runtime:       PHP 7.4.33
 Configuration: /app/runalyze/tests/config.xml
 
-..E.FF..........................F......FEF.....................  63 / 109 ( 57%)
-........F....F.....................F...E..E...                  109 / 109 (100%)
+....FF..........................F......FFF.....................  63 / 109 ( 57%)
+.............F.....................F......F...                  109 / 109 (100%)
 
-Time: 4.88 minutes, Memory: 110.00MB
+Time: 29.62 seconds, Memory: 102.00 MB
 
-There were 4 errors:
-
-1) Runalyze\Tests\Parser\Activity\FileType\CsvTest::testStandardWahooFile
-Division by zero
-
-/app/runalyze/inc/core/Parser/Activity/Common/Data/ContinuousDataAdapter.php:254
-/app/runalyze/inc/core/Parser/Activity/Common/Data/ActivityDataContainer.php:100
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/AbstractActivityParserTestCase.php:129
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/AbstractActivityParserTestCase.php:103
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/AbstractActivityParserTestCase.php:90
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/CsvTest.php:71
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-2) Runalyze\Tests\Parser\Activity\FileType\FitTest::testEmptyRunScribeData
-A non-numeric value encountered
-
-/app/runalyze/inc/core/Parser/Activity/FileType/FitActivity.php:867
-/app/runalyze/inc/core/Parser/Activity/FileType/FitActivity.php:759
-/app/runalyze/inc/core/Parser/Activity/FileType/FitActivity.php:364
-/app/runalyze/inc/core/Parser/Activity/FileType/FitActivity.php:304
-/app/runalyze/inc/core/Parser/Activity/FileType/Fit.php:51
-/app/runalyze/inc/core/Parser/Common/LineByLineParserTrait.php:36
-/app/runalyze/inc/core/Parser/Activity/FileType/Fit.php:37
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/FitTest.php:41
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/FitTest.php:814
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-3) Runalyze\Tests\Parser\Activity\FileType\XmlPolarTest::testFileWithArrays
-A non-numeric value encountered
-
-/app/runalyze/inc/core/Activity/Duration.php:117
-/app/runalyze/inc/core/Activity/Duration.php:70
-/app/runalyze/inc/core/Parser/Activity/FileType/XmlPolarExercise.php:137
-/app/runalyze/inc/core/Parser/Activity/FileType/XmlPolarExercise.php:52
-/app/runalyze/inc/core/Parser/Activity/FileType/XmlPolarExercise.php:35
-/app/runalyze/inc/core/Parser/Activity/FileType/XmlPolar.php:30
-/app/runalyze/inc/core/Parser/Activity/FileType/XmlPolar.php:21
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/AbstractActivityParserTestCase.php:101
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/AbstractActivityParserTestCase.php:90
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/XmlPolarTest.php:39
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-4) Runalyze\Tests\Parser\Activity\FileType\XmlPolarTest::testFileWithLapsWithoutDistance
-Division by zero
-
-/app/runalyze/inc/core/Parser/Activity/FileType/XmlPolarExercise.php:80
-/app/runalyze/inc/core/Parser/Activity/FileType/XmlPolarExercise.php:36
-/app/runalyze/inc/core/Parser/Activity/FileType/XmlPolar.php:30
-/app/runalyze/inc/core/Parser/Activity/FileType/XmlPolar.php:21
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/AbstractActivityParserTestCase.php:101
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/AbstractActivityParserTestCase.php:90
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/XmlPolarTest.php:105
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
---
-
-There were 8 failures:
+There were 9 failures:
 
 1) Runalyze\Tests\Parser\Activity\FileType\FitTest::testFenix2File
 Failed asserting that 700 matches expected 816.
 
 /app/runalyze/tests/inc/core/Parser/Activity/FileType/FitTest.php:109
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
 2) Runalyze\Tests\Parser\Activity\FileType\FitTest::testFenix2FileWithPauses
 Failed asserting that 178 matches expected 932.
 
 /app/runalyze/tests/inc/core/Parser/Activity/FileType/FitTest.php:123
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
 3) Runalyze\Tests\Parser\Activity\FileType\FitTest::testThatInvalidAltitudeAndEmptyRecordAreIgnored
 Failed asserting that '291' is null.
 
 /app/runalyze/tests/inc/core/Parser/Activity/FileType/FitTest.php:695
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
 4) Runalyze\Tests\Parser\Activity\FileType\FitTest::testRunScribeDataViaSupport001885
 Failed asserting that null is not null.
 
 /app/runalyze/tests/inc/core/Parser/Activity/FileType/FitTest.php:808
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
-5) Runalyze\Tests\Parser\Activity\FileType\FitTest::testPerformanceConditionFromGarminForerunner735XT
+5) Runalyze\Tests\Parser\Activity\FileType\FitTest::testEmptyRunScribeData
+Failed asserting that an array is empty.
+
+/app/runalyze/tests/inc/core/Parser/Activity/FileType/FitTest.php:816
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
+
+6) Runalyze\Tests\Parser\Activity\FileType\FitTest::testPerformanceConditionFromGarminForerunner735XT
 Failed asserting that 405.0 matches expected 1842.
 
 /app/runalyze/tests/inc/core/Parser/Activity/FileType/FitTest.php:837
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-6) Runalyze\Tests\Parser\Activity\FileType\LogbookTest::testMinifiedLogbook
-Failed asserting that null matches expected 19.0.
-
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/LogbookTest.php:67
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
 7) Runalyze\Tests\Parser\Activity\FileType\PwxTest::testIntervals
 Pause #1 has wrong heart rate at end.
@@ -111,26 +55,32 @@ Failed asserting that 154.0 matches expected 0.
 
 /app/runalyze/tests/inc/core/Parser/Activity/FileType/AbstractActivityParserTestCase.php:178
 /app/runalyze/tests/inc/core/Parser/Activity/FileType/PwxTest.php:91
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
 8) Runalyze\Tests\Parser\Activity\FileType\TcxTest::testIndoorActivityWithDistanceForSingleLap
 Failed asserting that 0.0 matches expected 0.094.
 
-/app/runalyze/tests/inc/core/Parser/Activity/FileType/TcxTest.php:268
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/tests/inc/core/Parser/Activity/FileType/TcxTest.php:269
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
-ERRORS!
-Tests: 109, Assertions: 5688, Errors: 4, Failures: 8.
+9) Runalyze\Tests\Parser\Activity\FileType\XmlPolarTest::testFileWithLapsWithoutDistance
+Failed asserting that 0.0 is null.
+
+/app/runalyze/tests/inc/core/Parser/Activity/FileType/XmlPolarTest.php:114
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
+
+FAILURES!
+Tests: 109, Assertions: 5767, Failures: 9.
 ----------------------------- requiresKernel,requiresDoctrine,requiresClient -------
-PHPUnit 5.7.27 by Sebastian Bergmann and contributors.
+PHPUnit 8.5.33 by Sebastian Bergmann and contributors.
 
-Runtime:       PHP 7.3.31-1~deb10u1
+Runtime:       PHP 7.4.33
 Configuration: /app/runalyze/tests/config.xml
 
 ........................................................F........ 65 / 83 ( 78%)
 ...............F..                                                83 / 83 (100%)
 
-Time: 36.72 seconds, Memory: 140.50MB
+Time: 1.61 minutes, Memory: 244.50 MB
 
 There were 2 failures:
 
@@ -138,33 +88,33 @@ There were 2 failures:
 Failed asserting that false is true.
 
 /app/runalyze/tests/CoreBundle/Entity/TrainingRepositoryTest.php:408
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
 2) Runalyze\Bundle\CoreBundle\Tests\Services\Import\ActivityDataContainerToActivityContextConverterTest::testThatBarometricAltitudeDataIsTreatedAsCorrected
 Failed asserting that an array is empty.
 
 /app/runalyze/tests/CoreBundle/Services/Import/ActivityDataContainerToActivityContextConverterTest.php:126
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
 FAILURES!
 Tests: 83, Assertions: 305, Failures: 2.
 ----------------------------- default,dependsOn,requiresSqlite ---------------------
-PHPUnit 5.7.27 by Sebastian Bergmann and contributors.
+PHPUnit 8.5.33 by Sebastian Bergmann and contributors.
 
-Runtime:       PHP 7.3.31-1~deb10u1
+Runtime:       PHP 7.4.33
 Configuration: /app/runalyze/tests/config.xml
 
-.........................................................F...   61 / 1173 (  5%)
+.............................................................   61 / 1173 (  5%)
 .............................................................  122 / 1173 ( 10%)
 ....................................F........................  183 / 1173 ( 15%)
 .............................................................  244 / 1173 ( 20%)
 .............................................................  305 / 1173 ( 26%)
-......................F.FF...............E.....F.............  366 / 1173 ( 31%)
+...............................................F.............  366 / 1173 ( 31%)
 .............................................................  427 / 1173 ( 36%)
 .............................................................  488 / 1173 ( 41%)
 ...................................F.........................  549 / 1173 ( 46%)
 .............................................................  610 / 1173 ( 52%)
-.....................................................EEEE....  671 / 1173 ( 57%)
+.............................................................  671 / 1173 ( 57%)
 .............................................................  732 / 1173 ( 62%)
 .............................................................  793 / 1173 ( 67%)
 .............................................................  854 / 1173 ( 72%)
@@ -175,58 +125,11 @@ Configuration: /app/runalyze/tests/config.xml
 ............................................................. 1159 / 1173 ( 98%)
 ..............                                                1173 / 1173 (100%)
 
-Time: 10.9 seconds, Memory: 44.00MB
+Time: 3.31 seconds, Memory: 38.00 MB
 
-There were 5 errors:
+There were 4 failures:
 
-1) Runalyze\Calculation\Activity\CalculatorTest::testEmptyValues
-A non-numeric value encountered
-
-/app/runalyze/inc/core/Sports/Running/VO2max/Estimation/DanielsGilbertFormula.php:15
-/app/runalyze/inc/core/Calculation/JD/LegacyEffectiveVO2max.php:64
-/app/runalyze/inc/core/Calculation/Activity/Calculator.php:61
-/app/runalyze/tests/inc/core/Calculation/Activity/CalculatorTest.php:31
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-2) Runalyze\Tests\Mathematics\Interpolation\BSpline\BSplineInterpolationTest::testNotEnoughPoints
-count(): Parameter must be an array or an object that implements Countable
-
-/app/runalyze/inc/core/Mathematics/Interpolation/BSpline/BSplineInterpolation.php:59
-/app/runalyze/tests/inc/core/Mathematics/Interpolation/BSpline/BSplineInterpolationTest.php:51
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-3) Runalyze\Tests\Mathematics\Interpolation\BSpline\BSplineInterpolationTest::testConstantCurve
-count(): Parameter must be an array or an object that implements Countable
-
-/app/runalyze/inc/core/Mathematics/Interpolation/BSpline/BSplineInterpolation.php:59
-/app/runalyze/tests/inc/core/Mathematics/Interpolation/BSpline/BSplineInterpolationTest.php:57
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-4) Runalyze\Tests\Mathematics\Interpolation\BSpline\BSplineInterpolationTest::testLinearCurve
-count(): Parameter must be an array or an object that implements Countable
-
-/app/runalyze/inc/core/Mathematics/Interpolation/BSpline/BSplineInterpolation.php:59
-/app/runalyze/tests/inc/core/Mathematics/Interpolation/BSpline/BSplineInterpolationTest.php:65
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-5) Runalyze\Tests\Mathematics\Interpolation\BSpline\BSplineInterpolationTest::testCubicCurve
-count(): Parameter must be an array or an object that implements Countable
-
-/app/runalyze/inc/core/Mathematics/Interpolation/BSpline/BSplineInterpolation.php:59
-/app/runalyze/tests/inc/core/Mathematics/Interpolation/BSpline/BSplineInterpolationTest.php:73
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
---
-
-There were 8 failures:
-
-1) Runalyze\Bundle\CoreBundle\Tests\Component\Tool\DatabaseCleanup\JobLoopTest::testCompleteLoopForSingleActivity
-Failed asserting that null is not equal to 0.
-
-/app/runalyze/tests/CoreBundle/Component/Tool/DatabaseCleanup/JobLoopTest.php:65
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-2) Runalyze\Bundle\CoreBundle\Tests\Services\Recalculation\RecalculationManagerTest::testThatResultsOfTasksAreForwardedToConfiguration
+1) Runalyze\Bundle\CoreBundle\Tests\Services\Recalculation\RecalculationManagerTest::testThatResultsOfTasksAreForwardedToConfiguration
 Failed asserting that two strings are equal.
 --- Expected
 +++ Actual
@@ -235,24 +138,9 @@ Failed asserting that two strings are equal.
 +'42'
 
 /app/runalyze/tests/CoreBundle/Services/Recalculation/RecalculationManagerTest.php:95
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
-3) Runalyze\Activity\TrainingEffectTest::testInvalidValueTooSmall
-Failed asserting that exception of type "\InvalidArgumentException" is thrown.
-
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-4) Runalyze\Activity\TrainingEffectTest::testInvalidValueNonNumeric
-Failed asserting that exception of type "\InvalidArgumentException" is thrown.
-
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-5) Runalyze\Activity\TrainingEffectTest::testInvalidValueString
-Failed asserting that exception of type "\InvalidArgumentException" is thrown.
-
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
-
-6) Runalyze\Calculation\Activity\PaceCalculatorTest::testSmoothPaceForRuntasticData
+2) Runalyze\Calculation\Activity\PaceCalculatorTest::testSmoothPaceForRuntasticData
 Failed asserting that two arrays are equal.
 --- Expected
 +++ Actual
@@ -281,20 +169,20 @@ Failed asserting that two arrays are equal.
  )
 
 /app/runalyze/tests/inc/core/Calculation/Activity/PaceCalculatorTest.php:39
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
-7) Runalyze\Data\Laps\CalculatorTest::testSpareData
+3) Runalyze\Data\Laps\CalculatorTest::testSpareData
 Failed asserting that 200 matches expected 600.
 
 /app/runalyze/tests/inc/core/Data/Laps/CalculatorTest.php:79
 /app/runalyze/tests/inc/core/Data/Laps/CalculatorTest.php:240
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
-8) Runalyze\Tests\Parser\Activity\Data\ContinuousDataTest::testTotalDurationAndDistanceForEmptyArrays
+4) Runalyze\Tests\Parser\Activity\Data\ContinuousDataTest::testTotalDurationAndDistanceForEmptyArrays
 Failed asserting that 0 is null.
 
 /app/runalyze/tests/inc/core/Parser/Activity/Common/Data/ContinuousDataTest.php:47
-/app/runalyze/vendor/phpunit/phpunit/phpunit:52
+/app/runalyze/vendor/phpunit/phpunit/phpunit:98
 
-ERRORS!
-Tests: 1173, Assertions: 5288, Errors: 5, Failures: 8.
+FAILURES!
+Tests: 1173, Assertions: 5314, Failures: 4.

@@ -6,79 +6,67 @@ namespace ProxyManager\Inflector;
 
 use ProxyManager\Inflector\Util\ParameterHasher;
 
-/**
- * {@inheritDoc}
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
- */
+use function is_int;
+use function ltrim;
+use function strlen;
+use function strrpos;
+use function substr;
+
 final class ClassNameInflector implements ClassNameInflectorInterface
 {
-    /**
-     * @var string
-     */
-    protected $proxyNamespace;
+    protected string $proxyNamespace;
+    /** @var int @TODO annotation still needed for phpstan to understand this */
+    private int $proxyMarkerLength;
+    private string $proxyMarker;
+    private ParameterHasher $parameterHasher;
 
-    /**
-     * @var int
-     */
-    private $proxyMarkerLength;
-
-    /**
-     * @var string
-     */
-    private $proxyMarker;
-
-    /**
-     * @var \ProxyManager\Inflector\Util\ParameterHasher
-     */
-    private $parameterHasher;
-
-    /**
-     * @param string $proxyNamespace
-     */
     public function __construct(string $proxyNamespace)
     {
         $this->proxyNamespace    = $proxyNamespace;
-        $this->proxyMarker       = '\\' . static::PROXY_MARKER . '\\';
+        $this->proxyMarker       = '\\' . self::PROXY_MARKER . '\\';
         $this->proxyMarkerLength = strlen($this->proxyMarker);
         $this->parameterHasher   = new ParameterHasher();
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @psalm-suppress MoreSpecificReturnType we ignore these issues because classes may not have been loaded yet
      */
-    public function getUserClassName(string $className) : string
+    public function getUserClassName(string $className): string
     {
         $className = ltrim($className, '\\');
+        $position  = strrpos($className, $this->proxyMarker);
 
-        if (false === $position = strrpos($className, $this->proxyMarker)) {
+        if (! is_int($position)) {
+            /** @psalm-suppress LessSpecificReturnStatement */
             return $className;
         }
 
+        /** @psalm-suppress LessSpecificReturnStatement */
         return substr(
             $className,
             $this->proxyMarkerLength + $position,
-            strrpos($className, '\\') - ($position + $this->proxyMarkerLength)
+            (int) strrpos($className, '\\') - ($position + $this->proxyMarkerLength)
         );
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @psalm-suppress MoreSpecificReturnType we ignore these issues because classes may not have been loaded yet
      */
-    public function getProxyClassName(string $className, array $options = []) : string
+    public function getProxyClassName(string $className, array $options = []): string
     {
+        /** @psalm-suppress LessSpecificReturnStatement */
         return $this->proxyNamespace
             . $this->proxyMarker
             . $this->getUserClassName($className)
             . '\\Generated' . $this->parameterHasher->hashParameters($options);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function isProxyClassName(string $className) : bool
+    public function isProxyClassName(string $className): bool
     {
-        return false !== strrpos($className, $this->proxyMarker);
+        return strrpos($className, $this->proxyMarker) !== false;
     }
 }

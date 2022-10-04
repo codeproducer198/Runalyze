@@ -10,7 +10,7 @@ use DB;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class PersonalBestTest extends \PHPUnit_Framework_TestCase {
+class PersonalBestTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @var \PDO
@@ -22,13 +22,13 @@ class PersonalBestTest extends \PHPUnit_Framework_TestCase {
 	 */
 	const SPORTID = 5;
 
-	protected function setUp() {
+	protected function setUp() : void {
 		PersonalBest::deactivateStaticCache();
 
 		$this->PDO = DB::getInstance();
 	}
 
-	protected function tearDown() {
+	protected function tearDown() : void {
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'training`');
 	}
 

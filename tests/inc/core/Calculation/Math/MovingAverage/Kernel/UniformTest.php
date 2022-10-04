@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class UniformTest extends \PHPUnit_Framework_TestCase
+class UniformTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForWidth2()
     {

@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Velocity\Unit;
 
 use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 
-class KilometerPerHourTest extends \PHPUnit_Framework_TestCase
+class KilometerPerHourTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

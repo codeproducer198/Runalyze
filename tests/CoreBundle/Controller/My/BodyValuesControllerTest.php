@@ -14,7 +14,7 @@ class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
     /** @var Account */
     protected $Account;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -23,7 +23,7 @@ class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
 
     public function testAddAction()
     {
-        $client = $this->makeClient(true);
+        $client = $this->makeAuthenticatedClient();
         $client->request('GET', '/my/body-values/add');
 
         $this->assertStatusCode(200, $client);
@@ -31,7 +31,7 @@ class BodyValuesControllerTest extends AbstractFixturesAwareWebTestCase
 
     public function testTableAction()
     {
-        $client = $this->makeClient(true);
+        $client = $this->makeAuthenticatedClient();
         $client->request('GET', '/my/body-values/table');
 
         $this->assertStatusCode(200, $client);

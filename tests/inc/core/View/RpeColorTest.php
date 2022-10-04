@@ -4,7 +4,7 @@ namespace Runalyze\Tests\View;
 
 use Runalyze\View\RpeColor;
 
-class RpeColorTest extends \PHPUnit_Framework_TestCase
+class RpeColorTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyObject()
     {

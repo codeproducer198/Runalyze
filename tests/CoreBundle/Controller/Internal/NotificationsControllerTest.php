@@ -20,7 +20,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
     /** @var Account */
     protected $Account;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -46,7 +46,7 @@ class NotificationsControllerTest extends AbstractFixturesAwareWebTestCase
 
     public function testThatReadNotificationThrowsAccessDeniedForUnknownId()
     {
-        $client = $this->makeClient(true);
+        $client = $this->makeAuthenticatedClient();
         $client->request('GET', '/_internal/notifications/read/314159');
 
         $this->assertStatusCode(404, $client);

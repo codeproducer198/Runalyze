@@ -5,7 +5,7 @@ namespace Runalyze\Tests\Sports\Performance\Model;
 use Runalyze\Sports\Performance\Model\AbstractModel;
 use Runalyze\Sports\Performance\Model\TsbModel;
 
-class TsbModelTest extends \PHPUnit_Framework_TestCase
+class TsbModelTest extends \PHPUnit\Framework\TestCase
 {
     public function testSingleWorkout()
     {
@@ -18,7 +18,7 @@ class TsbModelTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(47, $Model->fitnessAt(0));
         $this->assertEquals(250, $Model->fatigueAt(0));
         $this->assertEquals(-203, $Model->performanceAt(0));
-        $this->assertEquals(7.0, $Model->restDaysAt(0), '', 0.5);
+        $this->assertEqualsWithDelta(7.0, $Model->restDaysAt(0), 0.5);
     }
 
     public function testSimpleExample()
@@ -62,14 +62,14 @@ class TsbModelTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(50, $Model->fitnessAt(100));
         $this->assertEquals(50, $Model->fatigueAt(100));
 
-        $this->assertEquals(50, $Model->fitnessAt(70), '', 2.5);
-        $this->assertEquals(50, $Model->fatigueAt(14), '', 2.5);
+        $this->assertEqualsWithDelta(50, $Model->fitnessAt(70), 2.5);
+        $this->assertEqualsWithDelta(50, $Model->fatigueAt(14), 2.5);
 
-        $this->assertEquals(50, $Model->fitnessAt(50), '', 5.0);
-        $this->assertEquals(50, $Model->fatigueAt(10), '', 5.0);
+        $this->assertEqualsWithDelta(50, $Model->fitnessAt(50), 5.0);
+        $this->assertEqualsWithDelta(50, $Model->fatigueAt(10), 5.0);
 
-        $this->assertEquals(50, $Model->fitnessAt(42), '', 7.5);
-        $this->assertEquals(50, $Model->fatigueAt(7), '', 7.5);
+        $this->assertEqualsWithDelta(50, $Model->fitnessAt(42), 7.5);
+        $this->assertEqualsWithDelta(50, $Model->fatigueAt(7), 7.5);
     }
 
     public function testFutureFitness()

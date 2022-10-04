@@ -45,6 +45,7 @@ class LoadAccountData extends AbstractFixture implements OrderedFixtureInterface
         $defaultAccount->setUsername('default');
         $defaultAccount->setMail('default@test.com');
 
+        // creates a account and some dependend basic/default data
         $registration = $this->registerAccount($manager, $defaultAccount, 'defaultPassword');
 
         $this->addReference('account-default', $defaultAccount);

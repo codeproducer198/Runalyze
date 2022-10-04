@@ -2,7 +2,7 @@
 
 namespace Runalyze\Data\Cadence;
 
-class RunningTest extends \PHPUnit_Framework_TestCase {
+class RunningTest extends \PHPUnit\Framework\TestCase {
 
 	public function testValue() {
 		$Cadence = new Running(90);

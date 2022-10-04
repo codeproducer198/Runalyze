@@ -6,12 +6,12 @@ namespace Runalyze\Calculation\Performance;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class ModelQueryTest extends \PHPUnit_Framework_TestCase
+class ModelQueryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \PDOforRunalyze */
     protected $DB;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->DB = \DB::getInstance();
         $this->DB->exec('DELETE FROM `runalyze_training`');
@@ -31,7 +31,7 @@ class ModelQueryTest extends \PHPUnit_Framework_TestCase
         $this->DB->insert('training', array('time', 'trimp', 'sportid', 's'), array($Date->getTimestamp(), 150, 1, 2));
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         $this->DB->exec('DELETE FROM `runalyze_training`');
     }

@@ -14,7 +14,7 @@ class GpxTest extends AbstractActivityParserTestCase
     /** @var Gpx */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new Gpx();
     }
@@ -29,9 +29,9 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2013-02-04 21:38', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(2295, $this->Container->ActivityData->Duration, '', 15);
+        $this->assertEqualsWithDelta(2295, $this->Container->ActivityData->Duration, 15);
         $this->assertEquals(2306, $this->Container->ActivityData->ElapsedTime);
-        $this->assertEquals(5.993, $this->Container->ActivityData->Distance, '', 0.1);
+        $this->assertEqualsWithDelta(5.993, $this->Container->ActivityData->Distance, 0.1);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
@@ -103,7 +103,7 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2013-09-29 11:36', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(112, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(112, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(132, $this->Container->ActivityData->MaxHeartRate);
     }
 
@@ -117,7 +117,7 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2014-07-01 10:18', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(106, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(106, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(128, $this->Container->ActivityData->MaxHeartRate);
     }
 
@@ -140,7 +140,7 @@ class GpxTest extends AbstractActivityParserTestCase
         // 02:28:57 - 02:46:56 or 13:33:58 - 13:51:53
         // - sum of (large) pauses = 29:41 or 29:00
 
-        $this->assertEquals(1 * 3600 + 13 * 60 - 29 * 60, $this->Container->ActivityData->Duration, '', 10);
+        $this->assertEqualsWithDelta(1 * 3600 + 13 * 60 - 29 * 60, $this->Container->ActivityData->Duration, 10);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Altitude);
 
@@ -157,7 +157,7 @@ class GpxTest extends AbstractActivityParserTestCase
 
         $this->assertInstanceOf(ActivityDataContainer::class, $this->Container);
 
-        $this->assertEquals(0.4, $this->Container->ActivityData->Distance, '', 0.05);
+        $this->assertEqualsWithDelta(0.4, $this->Container->ActivityData->Distance, 0.05);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Latitude);
         $this->assertNotEmpty($this->Container->ContinuousData->Longitude);
@@ -177,7 +177,7 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2015-12-01 21:11', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(87, $this->Container->ActivityData->AvgCadence, '', 0.5);
+        $this->assertEqualsWithDelta(87, $this->Container->ActivityData->AvgCadence, 0.5);
     }
 
     /**
@@ -189,7 +189,7 @@ class GpxTest extends AbstractActivityParserTestCase
 
         $this->assertInstanceOf(ActivityDataContainer::class, $this->Container);
 
-        $this->assertEquals(137, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(137, $this->Container->ActivityData->AvgHeartRate, 0.5);
 
         $this->assertNotContains(0, $this->Container->ContinuousData->HeartRate);
     }
@@ -236,7 +236,7 @@ class GpxTest extends AbstractActivityParserTestCase
         $this->assertEquals('2010-04-02 10:26', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(5 * 3600 + 17 * 60 + 21, $this->Container->ActivityData->Duration, '', 10);
+        $this->assertEqualsWithDelta(5 * 3600 + 17 * 60 + 21, $this->Container->ActivityData->Duration, 10);
 
         $this->checkExpectedPauseData([
             [13402, 3780]
@@ -254,8 +254,8 @@ class GpxTest extends AbstractActivityParserTestCase
 
         $this->assertNotEmpty($this->Container->ContinuousData->Time);
 
-        $this->assertEquals(3329, $this->Container->ActivityData->Duration, '', 10);
-        $this->assertEquals(3329, $this->Container->ActivityData->ElapsedTime, '', 10);
-        $this->assertEquals(151, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(3329, $this->Container->ActivityData->Duration, 10);
+        $this->assertEqualsWithDelta(3329, $this->Container->ActivityData->ElapsedTime, 10);
+        $this->assertEqualsWithDelta(151, $this->Container->ActivityData->AvgHeartRate, 0.5);
     }
 }

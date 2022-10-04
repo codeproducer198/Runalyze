@@ -4,29 +4,26 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\LazyLoadingGhost\MethodGenerator;
 
+use InvalidArgumentException;
+use Laminas\Code\Generator\MethodGenerator;
+use Laminas\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
 use ProxyManager\Generator\MagicMethodGenerator;
-use Zend\Code\Generator\ParameterGenerator;
 use ProxyManager\ProxyGenerator\LazyLoadingGhost\PropertyGenerator\InitializationTracker;
 use ProxyManager\ProxyGenerator\LazyLoadingGhost\PropertyGenerator\PrivatePropertiesMap;
 use ProxyManager\ProxyGenerator\LazyLoadingGhost\PropertyGenerator\ProtectedPropertiesMap;
 use ProxyManager\ProxyGenerator\PropertyGenerator\PublicPropertiesMap;
 use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
 use ReflectionClass;
-use Zend\Code\Generator\MethodGenerator;
-use Zend\Code\Generator\PropertyGenerator;
+
+use function sprintf;
 
 /**
  * Magic `__get` for lazy loading ghost objects
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class MagicGet extends MagicMethodGenerator
 {
-    /**
-     * @var string
-     */
-    private $callParentTemplate =  <<<'PHP'
+    private string $callParentTemplate =  <<<'PHP'
 $this->%s && ! $this->%s && $this->%s('__get', array('name' => $name));
 
 if (isset(self::$%s[$name])) {
@@ -65,7 +62,7 @@ if (isset(self::$%s[$name])) {
         $cacheKey = $class . '#' . $name;
         $accessor = isset($accessorCache[$cacheKey])
             ? $accessorCache[$cacheKey]
-            : $accessorCache[$cacheKey] = \Closure::bind(function & ($instance) use ($name) {
+            : $accessorCache[$cacheKey] = \Closure::bind(static function & ($instance) use ($name) {
                 return $instance->$name;
             }, null, $class);
 
@@ -77,7 +74,7 @@ if (isset(self::$%s[$name])) {
         $cacheKey = $tmpClass . '#' . $name;
         $accessor = isset($accessorCache[$cacheKey])
             ? $accessorCache[$cacheKey]
-            : $accessorCache[$cacheKey] = \Closure::bind(function & ($instance) use ($name) {
+            : $accessorCache[$cacheKey] = \Closure::bind(static function & ($instance) use ($name) {
                 return $instance->$name;
             }, null, $tmpClass);
 
@@ -89,16 +86,7 @@ if (isset(self::$%s[$name])) {
 PHP;
 
     /**
-     * @param ReflectionClass        $originalClass
-     * @param PropertyGenerator      $initializerProperty
-     * @param MethodGenerator        $callInitializer
-     * @param PublicPropertiesMap    $publicProperties
-     * @param ProtectedPropertiesMap $protectedProperties
-     * @param PrivatePropertiesMap   $privateProperties
-     * @param InitializationTracker  $initializationTracker
-     *
-     * @throws \Zend\Code\Generator\Exception\InvalidArgumentException
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(
         ReflectionClass $originalClass,

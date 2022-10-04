@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Configuration;
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\RunalyzeConfigurationList;
 
-class RunalyzeConfigurationListTest extends \PHPUnit_Framework_TestCase
+class RunalyzeConfigurationListTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructor()
     {

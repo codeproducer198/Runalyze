@@ -8,7 +8,7 @@ use Runalyze\View\Activity\Context;
  * @group dependsOn
  * @group dependsOnOldFactory
  */
-class TypesTest extends \PHPUnit_Framework_TestCase
+class TypesTest extends \PHPUnit\Framework\TestCase
 {
     public function testAllConstructors()
     {

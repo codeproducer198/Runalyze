@@ -6,12 +6,12 @@ use Runalyze\Parser\Activity\Common\ParserInterface;
 use Runalyze\Parser\Activity\FileExtensionToParserMapping;
 use Runalyze\Parser\Activity\FileType\Tcx;
 
-class FileExtensionToParserMappingTest extends \PHPUnit_Framework_TestCase
+class FileExtensionToParserMappingTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileExtensionToParserMapping */
     protected $Mapping;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Mapping = new FileExtensionToParserMapping();
     }

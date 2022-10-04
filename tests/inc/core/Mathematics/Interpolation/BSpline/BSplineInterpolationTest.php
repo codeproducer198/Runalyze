@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Mathematics\Interpolation\BSpline;
 
 use Runalyze\Mathematics\Interpolation\BSpline\BSplineInterpolation;
 
-class BSplineInterpolationTest extends \PHPUnit_Framework_TestCase
+class BSplineInterpolationTest extends \PHPUnit\Framework\TestCase
 {
     protected function assertArraysAreSimilar(array $expected, array $given, $precision)
     {
@@ -13,23 +13,19 @@ class BSplineInterpolationTest extends \PHPUnit_Framework_TestCase
         $num = count($expected);
 
         for ($i = 0; $i < $num; ++$i) {
-            $this->assertEquals($expected[$i], $given[$i], '', $precision);
+            $this->assertEqualsWithDelta($expected[$i], $given[$i], $precision);
         }
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidDegree()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new BSplineInterpolation(0);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testNonNumericDegree()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new BSplineInterpolation('foo');
     }
 
@@ -37,7 +33,7 @@ class BSplineInterpolationTest extends \PHPUnit_Framework_TestCase
     {
         $spline = new BSplineInterpolation(2);
 
-        $this->setExpectedException(\RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $spline->evaluateAt(0.5);
     }
@@ -46,7 +42,7 @@ class BSplineInterpolationTest extends \PHPUnit_Framework_TestCase
     {
         $spline = new BSplineInterpolation(2);
 
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $spline->setPoints([1, 2]);
     }

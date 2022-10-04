@@ -4,7 +4,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Component\Tool\Backup;
 
 use Runalyze\Bundle\CoreBundle\Component\Tool\Backup\JsonBackupAnalyzer;
 
-class JsonBackupAnalyzerTest extends \PHPUnit_Framework_TestCase
+class JsonBackupAnalyzerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var string */
     const CURRENT_VERSION = '4.3.0';
@@ -12,7 +12,7 @@ class JsonBackupAnalyzerTest extends \PHPUnit_Framework_TestCase
     /** @var string */
     protected $Base;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Base = __DIR__.'/../../../../testfiles/backup/';
     }

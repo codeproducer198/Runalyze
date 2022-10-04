@@ -2,7 +2,7 @@
 
 use Runalyze\Bundle\CoreBundle\Component\Configuration\ConfigurationList;
 
-class ConfigurationListTest extends \PHPUnit_Framework_TestCase
+class ConfigurationListTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleConstructor()
     {

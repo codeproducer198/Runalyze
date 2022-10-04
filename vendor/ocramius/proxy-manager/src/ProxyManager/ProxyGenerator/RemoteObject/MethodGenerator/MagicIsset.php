@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\RemoteObject\MethodGenerator;
 
+use Laminas\Code\Generator\Exception\InvalidArgumentException;
+use Laminas\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
 use ProxyManager\Generator\MagicMethodGenerator;
-use Zend\Code\Generator\ParameterGenerator;
 use ReflectionClass;
-use Zend\Code\Generator\PropertyGenerator;
+
+use function var_export;
 
 /**
  * Magic `__isset` method for remote objects
- *
- * @author Vincent Blanchon <blanchon.vincent@gmail.com>
- * @license MIT
  */
 class MagicIsset extends MagicMethodGenerator
 {
     /**
      * Constructor
-     * @param ReflectionClass                        $originalClass
-     * @param \Zend\Code\Generator\PropertyGenerator $adapterProperty
      *
-     * @throws \Zend\Code\Generator\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(ReflectionClass $originalClass, PropertyGenerator $adapterProperty)
     {

@@ -4,7 +4,7 @@ namespace Runalyze\Activity;
 
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
-class PoolLengthTest extends \PHPUnit_Framework_TestCase
+class PoolLengthTest extends \PHPUnit\Framework\TestCase
 {
 	public function testStaticFunction()
 	{

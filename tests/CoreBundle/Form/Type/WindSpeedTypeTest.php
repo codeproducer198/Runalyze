@@ -6,7 +6,7 @@ use Runalyze\Bundle\CoreBundle\Form\Type\WindSpeedType;
 use Runalyze\Metrics\Velocity\Unit\KilometerPerHour;
 use Runalyze\Metrics\Velocity\Unit\MilesPerHour;
 
-class WindSpeedTypeTest extends \PHPUnit_Framework_TestCase
+class WindSpeedTypeTest extends \PHPUnit\Framework\TestCase
 {
     public function testTransformWithKilometerPerHour()
     {

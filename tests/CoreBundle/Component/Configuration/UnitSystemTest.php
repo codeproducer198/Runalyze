@@ -9,7 +9,7 @@ use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Metrics\Velocity\Unit\SecondsPer500y;
 use Runalyze\Metrics\Velocity\Unit\SecondsPerMile;
 
-class UnitSystemTest extends \PHPUnit_Framework_TestCase
+class UnitSystemTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllUnitsAreAccessible()
     {

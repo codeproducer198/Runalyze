@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Sports\ClimbCategory;
 
 use Runalyze\Sports\ClimbCategory\ClimbCategory;
 
-class ClimbCategoryTest extends \PHPUnit_Framework_TestCase
+class ClimbCategoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllCategoriesCanBeConvertedToString()
     {
@@ -21,7 +21,7 @@ class ClimbCategoryTest extends \PHPUnit_Framework_TestCase
     {
         $object = new ClimbCategory();
 
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         $object->setCategory(-1);
     }

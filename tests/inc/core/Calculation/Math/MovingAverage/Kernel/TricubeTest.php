@@ -2,7 +2,7 @@
 
 namespace Runalyze\Calculation\Math\MovingAverage\Kernel;
 
-class TricubeTest extends \PHPUnit_Framework_TestCase
+class TricubeTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeValuesForWidth2()
     {
@@ -25,7 +25,7 @@ class TricubeTest extends \PHPUnit_Framework_TestCase
     {
         $Kernel = new Tricube(10);
 
-        $this->assertEquals([
+        $this->assertEqualsWithDelta([
             0.0,
             0.669921875,
             1.0,
@@ -35,6 +35,6 @@ class TricubeTest extends \PHPUnit_Framework_TestCase
             -2.5,
             0.0,
             3.0
-        ]));
+        ]), 0.0001);
     }
 }

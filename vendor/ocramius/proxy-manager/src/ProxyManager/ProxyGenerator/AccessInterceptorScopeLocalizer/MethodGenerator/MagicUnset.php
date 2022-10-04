@@ -4,29 +4,22 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator;
 
+use InvalidArgumentException;
+use Laminas\Code\Generator\ParameterGenerator;
+use Laminas\Code\Generator\PropertyGenerator;
 use ProxyManager\Generator\MagicMethodGenerator;
-use ProxyManager\ProxyGenerator\Util\GetMethodIfExists;
-use Zend\Code\Generator\ParameterGenerator;
 use ProxyManager\ProxyGenerator\AccessInterceptorScopeLocalizer\MethodGenerator\Util\InterceptorGenerator;
+use ProxyManager\ProxyGenerator\Util\GetMethodIfExists;
 use ProxyManager\ProxyGenerator\Util\PublicScopeSimulator;
 use ReflectionClass;
-use Zend\Code\Generator\PropertyGenerator;
 
 /**
  * Magic `__unset` method for lazy loading ghost objects
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class MagicUnset extends MagicMethodGenerator
 {
     /**
-     * @param ReflectionClass   $originalClass
-     * @param PropertyGenerator $prefixInterceptors
-     * @param PropertyGenerator $suffixInterceptors
-     *
-     * @throws \Zend\Code\Generator\Exception\InvalidArgumentException
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(
         ReflectionClass $originalClass,
@@ -45,7 +38,8 @@ class MagicUnset extends MagicMethodGenerator
                 'name',
                 null,
                 null,
-                'returnValue'
+                'returnValue',
+                $originalClass
             );
         }
 

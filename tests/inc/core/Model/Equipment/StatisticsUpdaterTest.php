@@ -9,7 +9,7 @@ use PDO;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class StatisticsUpdaterTest extends \PHPUnit_Framework_TestCase {
+class StatisticsUpdaterTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @var \PDO
@@ -26,7 +26,7 @@ class StatisticsUpdaterTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $EquipmentIDs = array();
 
-	protected function setUp() {
+	protected function setUp() : void {
 		$this->PDO = DB::getInstance();
 		$this->PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->PDO->exec('INSERT INTO `'.PREFIX.'equipment_type` (`name`, `accountid`) VALUES ("Test", 1)');
@@ -39,7 +39,7 @@ class StatisticsUpdaterTest extends \PHPUnit_Framework_TestCase {
 		$this->EquipmentIDs[] = $this->PDO->lastInsertId();
 	}
 
-	protected function tearDown() {
+	protected function tearDown() : void {
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'equipment`');
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'equipment_type`');
 		$this->PDO->exec('DELETE FROM `'.PREFIX.'training`');

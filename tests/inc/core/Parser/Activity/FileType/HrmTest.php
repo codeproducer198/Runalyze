@@ -13,7 +13,7 @@ class HrmTest extends AbstractActivityParserTestCase
     /** @var Hrm */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new Hrm();
     }
@@ -26,10 +26,10 @@ class HrmTest extends AbstractActivityParserTestCase
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(59 * 60 + 39.1, $this->Container->ActivityData->Duration);
-        $this->assertEquals(9.76, $this->Container->ActivityData->Distance, '', 0.01);
-        $this->assertEquals(133, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(9.76, $this->Container->ActivityData->Distance, 0.01);
+        $this->assertEqualsWithDelta(133, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(144, $this->Container->ActivityData->MaxHeartRate);
-        $this->assertEquals(83, $this->Container->ActivityData->AvgCadence, '', 0.5);
+        $this->assertEqualsWithDelta(83, $this->Container->ActivityData->AvgCadence, 0.5);
 
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
 
@@ -80,7 +80,7 @@ class HrmTest extends AbstractActivityParserTestCase
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
         $this->assertEquals(2 * 60 + 13.3, $this->Container->ActivityData->Duration);
-        $this->assertEquals(93, $this->Container->ActivityData->AvgHeartRate, '', 3);
+        $this->assertEqualsWithDelta(93, $this->Container->ActivityData->AvgHeartRate, 3);
 
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
         $this->assertNotEmpty($this->Container->RRIntervals);

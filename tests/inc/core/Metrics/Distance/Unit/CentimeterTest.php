@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Distance\Unit;
 
 use Runalyze\Metrics\Distance\Unit\Centimeter;
 
-class CentimeterTest extends \PHPUnit_Framework_TestCase
+class CentimeterTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

@@ -5,8 +5,8 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services;
 use Runalyze\Service\RouteNameEvaluation\OsmCsvData;
 use Runalyze\Service\RouteNameEvaluation\OsmCsvDataCollection;
 
-class OsmCsvDataCollectionTest extends \PHPUnit_Framework_TestCase {
-    public function setUp() {
+class OsmCsvDataCollectionTest extends \PHPUnit\Framework\TestCase {
+    public function setUp() : void {
     }
 
     public function testCsvCollectionEmpty() {

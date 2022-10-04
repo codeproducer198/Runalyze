@@ -6,7 +6,7 @@ use Runalyze\Parser\Activity\Common\Data\Round\Round;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollection;
 use Runalyze\Parser\Activity\Common\Data\Round\RoundCollectionFiller;
 
-class RoundCollectionFillerTest extends \PHPUnit_Framework_TestCase
+class RoundCollectionFillerTest extends \PHPUnit\Framework\TestCase
 {
     public function testEasyCompletionByDistanceArray()
     {

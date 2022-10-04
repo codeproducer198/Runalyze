@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace ProxyManager;
 
-use PackageVersions\Versions;
+use Composer\InstalledVersions;
+use OutOfBoundsException;
 
 /**
- * Version class - to be adjusted when a new release is created.
+ * Version class
  *
  * Note that we cannot check the version at runtime via `git` because that would cause a lot of I/O operations.
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 final class Version
 {
@@ -27,12 +25,16 @@ final class Version
      * Retrieves the package version in the format <detected-version>@<commit-hash>,
      * where the detected version is what composer could detect.
      *
-     * @return string
+     * @throws OutOfBoundsException
      *
-     * @throws \OutOfBoundsException
+     * @psalm-pure
+     *
+     * @psalm-suppress MixedOperand `composer-runtime-api:^2` has rough if no type declarations at all - we'll live with it
+     * @psalm-suppress ImpureMethodCall `composer-runtime-api:^2` has rough if no type declarations at all - we'll live with it
      */
-    public static function getVersion() : string
+    public static function getVersion(): string
     {
-        return Versions::getVersion('ocramius/proxy-manager');
+        return (string) InstalledVersions::getPrettyVersion('ocramius/proxy-manager')
+            . '@' . (string) InstalledVersions::getReference('ocramius/proxy-manager');
     }
 }

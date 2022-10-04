@@ -12,7 +12,7 @@ class ConfRepositoryTest extends AbstractRepositoryTestCase
     /** @var ConfRepository */
     protected $ConfRepository;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 

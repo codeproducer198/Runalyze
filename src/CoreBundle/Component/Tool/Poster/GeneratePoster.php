@@ -42,7 +42,7 @@ class GeneratePoster
      */
     protected function pathToRepository()
     {
-        return $this->KernelRootDir.'/../vendor/runalyze/GpxTrackPoster/';
+        return $this->KernelRootDir.'/../vendor/runalyze/gpxtrackposter/';
     }
 
     /**

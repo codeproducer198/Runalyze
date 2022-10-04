@@ -6,7 +6,7 @@ namespace Runalyze\View\Activity;
  * @group dependsOn
  * @group dependsOnOldDatabase
  */
-class LinkerTest extends \PHPUnit_Framework_TestCase {
+class LinkerTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * @var \PDOforRunalyze
@@ -28,7 +28,7 @@ class LinkerTest extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $ThisIDs = [];
 
-	protected function setUp() {
+	protected function setUp() : void {
 		$this->PDO = \DB::getInstance();
 		$this->PDO->exec('DELETE FROM `runalyze_training`');
 		$this->PDO->exec('DELETE FROM `runalyze_account` WHERE `username` = "LinkerOther"');
@@ -55,7 +55,7 @@ class LinkerTest extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
-	protected function tearDown() {
+	protected function tearDown() : void {
 		$this->PDO->exec('DELETE FROM `runalyze_training`');
 	}
 

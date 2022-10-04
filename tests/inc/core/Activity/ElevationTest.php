@@ -5,7 +5,7 @@ namespace Runalyze\Activity;
 use Runalyze\Configuration;
 use Runalyze\Parameter\Application\DistanceUnitSystem;
 
-class ElevationTest extends \PHPUnit_Framework_TestCase
+class ElevationTest extends \PHPUnit\Framework\TestCase
 {
 	public function testConstructor()
 	{

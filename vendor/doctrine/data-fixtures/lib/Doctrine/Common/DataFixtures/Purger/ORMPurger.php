@@ -46,8 +46,8 @@ class ORMPurger implements PurgerInterface, ORMPurgerInterface
     /**
      * Construct new purger instance.
      *
-     * @param EntityManagerInterface $em       EntityManagerInterface instance used for persistence.
-     * @param string[]               $excluded array of table/view names to be excluded from purge
+     * @param EntityManagerInterface|null $em       EntityManagerInterface instance used for persistence.
+     * @param string[]                    $excluded array of table/view names to be excluded from purge
      */
     public function __construct(?EntityManagerInterface $em = null, array $excluded = [])
     {
@@ -158,9 +158,9 @@ class ORMPurger implements PurgerInterface, ORMPurgerInterface
             }
 
             if ($this->purgeMode === self::PURGE_MODE_DELETE) {
-                $connection->executeUpdate($this->getDeleteFromTableSQL($tbl, $platform));
+                $connection->executeStatement($this->getDeleteFromTableSQL($tbl, $platform));
             } else {
-                $connection->executeUpdate($platform->getTruncateTableSQL($tbl, true));
+                $connection->executeStatement($platform->getTruncateTableSQL($tbl, true));
             }
         }
     }
@@ -225,9 +225,9 @@ class ORMPurger implements PurgerInterface, ORMPurgerInterface
     }
 
     /**
-     * @param array $classes
+     * @param ClassMetadata[] $classes
      *
-     * @return array
+     * @return string[]
      */
     private function getAssociationTables(array $classes, AbstractPlatform $platform)
     {
@@ -258,9 +258,7 @@ class ORMPurger implements PurgerInterface, ORMPurgerInterface
         return $this->em->getConfiguration()->getQuoteStrategy()->getTableName($class, $platform);
     }
 
-    /**
-     * @param mixed[] $assoc
-     */
+    /** @param mixed[] $assoc */
     private function getJoinTableName(
         array $assoc,
         ClassMetadata $class,

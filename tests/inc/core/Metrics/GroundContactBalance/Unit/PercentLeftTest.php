@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\GroundContactBalance\Unit;
 
 use Runalyze\Metrics\GroundContactBalance\Unit\PercentLeft;
 
-class PercentLeftTest extends \PHPUnit_Framework_TestCase
+class PercentLeftTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

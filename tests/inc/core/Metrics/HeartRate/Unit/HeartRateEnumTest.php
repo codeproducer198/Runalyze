@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\HeartRate\Unit;
 
 use Runalyze\Metrics\HeartRate\Unit\HeartRateEnum;
 
-class HeartRateEnumTest extends \PHPUnit_Framework_TestCase
+class HeartRateEnumTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllUnitsCanBeConstructed()
     {
@@ -13,11 +13,9 @@ class HeartRateEnumTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThatUnknownUnitCantBeConstructed()
     {
+        $this->expectException(\InvalidArgumentException::class);
         HeartRateEnum::get(42, 200, 60);
     }
 }

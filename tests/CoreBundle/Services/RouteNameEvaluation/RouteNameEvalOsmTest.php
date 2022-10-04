@@ -13,11 +13,11 @@ use GuzzleHttp\Client;
 /**
  * Test for RouteNameEvalOsm.
  */
-class RouteNameEvalOsmTest extends \PHPUnit_Framework_TestCase {
+class RouteNameEvalOsmTest extends \PHPUnit\Framework\TestCase {
     private $underTest;
     private $coll;
 
-    public function setUp() {
+    public function setUp() : void {
         $this->underTest = new RouteNameEvalOsm("", "", new Client());
         $this->coll = $this->getMockBuilder(OsmCsvDataCollection::class)->disableOriginalConstructor()->getMock();
     }

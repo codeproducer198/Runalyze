@@ -2,7 +2,7 @@
 
 namespace Runalyze\Dataset;
 
-class DefaultConfigurationTest extends \PHPUnit_Framework_TestCase
+class DefaultConfigurationTest extends \PHPUnit\Framework\TestCase
 {
 	public function testThatAllKeysFromEnumAppearInDefaultConfiguration()
 	{

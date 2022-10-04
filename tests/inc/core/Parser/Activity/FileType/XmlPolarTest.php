@@ -13,7 +13,7 @@ class XmlPolarTest extends AbstractActivityParserTestCase
     /** @var XmlPolar */
     protected $Parser;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Parser = new XmlPolar();
     }
@@ -25,10 +25,10 @@ class XmlPolarTest extends AbstractActivityParserTestCase
         $this->assertEquals('2013-03-24 11:33', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(60, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(6.6, $this->Container->ActivityData->Distance, '', 0.001);
+        $this->assertEqualsWithDelta(6.6, $this->Container->ActivityData->Distance, 0.001);
         $this->assertEquals(48 * 60 + 49, $this->Container->ActivityData->Duration);
         $this->assertEquals(725, $this->Container->ActivityData->EnergyConsumption);
-        $this->assertEquals(156, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(156, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(179, $this->Container->ActivityData->MaxHeartRate);
 
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
@@ -41,17 +41,17 @@ class XmlPolarTest extends AbstractActivityParserTestCase
         $this->assertEquals('2014-09-07 09:58', LocalTime::date('Y-m-d H:i', $this->Container->Metadata->getTimestamp()));
         $this->assertEquals(120, $this->Container->Metadata->getTimezoneOffset());
 
-        $this->assertEquals(20.05, $this->Container->ActivityData->Distance, '', 0.001);
-        $this->assertEquals(7740, $this->Container->ActivityData->Duration, '', 0.5);
+        $this->assertEqualsWithDelta(20.05, $this->Container->ActivityData->Distance, 0.001);
+        $this->assertEqualsWithDelta(7740, $this->Container->ActivityData->Duration, 0.5);
         $this->assertEquals(2015, $this->Container->ActivityData->EnergyConsumption);
-        $this->assertEquals(157, $this->Container->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(157, $this->Container->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(173, $this->Container->ActivityData->MaxHeartRate);
 
         $this->assertNotEmpty($this->Container->ContinuousData->Distance);
         $this->assertNotEmpty($this->Container->ContinuousData->HeartRate);
         $this->assertNotEmpty($this->Container->ContinuousData->Altitude);
 
-        $this->assertEquals(20.049, end($this->Container->ContinuousData->Distance), '', 0.001);
+        $this->assertEqualsWithDelta(20.049, end($this->Container->ContinuousData->Distance), 0.001);
 
         $this->checkExpectedRoundData(array_fill(0, 20, [300, 1.000]), 300, 0.001);
     }
@@ -107,8 +107,8 @@ class XmlPolarTest extends AbstractActivityParserTestCase
         $this->assertCount(2, $this->Container);
 
         // First activity: cycling
-        $this->assertEquals(3011, $this->Container[0]->ActivityData->Duration, '', 0.5);
-        $this->assertEquals(149, $this->Container[0]->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(3011, $this->Container[0]->ActivityData->Duration, 0.5);
+        $this->assertEqualsWithDelta(149, $this->Container[0]->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(188, $this->Container[0]->ActivityData->MaxHeartRate);
         $this->assertEquals(643, $this->Container[0]->ActivityData->EnergyConsumption);
         $this->assertNull($this->Container[0]->ActivityData->Distance);
@@ -117,8 +117,8 @@ class XmlPolarTest extends AbstractActivityParserTestCase
         $this->assertEmpty($this->Container[0]->ContinuousData->Distance);
 
         // First activity: running
-        $this->assertEquals(1373, $this->Container[1]->ActivityData->Duration, '', 0.5);
-        $this->assertEquals(159, $this->Container[1]->ActivityData->AvgHeartRate, '', 0.5);
+        $this->assertEqualsWithDelta(1373, $this->Container[1]->ActivityData->Duration, 0.5);
+        $this->assertEqualsWithDelta(159, $this->Container[1]->ActivityData->AvgHeartRate, 0.5);
         $this->assertEquals(180, $this->Container[1]->ActivityData->MaxHeartRate);
         $this->assertEquals(326, $this->Container[1]->ActivityData->EnergyConsumption);
         $this->assertNull($this->Container[1]->ActivityData->Distance);

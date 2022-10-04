@@ -19,7 +19,7 @@ class PHPCRExecutor extends AbstractExecutor
 
     /**
      * @param DocumentManagerInterface $dm     manager instance used for persisting the fixtures
-     * @param PHPCRPurger              $purger to remove the current data if append is false
+     * @param PHPCRPurger|null         $purger to remove the current data if append is false
      */
     public function __construct(DocumentManagerInterface $dm, ?PHPCRPurger $purger = null)
     {
@@ -34,9 +34,7 @@ class PHPCRExecutor extends AbstractExecutor
         $this->setPurger($purger);
     }
 
-    /**
-     * @return DocumentManagerInterface
-     */
+    /** @return DocumentManagerInterface */
     public function getObjectManager()
     {
         return $this->dm;

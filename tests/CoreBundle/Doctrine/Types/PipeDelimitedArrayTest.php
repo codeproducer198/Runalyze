@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Doctrine\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArray;
 
-class PipeDelimitedArrayTest extends \PHPUnit_Framework_TestCase
+class PipeDelimitedArrayTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PipeDelimitedArray */
     protected $Type;
@@ -13,7 +13,7 @@ class PipeDelimitedArrayTest extends \PHPUnit_Framework_TestCase
     /** @var AbstractPlatform */
     protected $PlatformMock;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Type = PipeDelimitedArray::getType(PipeDelimitedArray::PIPE_ARRAY);
         $this->PlatformMock = $this->getMockForAbstractClass(AbstractPlatform::class);

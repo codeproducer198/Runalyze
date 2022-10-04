@@ -18,7 +18,7 @@ class NotificationRepositoryTest extends AbstractRepositoryTestCase
     /** @var Account */
     protected $Account;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 

@@ -5,7 +5,7 @@ namespace Runalyze\Bundle\CoreBundle\Tests\Services\Import;
 use Runalyze\Bundle\CoreBundle\Services\Import\FileImportResult;
 use Runalyze\Parser\Activity\Common\Data\ActivityDataContainer;
 
-class FileImportResultTest extends \PHPUnit_Framework_TestCase
+class FileImportResultTest extends \PHPUnit\Framework\TestCase
 {
     public function testFailedResult()
     {

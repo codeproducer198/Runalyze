@@ -2,7 +2,7 @@
 
 namespace Runalyze\Parameter;
 
-class FloatingPointTest extends \PHPUnit_Framework_TestCase
+class FloatingPointTest extends \PHPUnit\Framework\TestCase
 {
 
 	public function testSetFromString()

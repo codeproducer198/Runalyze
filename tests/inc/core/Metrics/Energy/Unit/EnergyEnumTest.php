@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Energy\Unit;
 
 use Runalyze\Metrics\Energy\Unit\EnergyEnum;
 
-class EnergyEnumTest extends \PHPUnit_Framework_TestCase
+class EnergyEnumTest extends \PHPUnit\Framework\TestCase
 {
     public function testThatAllUnitsCanBeConstructed()
     {

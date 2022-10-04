@@ -9,7 +9,7 @@ use Runalyze\Parser\Activity\Common\Data\Pause\Pause;
 use Runalyze\Parser\Activity\Common\Exception\InvalidDataException;
 use Runalyze\Parser\Activity\Common\Filter\NegativePauseFilter;
 
-class NegativePauseFilterTest extends \PHPUnit_Framework_TestCase
+class NegativePauseFilterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var NegativePauseFilter */
     protected $Filter;
@@ -17,7 +17,7 @@ class NegativePauseFilterTest extends \PHPUnit_Framework_TestCase
     /** @var ActivityDataContainer */
     protected $Container;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->Filter = new NegativePauseFilter();
         $this->Container = new ActivityDataContainer();
@@ -57,7 +57,7 @@ class NegativePauseFilterTest extends \PHPUnit_Framework_TestCase
     {
         $this->Container->Pauses->add(new Pause(117, -12));
 
-        $this->setExpectedException(InvalidDataException::class);
+        $this->expectException(InvalidDataException::class);
 
         $this->Filter->filter($this->Container, true);
     }

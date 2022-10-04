@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace ProxyManager\ProxyGenerator;
 
+use Laminas\Code\Generator\ClassGenerator;
+use Laminas\Code\Generator\Exception\InvalidArgumentException;
+use Laminas\Code\Reflection\MethodReflection;
 use ProxyManager\Exception\InvalidProxiedClassException;
 use ProxyManager\Generator\Util\ClassGeneratorUtils;
 use ProxyManager\Proxy\NullObjectInterface;
@@ -12,16 +15,11 @@ use ProxyManager\ProxyGenerator\NullObject\MethodGenerator\NullObjectMethodInter
 use ProxyManager\ProxyGenerator\NullObject\MethodGenerator\StaticProxyConstructor;
 use ProxyManager\ProxyGenerator\Util\ProxiedMethodsFilter;
 use ReflectionClass;
-use Zend\Code\Generator\ClassGenerator;
-use Zend\Code\Reflection\MethodReflection;
 
 /**
  * Generator for proxies implementing {@see \ProxyManager\Proxy\NullObjectInterface}
  *
  * {@inheritDoc}
- *
- * @author Vincent Blanchon <blanchon.vincent@gmail.com>
- * @license MIT
  */
 class NullObjectGenerator implements ProxyGeneratorInterface
 {
@@ -29,9 +27,9 @@ class NullObjectGenerator implements ProxyGeneratorInterface
      * {@inheritDoc}
      *
      * @throws InvalidProxiedClassException
-     * @throws \Zend\Code\Generator\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function generate(ReflectionClass $originalClass, ClassGenerator $classGenerator)
+    public function generate(ReflectionClass $originalClass, ClassGenerator $classGenerator): void
     {
         CanProxyAssertion::assertClassCanBeProxied($originalClass);
 

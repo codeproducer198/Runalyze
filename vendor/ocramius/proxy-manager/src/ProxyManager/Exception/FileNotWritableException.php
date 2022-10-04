@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace ProxyManager\Exception;
 
 use UnexpectedValueException;
+use Webimpress\SafeWriter\Exception\ExceptionInterface as FileWriterException;
+
+use function sprintf;
 
 /**
  * Exception for non writable files
- *
- * @author Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 class FileNotWritableException extends UnexpectedValueException implements ExceptionInterface
 {
-    public static function fromInvalidMoveOperation(string $fromPath, string $toPath) : self
+    /**
+     * @deprecated
+     */
+    public static function fromInvalidMoveOperation(string $fromPath, string $toPath): self
     {
         return new self(sprintf(
             'Could not move file "%s" to location "%s": '
@@ -25,25 +28,19 @@ class FileNotWritableException extends UnexpectedValueException implements Excep
     }
 
     /**
-     * @deprecated this method is unused, and will be removed in ProxyManager 3.0.0
+     * @deprecated
      */
-    public static function fromNonWritableLocation($path) : self
+    public static function fromNotWritableDirectory(string $directory): self
     {
-        $messages    = [];
-        $destination = realpath($path);
+        return new self(sprintf(
+            'Could not create temp file in directory "%s" '
+            . 'either the directory does not exist, or it is not writable',
+            $directory
+        ));
+    }
 
-        if (! $destination) {
-            $messages[] = 'path does not exist';
-        }
-
-        if ($destination && ! is_file($destination)) {
-            $messages[] = 'exists and is not a file';
-        }
-
-        if ($destination && ! is_writable($destination)) {
-            $messages[] = 'is not writable';
-        }
-
-        return new self(sprintf('Could not write to path "%s": %s', $path, implode(', ', $messages)));
+    public static function fromPrevious(FileWriterException $previous): self
+    {
+        return new self($previous->getMessage(), 0, $previous);
     }
 }

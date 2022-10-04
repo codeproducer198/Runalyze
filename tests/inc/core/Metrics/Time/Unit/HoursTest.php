@@ -4,7 +4,7 @@ namespace Runalyze\Tests\Metrics\Time\Unit;
 
 use Runalyze\Metrics\Time\Unit\Hours;
 
-class HoursTest extends \PHPUnit_Framework_TestCase
+class HoursTest extends \PHPUnit\Framework\TestCase
 {
     public function testSomeEasyValues()
     {

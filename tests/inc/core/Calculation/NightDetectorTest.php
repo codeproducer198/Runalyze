@@ -10,7 +10,7 @@ use Runalyze\Model\Trackdata;
 use Runalyze\Util\LocalTime;
 use Runalyze\View\Activity\FakeContext;
 
-class NightDetectorTest extends \PHPUnit_Framework_TestCase
+class NightDetectorTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmptyDetector()
     {
@@ -21,9 +21,9 @@ class NightDetectorTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($Detector->value());
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidTimestamp()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $Detector = new NightDetector();
         $Detector->setFrom('foobar', new Coordinate([0.0, 0.0]));
     }

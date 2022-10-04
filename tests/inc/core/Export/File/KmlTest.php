@@ -8,7 +8,7 @@ use Runalyze\View\Activity\FakeContext;
  * @group dependsOn
  * @group dependsOnOldFactory
  */
-class KmlTest extends \PHPUnit_Framework_TestCase
+class KmlTest extends \PHPUnit\Framework\TestCase
 {
 	public function testFileCreationForOutdoorActivity()
 	{

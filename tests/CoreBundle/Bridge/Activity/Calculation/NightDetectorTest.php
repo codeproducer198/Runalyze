@@ -9,7 +9,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Route;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Util\LocalTime;
 
-class NightDetectorTest extends \PHPUnit_Framework_TestCase
+class NightDetectorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var NightDetector */
     protected $Detector;
@@ -17,7 +17,7 @@ class NightDetectorTest extends \PHPUnit_Framework_TestCase
     /** @var Training */
     protected $Activity;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->Activity = new Training();
         $this->Activity->setRoute(new Route());
