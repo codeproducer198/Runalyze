@@ -75,6 +75,11 @@ class ActivityContextAdapter
         $timezoneName = Timezone::getFullNameByEnum($timezone);
         $location->setTimezone($timezoneName);
 
+        // if we have no valid location-object, no forecast is meaningful
+        if(!$location->isValid()) {
+            return;
+        }
+
         $weather = $this->WeatherForecast->loadForecast($location);
 
         if (null !== $weather) {

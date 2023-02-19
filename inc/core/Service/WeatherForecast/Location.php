@@ -182,4 +182,13 @@ class Location
     {
         return $this->hasDateTime() && ($this->getTimestamp() < time() - $seconds);
     }
+
+    /**
+     * Check if location is valid for request a weather-forecast.
+     * #TSC
+     * @return bool
+     */
+    public function isValid() {
+        return $this->hasDateTime() && ($this->hasLocationName() || $this->hasPosition());
+    }
 }
