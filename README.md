@@ -227,6 +227,7 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* strokes/lane, Swolf, Swolf-cycles, total-lanes, total-strokes for one (active) lane (these data are constructed from the `swimdata` array)
 	* store additionally the total-strokes of one lane in the `training.splits_additional` (for better further SQL analysis)
 * 2023-02-05: Store and show _caloriens_ on details on the UI laps-window table per lap
+* 2023-02-19: New activity-type _E-MTB Mountain_ can be added to your account and are recognised while importing from Garmin Fenix 6
 
 Please notice:
 * All the changes are only done for me to use this great product for me.
