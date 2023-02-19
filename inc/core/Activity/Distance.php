@@ -40,6 +40,12 @@ class Distance implements ValueInterface {
 	public static $DefaultDecimals = 3;
 
 	/**
+	 * For the split overview table use precision 2 for better "overview".
+	 * @var int
+	 */
+	public static $DefaultDecimalsSplitTable = 2;
+
+	/**
 	 * Distance [km]
 	 * @var float
 	 */

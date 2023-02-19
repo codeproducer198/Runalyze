@@ -26,6 +26,7 @@ use Runalyze\Profile\Weather\Mapping\EnglishTextMapping;
 class ActivityDataContainerToActivityContextConverter
 {
     /** @var int number of decimals */
+    // #TSC change to a precision of 3 not meaninful, because the database has only 2
     const DISTANCE_PRECISION_FOR_ACTIVITY_DATA = 2;
 
     /** @var int number of decimals */

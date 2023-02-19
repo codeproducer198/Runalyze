@@ -194,7 +194,7 @@ class Table {
 
 			$this->Code .= '<tr class="r">';
 			$this->Code .= '<td class="c">'.(++$i).'.</td>';
-			$this->Code .= '<td>'. ($hasDistance ? Distance::format($Split->distance(), true, 2) : '') .'</td>';
+			$this->Code .= '<td>'. ($hasDistance ? Distance::format($Split->distance(), true, Distance::$DefaultDecimalsSplitTable) : '') .'</td>';
 			$this->Code .= '<td>'.Duration::format($Split->time()).'</td>';
 			$this->Code .= '<td>'. ($hasDistance ? $PaceObj->value().'<small>'.$PaceObj->appendix() : '') .'</small></td>';
 			$this->Code .= '<td>'. ($hasDistance ? $this->tdForPaceDifference($PaceObj) : '') .'</td>';
