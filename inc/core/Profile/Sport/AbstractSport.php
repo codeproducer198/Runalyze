@@ -43,7 +43,7 @@ abstract class AbstractSport implements ProfileInterface
      */
     final public function isCycling()
     {
-        return SportProfile::CYCLING == $this->Enum;
+        return SportProfile::CYCLING == $this->Enum || SportProfile::E_MTB_MOUNTAIN == $this->Enum;
     }
 
     /**
