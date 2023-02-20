@@ -290,7 +290,7 @@ class Table {
 
 			$this->Code .= '<tr class="r">
 								<td></td>
-								<td>'.Distance::format($this->Halfs[$i]['km'], true, 2).'</td>
+								<td>'.Distance::format($this->Halfs[$i]['km'], true, Distance::$DefaultDecimalsSplitTable).'</td>
 								<td>'.Duration::format($this->Halfs[$i]['s']).'</td>
 								<td>'.$Pace->valueWithAppendix().'</td>
 								<td>'.$Pace->compareTo($TotalPace).'</td>

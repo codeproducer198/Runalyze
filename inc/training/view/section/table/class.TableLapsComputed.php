@@ -5,6 +5,7 @@
  */
 
 use Runalyze\Activity\Elevation;
+use Runalyze\Activity\Distance;
 use Runalyze\Configuration;
 use Runalyze\Model\Trackdata;
 use Runalyze\Data\Laps\Laps;
@@ -74,7 +75,7 @@ class TableLapsComputed extends TableLapsAbstract {
 			$Lap->pace()->setUnit($unit);
 
 			$this->Code .= '<tr class="r">';
-			$this->Code .= '<td>'.$Lap->trackDistance()->string().'</td>';
+			$this->Code .= '<td>'.$Lap->trackDistance()->string(true, Distance::$DefaultDecimalsSplitTable).'</td>';
 			$this->Code .= '<td>'.$Lap->trackDuration()->string().'</td>';
 			$this->Code .= '<td>'.$Lap->pace()->value().'<small>'.$Lap->pace()->appendix().'</small></td>';
 			if ($showCellForHeartrate) $this->Code .= '<td>'.$Lap->HRavg()->inBPM().'<small>bpm</small></td>';
