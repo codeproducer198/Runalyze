@@ -280,8 +280,10 @@ class Calculator
 		$SlicedTrackdata = $this->TrackdataLoop->sliceObject();
 		$this->addTrackdataAveragesToDataFrom($SlicedTrackdata, $AdditionalData);
 
-		$SlicedSwimdata = $this->SwimdataLoop->sliceObject();
-		$this->addSwimmdataAveragesToDataFrom($SlicedSwimdata, $AdditionalData);
+		if(!is_null($this->SwimdataLoop)) {
+			$SlicedSwimdata = $this->SwimdataLoop->sliceObject();
+			$this->addSwimmdataAveragesToDataFrom($SlicedSwimdata, $AdditionalData);
+		}
 
 		$this->addVO2maxToDataFrom($Lap, $AdditionalData);
 
