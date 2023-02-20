@@ -158,7 +158,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 
 		if ($this->Context->activity()->power() > 0) {
 		    $icon = $this->Context->activity()->isPowerCalculated() ? '<i rel="tooltip" class="unimportant fa fa-fw fa-bolt atRight" title="'.__('This value has been calculated.').'"></i>' : '';
-			$Power = new BoxedValue($this->Context->activity()->power(), 'W', __('Power'), $icon);
+			$Power = new BoxedValue($this->Context->activity()->power(), 'W', '&#216; '.__('Power'), $icon);
 			$Power->defineAsFloatingBlock('w50');
 
 			$this->BoxedValues[] = $Power;
