@@ -160,6 +160,38 @@ class Entity extends Model\EntityWithID implements Model\Loopable, Model\Common\
         }
     }
 
+    /**
+     * Construct factory for route data where every x point is used.
+	 * #TSC This is used to reduce the amount of routes and the shown gps positions; so more routes
+	 * can be shown with lower resolution.
+	 *
+     * @param array $data
+	 * @param int $positioninterval
+	 * @return Entity
+     */
+	public static function createWithIntervalClearing(array &$data, $positioninterval = 1): Entity {
+        $e = new Entity($data);
+
+		// remove points so every x position is keeped
+        if ($positioninterval > 1 && $e->hasGeohashes() && !empty($e->Data[self::GEOHASHES] )) {
+			// use a loop based on the original array to avoid a "copy"
+			$i = count($e->Data[self::GEOHASHES]);
+			while ($i > 0) {
+				for ($y = 1; $i > 0 && $y < $positioninterval; $y++) {
+					unset($e->Data[self::GEOHASHES][--$i]);
+				}
+				$i--;
+			}
+			
+            $e->Data[self::GEOHASHES] = array_values($e->Data[self::GEOHASHES]);
+			// reset also the count
+			$e->numberOfPoints = count($e->Data[self::GEOHASHES]);
+			// the other data (like min/max or evaluation) must be indentical and must not be changed
+		}
+
+		return $e;
+    }
+
 	/**
 	 * Check array sizes
 	 * @throws \RuntimeException

@@ -228,6 +228,10 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* store additionally the total-strokes of one lane in the `training.splits_additional` (for better further SQL analysis)
 * 2023-02-05: Store and show _caloriens_ on details on the UI laps-window table per lap
 * 2023-02-19: New activity-type _E-MTB Mountain_ can be added to your account and are recognised while importing from Garmin Fenix 6
+* 2023-02-25: Increase limit of concurrent Routenets and support of _Position interval_
+	* Limit of shown routes at once is increased from 50 to 250; set this for your fits in `plugin/RunalyzePluginStat_Strecken/class.RunalyzePluginStat_Strecken.php`-`MAX_ROUTES_ON_NET` regarding your concurrent users, memory settings...
+	* With _Position interval_ you can set to show only _every n GPS route position_ (default=All=1 show every point); this reduce the total number of shown positions and therefore the number of shown routes increases; so it is possible to show in total 1250 routes with every fifth position/point
+	* Add a tooltip on the routenet-page for the routes with date, name and distance
 
 Please notice:
 * All the changes are only done for me to use this great product for me.
