@@ -58,7 +58,7 @@ class Laps {
 		$Calculator = new Calculator($this);
 		$Calculator->calculateAdditionalValues($this->CalculateAdditionalValues);
 		$Calculator->setTimes($times);
-		$Calculator->calculateFrom($trackdata, $route, $swimdata);
+		$Calculator->calculateFrom($trackdata, $route, ($swimdata != null && $swimdata->num() > 0 ? $swimdata : null));
 	}
 
 	/**

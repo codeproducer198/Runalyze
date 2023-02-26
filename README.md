@@ -232,6 +232,7 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* Limit of shown routes at once is increased from 50 to 250; set this for your fits in `plugin/RunalyzePluginStat_Strecken/class.RunalyzePluginStat_Strecken.php`-`MAX_ROUTES_ON_NET` regarding your concurrent users, memory settings...
 	* With _Position interval_ you can set to show only _every n GPS route position_ (default=All=1 show every point); this reduce the total number of shown positions and therefore the number of shown routes increases; so it is possible to show in total 1250 routes with every fifth position/point
 	* Add a tooltip on the routenet-page for the routes with date, name and distance
+* 2023-02-26: Fix a mismatch in the lap-table and lap-popup; in some activities a additional (1 second) round is shown in the popup
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

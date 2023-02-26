@@ -155,8 +155,16 @@ class Calculator
 	 */
 	protected function readLapsFromTimes()
 	{
-		foreach ($this->Times as $seconds) {
-			$this->moveToTime($seconds);
+		$len = count($this->Times) - 1;
+
+		foreach ($this->Times as $i => $seconds) {
+			if($i == $len) {
+				// #TSC in some cases we are at the last split-lap, but the "move" "has a further" (1 sec-) lap; so go NOW to the end
+				$this->goToEnd();
+			} else {
+				$this->moveToTime($seconds);
+
+			}
 			$this->readLap();
 		}
 	}
@@ -403,15 +411,26 @@ class Calculator
 	}
 
 	/**
-	 * Go to end and read last lap
+	 * Go to end.
 	 */
-	protected function finish()
+	protected function goToEnd()
 	{
 		$this->TrackdataLoop->goToEnd();
 
 		if (!is_null($this->RouteLoop)) {
 			$this->RouteLoop->goToEnd();
 		}
+		if (!is_null($this->SwimdataLoop)) {
+			$this->SwimdataLoop->goToEnd();
+		}
+	}
+
+	/**
+	 * Go to end and read last lap
+	 */
+	protected function finish()
+	{
+		$this->goToEnd();
 		$this->readLap();
 	}
 
