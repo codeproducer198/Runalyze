@@ -32,7 +32,7 @@ class JsonBackupAnalyzer
 			if (substr($line, 0, 8) == '{"TABLE"') {
 				$tableName = substr($line, 10, -2);
 				$this->NumberOf[$tableName] = 0;
-			} elseif ($line != '' && $line{0} == '{' && isset($this->NumberOf[$tableName])) {
+			} elseif ($line != '' && $line[0] == '{' && isset($this->NumberOf[$tableName])) {
 				$this->NumberOf[$tableName]++;
 			} elseif (substr($line, 0, 8) == 'version=') {
 				$this->VersionString = substr($line, 8);
