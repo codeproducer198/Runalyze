@@ -91,7 +91,7 @@ class PosterReceiver
         $this->GeneratePoster = $generatePoster;
         $this->FileHandler = $posterFileHandler;
         $this->AccountMailer = $accountMailer;
-        $this->DataDir = $dataDir;
+        $this->DataDir = realpath($dataDir);
         $this->RsvgPath = $rsvgPath;
         $this->InkscapePath = $inkscapePath;
     }
@@ -132,14 +132,17 @@ class PosterReceiver
                     $finalFile = $this->exportDirectory().$finalName;
                     $converter = $this->getConverter($type);
                     $converter->setHeight($message->get('size'));
-                    $exitCode = $converter->callConverter($this->GeneratePoster->generate(), $this->exportDirectory().md5($finalName));
-                    $filesystem = new Filesystem();
-                    $filesystem->rename($this->exportDirectory().md5($finalName), $finalFile);
+                    $hashFinalFile = $this->exportDirectory().md5($finalName) . '.png';
+                    $exitCode = $converter->callConverter($this->GeneratePoster->generate(), $hashFinalFile);
 
                     if ($exitCode > 0) {
-                        $this->Logger->error('Poster converter failed', ['type' => $type, 'exitCode' => $exitCode]);
-                    } elseif ((new Filesystem())->exists($finalFile)) {
-                        $generatedFiles++;
+                        throw new \Exception('Error while converting with error-code='.$exitCode);
+                    } else {
+                        $filesystem = new Filesystem();
+                        $filesystem->rename($hashFinalFile, $finalFile);
+                        if ((new Filesystem())->exists($finalFile)) {
+                            $generatedFiles++;
+                        }
                     }
 
                     $this->GeneratePoster->deleteSvg();

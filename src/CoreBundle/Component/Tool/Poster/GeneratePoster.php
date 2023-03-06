@@ -7,6 +7,7 @@ use Runalyze\Bundle\CoreBundle\Entity\TrainingRepository;
 use Runalyze\Bundle\CoreBundle\Entity\Sport;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class GeneratePoster
 {
@@ -70,7 +71,11 @@ class GeneratePoster
         $builder = new Process($this->Python3Path.' create_poster.py '.implode(' ', $this->Parameter));
         $builder->setWorkingDirectory($this->pathToRepository())->run();
 
-        return $this->pathToSvgDirectory().$this->Filename;
+        if(!$builder->isSuccessful()) {
+            throw new ProcessFailedException($builder);
+        } else {
+            return $this->pathToSvgDirectory().$this->Filename;
+        }
     }
 
     /**
