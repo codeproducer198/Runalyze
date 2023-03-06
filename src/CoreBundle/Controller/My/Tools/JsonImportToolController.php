@@ -45,7 +45,7 @@ class JsonImportToolController extends Controller
         try {
             $backupFile->move($this->getImportFilePath(), $backupFile->getClientOriginalName());
         } catch (FileException $e) {
-            return $this->json(['error' => 'Moving file did not work. Set chmod 777 for /data/backup-tool/import/']);
+            return $this->json(['error' => 'Moving file did not work. Set chmod 777 for data/backup-tool/import/ ' . $e->getMessage()]);
         }
 
         $this->get('session')->getFlashBag()->set('json-import.file', $backupFile->getClientOriginalName());

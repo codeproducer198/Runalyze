@@ -4,7 +4,8 @@ This fork of Runalyze is a release fork with all needed dependencies and can be 
 I have done some small fixes/imporvements.
 Because it based on the [Release 4.3.0](https://github.com/Runalyze/Runalyze/releases/tag/v4.3.0) i hope it is more future-proof in an "old" docker container.
 
-I host it on a private Pine64 Rock64 SOC computer to host my family activities (running, walking, mountain climbing, swimming). It runs on a Debian Buster/ARM64 in a Docker container serviced with docker-compose. Buster supports PHP 7.3 and it runs without problems with some PHP warnings. As input GPS devices i use Garmin Forerunner 45S, Garmin Fenix 6 and Android-Handy with ApeMap/OruxMaps. I import my tacks without use of Garmin-Tools (like Garmin Connect) and so i think no of my private sensible health-data is transmit to the "public" cloud.
+I host it on a private Pine64 Rock64 SOC computer to host my family activities (running, walking, mountain climbing, swimming). It runs on a Debian Buster/ARM64 in a Docker container serviced with docker-compose. Debian 11 Bullseye supports PHP 7.4 and it runs without problems with some PHP warnings. As input GPS devices i use Garmin Forerunner 45S, Garmin Fenix 6 and Android-Handy with ApeMap/OruxMaps. I import my tacks without use of Garmin-Tools (like Garmin Connect) and so i think no of my private sensible health-data is transmit to the "public" cloud.
+If you need the Debian 10 Buster/PHP 7.3 version see the GIT tag `v4.3.0_Debian10_PHP73`; but this version is no more maintenance.
 
 With my other Github project [Clone of Tkl2Gpx](https://github.com/codeproducer198/Tkl2Gpx) i have imported my old running activities from the year 2012 until now into RUNALYZE. These old tracks are record with a GPS MapJack watch and transformed to GPX files imported via RUNYLZE bulk-job.
 
@@ -233,6 +234,10 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* With _Position interval_ you can set to show only _every n GPS route position_ (default=All=1 show every point); this reduce the total number of shown positions and therefore the number of shown routes increases; so it is possible to show in total 1250 routes with every fifth position/point
 	* Add a tooltip on the routenet-page for the routes with date, name and distance
 * 2023-02-26: Fix a mismatch in the lap-table and lap-popup; in some activities a additional (1 second) round is shown in the popup
+* 2023-03-06: Upgrade to PHP 7.4 and Debian 11
+	* Upgrade to `phpunit` v8.5 including adaptions of the tests
+	* Update of some dependencies to newer (minor) versions
+	* Adapt poster generations (type _circular_) `inkscape` v1.0.2 of Debian 11 (change in the parameters)
 
 Please notice:
 * All the changes are only done for me to use this great product for me.
