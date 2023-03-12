@@ -42,6 +42,8 @@ class FitSdkExercise {
         if(empty($result)) {
             return "unknown";
         } else {
+            // remove double entries
+            $result = array_unique($result);
             return implode(", ", $result);
         }
     }

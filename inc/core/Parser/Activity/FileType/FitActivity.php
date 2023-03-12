@@ -402,6 +402,10 @@ class FitActivity extends AbstractSingleParser
                 case 'set': // #TSC a "set" of Krafttraining are interpreded as laps
                     $this->readSet();
                     break;
+
+                case 'workout': // #TSC
+                    $this->readWorkout();
+                    break;
             }
         } elseif (isset($this->Header['NUMBER'])) {
             switch ($this->Header['NUMBER']) {
@@ -1051,6 +1055,26 @@ class FitActivity extends AbstractSingleParser
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * read some info from the workout.
+     * #TSC
+     */
+    protected function readWorkout()
+    {
+        // #TSC: set workout-name to end of the notes
+        if (isset($this->Values['wkt_name'])) {
+            // remove leading "
+            $n = ltrim($this->Values['wkt_name'][0], '"');
+            $n = rtrim($n, '"');
+
+            $v = "Workout name: " . $n;
+            if(!empty($this->Container->Metadata->getNotes())) {
+                $v = $this->Container->Metadata->getNotes() . "\n" . $v;
+            }
+            $this->Container->Metadata->setNotes($v);
         }
     }
 }

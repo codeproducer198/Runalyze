@@ -19,6 +19,14 @@ class FitSdkExcerciseTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals("triceps_extension, ez_bar_pullover", $this->underTest->getFullMapping("30,21,65534", "65535,8,65535"));
     }
 
+    public function testFullMap_allMultiple() {
+        $this->assertEquals("jumping_jacks", $this->underTest->getFullMapping("2,2,2", "12,12,12"));
+    }
+
+    public function testFullMap_twoMultiple() {
+        $this->assertEquals("triceps_extension, ez_bar_pullover", $this->underTest->getFullMapping("30,21,30", "65535,8,65535"));
+    }
+
     public function testFullMapWrongSub() {
         $this->assertEquals("triceps_extension, pull_up", $this->underTest->getFullMapping("30,21,65534", "65535"));
     }
