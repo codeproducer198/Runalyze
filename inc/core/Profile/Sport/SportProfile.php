@@ -51,6 +51,9 @@ class SportProfile extends AbstractEnum implements InterfaceChoosable
     /** @var int */
     const E_MTB_MOUNTAIN = 12;
 
+    /** @var int */
+    const HIIT_CARDIO = 13;
+
     /**
      * @return array
      */

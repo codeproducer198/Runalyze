@@ -455,8 +455,10 @@ class FitActivity extends AbstractSingleParser
         $this->mapDeveloperFieldsToNativeFieldsFor($this->DeveloperFieldMappingForSession);
 
         // #TSC swiming or STRENGTH_TRAINING have a "special" belastungs-time
-        if (($this->IsSwimming || $this->Container->Metadata->getInternalSportId() == \Runalyze\Profile\Sport\SportProfile::STRENGTH_TRAINING)
-            && isset($this->Values['total_active_time'])) {
+        if (($this->IsSwimming 
+                || $this->Container->Metadata->getInternalSportId() == \Runalyze\Profile\Sport\SportProfile::STRENGTH_TRAINING
+                || $this->Container->Metadata->getInternalSportId() == \Runalyze\Profile\Sport\SportProfile::HIIT_CARDIO)
+                && isset($this->Values['total_active_time'])) {
             // #TSC: if special activity and "total_active_time" is available, this is the real swim time without rests (this was introduced with a new FW-version)
             $this->Container->ActivityData->Duration += round($this->Values['total_active_time'][0] / 1e3);
         } else {

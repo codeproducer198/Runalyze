@@ -28,7 +28,9 @@ class FitSdkMapping extends AbstractMapping
             FitSdk\SportProfile::CLIMBING_INDOOR => SportProfile::CLIMBING_INDOOR,
             FitSdk\SportProfile::BOULDERING => SportProfile::BOULDERING,
             FitSdk\SportProfile::STRENGTH_TRAINING => SportProfile::STRENGTH_TRAINING,
-            FitSdk\SportProfile::E_MTB_MOUNTAIN => SportProfile::E_MTB_MOUNTAIN
+            FitSdk\SportProfile::E_MTB_MOUNTAIN => SportProfile::E_MTB_MOUNTAIN,
+            FitSdk\SportProfile::CARDIO => SportProfile::HIIT_CARDIO,
+            FitSdk\SportProfile::HIIT => SportProfile::HIIT_CARDIO
         ];
     }
 

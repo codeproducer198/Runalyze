@@ -57,10 +57,12 @@ class SportProfile extends AbstractEnum
     const TACTICAL = 45;
     const JUMPMASTER = 46;
     const BOXING = 37;
+    const HIIT = 62;
     // #TSC new to use sub-sport: identified by sport*1000 and the subsport
     const CLIMBING_INDOOR= 31068; // sub of ROCK_CLIMBING=31
     const BOULDERING = 31069; // sub of ROCK_CLIMBING=31
     const STRENGTH_TRAINING = 10020; // sub of TRAINING=10
     const E_MTB_MOUNTAIN = 2047; // sub of cycling=2 e_bike_mountain=47
+    const CARDIO = 10026; // sub of training=10 cardio_training=26
     const ALL = 254;
 }

@@ -23,7 +23,9 @@ class EnglishLanguageMapping implements ToInternalMappingInterface
         'mountaineering' => SportProfile::MOUNTAINEERING,
         'climbingindoor' => SportProfile::CLIMBING_INDOOR,
         'bouldering' => SportProfile::BOULDERING,
-        'e-mtb' => SportProfile::E_MTB_MOUNTAIN
+        'e-mtb' => SportProfile::E_MTB_MOUNTAIN,
+        'hiit' => SportProfile::HIIT_CARDIO,
+        'cardio' => SportProfile::HIIT_CARDIO
     ];
 
     public function toInternal($value)
