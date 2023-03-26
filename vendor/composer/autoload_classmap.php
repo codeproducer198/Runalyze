@@ -719,6 +719,7 @@ return array(
     'TableLapsComputed' => $baseDir . '/inc/training/view/section/table/class.TableLapsComputed.php',
     'TablePauses' => $baseDir . '/inc/training/view/section/table/class.TablePauses.php',
     'TableSwimLane' => $baseDir . '/inc/training/view/section/table/class.TableSwimLane.php',
+    'TableSwimLaneAggregateInterval' => $baseDir . '/inc/training/view/section/table/class.TableSwimLaneAggregateInterval.php',
     'TableZonesAbstract' => $baseDir . '/inc/training/view/section/table/class.TableZonesAbstract.php',
     'TableZonesHeartrate' => $baseDir . '/inc/training/view/section/table/class.TableZonesHeartrate.php',
     'TableZonesPace' => $baseDir . '/inc/training/view/section/table/class.TableZonesPace.php',
