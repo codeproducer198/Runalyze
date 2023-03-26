@@ -240,7 +240,10 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* Adapt poster generations (type _circular_) `inkscape` v1.0.2 of Debian 11 (change in the parameters)
 * 2023-03-12: For imported activities bases on a workout, the name is added to the imported activity note
 * 2023-03-25: One new sport activity _HIIT Cardio_ for Garmins _HIIT_ and _Cardio_ workouts can be added to your account and are recognised while importing
-* 2023-03-26: Add a new table for pool-swimming with detailed information about 100 meter intervals (like pace, SWOLF, strokes and difference to the previous interval)
+* 2023-03-26: New detailed 100meter interval table and better handling of swim-rest-lanes in UI tables
+	* Add a new table for pool-swimming with detailed information about 100 meter intervals (like pace, SWOLF, strokes and difference to the previous 100m interval)
+	* Fix calculation of lanes, strokes, Swolf on the UI laps-window table in case of including rest lanes
+	* Optimize representation of swimming rest lanes in the lanes table/widget
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

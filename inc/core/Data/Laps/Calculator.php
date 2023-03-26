@@ -336,17 +336,49 @@ class Calculator
 		);
 
 		$NewLoop = new Swimdata\Loop($Object);
-		$NewLoop->goToEnd();
 
-		foreach ($KeysToAverage as $objectKey => $dataKey) {
-			if ($Object->has($dataKey)) {
-				$AdditionalData[$objectKey] = $NewLoop->average($dataKey);
+		// have we stroke-type and therefore rest lanes?
+		if ($Object->has(Swimdata\Entity::STROKETYPE)) {
+			// first determine the lanes
+			$st = 0;
+			while(!$NewLoop->isAtEnd()) {
+				if($NewLoop->current(Swimdata\Entity::STROKETYPE) != \Runalyze\Profile\FitSdk\StrokeTypeProfile::BREAK) {
+					// number of lanes of a lap
+					$st++;
+				}
+				$NewLoop->nextStep();
+			}
+			if($NewLoop->current(Swimdata\Entity::STROKETYPE) != \Runalyze\Profile\FitSdk\StrokeTypeProfile::BREAK) {
+				$st++;
+			}
+			$AdditionalData['lanes'] = $st; // number of lanes
+
+			$NewLoop->reset();
+			$NewLoop->goToEnd();
+	
+			// calculate stroke...swolf
+			foreach ($KeysToAverage as $objectKey => $dataKey) {
+				if ($Object->has($dataKey)) {
+					$AdditionalData[$objectKey] = round($NewLoop->sum($dataKey) / $st);
+				}
+			}
+		} else {
+			// no rest lanes can be determine...so calculate without rest determination
+			$NewLoop->goToEnd();
+
+			// first determine the lanes
+			if ($Object->has(Swimdata\Entity::STROKE)) {
+				$AdditionalData['lanes'] = $NewLoop->num(Swimdata\Entity::STROKE);
+			}
+
+			// calculate stroke...swolf
+			foreach ($KeysToAverage as $objectKey => $dataKey) {
+				if ($Object->has($dataKey)) {
+					$AdditionalData[$objectKey] = $NewLoop->average($dataKey);
+				}
 			}
 		}
 
-		if ($Object->has(Swimdata\Entity::STROKE)) {
-			$AdditionalData['lanes'] = $NewLoop->num(Swimdata\Entity::STROKE);
-		}
 		if ($Object->has(Swimdata\Entity::STROKE)) {
 			$AdditionalData[Activity\Entity::TOTAL_STROKES] = $NewLoop->sum(Swimdata\Entity::STROKE);
 		}

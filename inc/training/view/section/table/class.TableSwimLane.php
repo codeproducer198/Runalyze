@@ -9,6 +9,7 @@ use Runalyze\Model\Swimdata;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\Duration;
 use Runalyze\Data\Stroketype;
+use Runalyze\Model\Activity\Splits;
 
 /**
  * Display swim lanes
@@ -52,6 +53,8 @@ class TableSwimLane extends TableLapsAbstract {
 		$Stroketype = new Stroketype(\Runalyze\Profile\FitSdk\StrokeTypeProfile::FREESTYLE);
 		$Distance = new Distance(0);
 
+		$pauseTrackloopIdx = $this->getTrackloopPauseIdx($this->Context->activity()->splits(), $TrackLoop);
+
 		$max = $Loop->num();
 		$hasBreak = false;
 		$interval = 1;
@@ -59,25 +62,18 @@ class TableSwimLane extends TableLapsAbstract {
 		$swolfs = 0;
 		$strokes = 0;
 
-		for ($i = 1, $lane = 1; $i <= $max; ++$i) {
+		for ($i = 1, $lane = 0; $i <= $max; ++$i) {
 			$Stroketype->set($Loop->stroketype());
 			$Distance->set($TrackLoop->distance());
 
-			// #TSC: add more info to lanes-table: pause-lanes, summary line
-			if(!$Stroketype->isBreak()) {
-				$this->Code .= '<tr class="r">';
+			$lapFinished = in_array($TrackLoop->index(), $pauseTrackloopIdx);
 
-				$this->Code .= '<td>'.$lane++.'.</td>';
-				$this->Code .= '<td>'.$Distance->stringMeter().'</td>';
-				$this->Code .= '<td>'.Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)).'</td>';
-				$this->Code .= '<td>'.$Loop->swolf().'</td>';
-				$this->Code .= '<td>'.$Loop->stroke().'</td>';
-				$intervalLanes++;
-				$swolfs += empty($Loop->swolf()) ? 0 : $Loop->swolf();
-				$strokes += empty($Loop->stroke()) ? 0: $Loop->stroke();
-			} else {
-				// show the summary lane of this interval
-				$this->writeSummary($Poollength, $TrackLoop, $interval, $intervalLanes, $swolfs, $strokes);
+			// #TSC: add more info to lanes-table: pause-lanes, summary line
+			if($lapFinished && $Stroketype->isBreak()) {
+				if($swolfs > 0 || $strokes > 0) {
+					// show the summary lane of this interval
+					$this->writeSummary($Poollength, $TrackLoop, $interval, $intervalLanes, $swolfs, $strokes);
+				}
 
 				$interval++;
 
@@ -94,6 +90,28 @@ class TableSwimLane extends TableLapsAbstract {
 				$this->Code .= '<td></td>';
 
 				$hasBreak = true;
+			} else {
+				$this->Code .= '<tr class="r">';
+
+				if(!$Stroketype->isBreak()) {
+					$lane++;
+					$intervalLanes++;
+
+					$this->Code .= '<td>'.$lane.'.</td>';
+					$this->Code .= '<td>'.$Distance->stringMeter().'</td>';
+					$this->Code .= '<td>'.Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)).'</td>';
+					$this->Code .= '<td>'.$Loop->swolf().'</td>';
+					$this->Code .= '<td>'.$Loop->stroke().'</td>';
+				} else {
+					$this->Code .= '<td></td>';
+					$this->Code .= '<td></td>';
+					$this->Code .= '<td>'.Duration::format($TrackLoop->difference(Trackdata\Entity::TIME)).'</td>';
+					$this->Code .= '<td></td>';
+					$this->Code .= '<td></td>';
+				}
+				
+				$swolfs += empty($Loop->swolf()) ? 0 : $Loop->swolf();
+				$strokes += empty($Loop->stroke()) ? 0: $Loop->stroke();
 			}
 
 			$this->Code .= '<td>'.$Stroketype->shortString().'</td>';
@@ -110,6 +128,25 @@ class TableSwimLane extends TableLapsAbstract {
 
 		$this->Code .= '</tbody>';
 		$this->Code .= '</table>';
+	}
+
+	// create a array with trackloop-indexes where the pause laps/rounds including #TSC
+	protected function getTrackloopPauseIdx(Splits\Entity $splits, Trackdata\Loop $trackLoop) {
+		$result = array();
+
+		$time = 0;
+		foreach ($splits->asArray() as $Split) {
+			$time += $Split->time();
+			if (!$Split->isActive()) {
+				$trackLoop->moveToTime($time);
+				$result[] = $trackLoop->index();
+			}
+		}
+
+		// reset further use
+		$trackLoop->reset();
+
+		return $result;
 	}
 
 	/**
