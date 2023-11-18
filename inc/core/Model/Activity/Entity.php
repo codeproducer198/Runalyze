@@ -228,6 +228,24 @@ class Entity extends Model\EntityWithID {
     const FIT_LOAD_PEAK = 'fit_load_peak';
 
     /**
+     * Key: fit_run_time
+     * @var string
+     */
+    const FIT_RUN_TIME = 'fit_run_time';
+
+    /**
+     * Key: fit_walk_time
+     * @var string
+     */
+    const FIT_WALK_TIME = 'fit_walk_time';
+
+    /**
+     * Key: fit_stand_time
+     * @var string
+     */
+    const FIT_STAND_TIME = 'fit_stand_time';
+
+    /**
      * Key: avg_respiration_rate
      * @var string
      */
@@ -431,6 +449,12 @@ class Entity extends Model\EntityWithID {
 	const SPLITS_ADDITIONAL = 'splits_additional';
 
 	/**
+	 * Key: pace_goal
+	 * @var string
+	 */
+	const PACE_GOAL = 'pace_goal';
+
+	/**
 	 * Key: title
 	 * @var string
 	 */
@@ -491,6 +515,12 @@ class Entity extends Model\EntityWithID {
 	protected $Partner = null;
 
 	/**
+	 * Pace-Goal
+	 * @var array
+	 */
+	protected $PaceGoal = null;
+
+	/**
 	 * Clone object
 	 */
 	public function __clone() {
@@ -538,6 +568,9 @@ class Entity extends Model\EntityWithID {
             self::FIT_SELF_ELEVATION_FEELING,
             self::FIT_SELF_ELEVATION_PRECEIVED_EFFORT,
 			self::FIT_LOAD_PEAK,
+			self::FIT_RUN_TIME,
+			self::FIT_WALK_TIME,
+			self::FIT_STAND_TIME,
             self::AVG_RESPIRATION_RATE,
             self::MAX_RESPIRATION_RATE,
             self::RPE,
@@ -578,7 +611,8 @@ class Entity extends Model\EntityWithID {
 			self::NOTES,
 			self::CREATOR,
 			self::CREATOR_DETAILS,
-			self::ACTIVITY_ID
+			self::ACTIVITY_ID,
+			self::PACE_GOAL
 		);
 	}
 
@@ -648,6 +682,9 @@ class Entity extends Model\EntityWithID {
             case self::FIT_SELF_ELEVATION_FEELING:
             case self::FIT_SELF_ELEVATION_PRECEIVED_EFFORT:
 			case self::FIT_LOAD_PEAK:
+			case self::FIT_RUN_TIME:
+			case self::FIT_WALK_TIME:
+			case self::FIT_STAND_TIME:
             case self::AVG_RESPIRATION_RATE:
             case self::MAX_RESPIRATION_RATE:
             case self::RPE:
@@ -682,6 +719,7 @@ class Entity extends Model\EntityWithID {
 			case self::CREATOR_DETAILS:
             case self::ROUTEID:
 			case self::ACTIVITY_ID:
+			case self::PACE_GOAL:
 				return true;
 		}
 
@@ -1049,6 +1087,30 @@ class Entity extends Model\EntityWithID {
         return $this->Data[self::FIT_LOAD_PEAK];
     }
 
+	/**
+	 * fit RWD run time #TSC
+	 * @return null|int [s]
+	 */
+	public function fitRunTime() {
+		return $this->Data[self::FIT_RUN_TIME];
+	}
+
+	/**
+	 * fit RWD walk time #TSC
+	 * @return null|int [s]
+	 */
+	public function fitWalkTime() {
+		return $this->Data[self::FIT_WALK_TIME];
+	}
+
+	/**
+	 * fit RWD run time #TSC
+	 * @return null|int [s]
+	 */
+	public function fitStandTime() {
+		return $this->Data[self::FIT_STAND_TIME];
+	}
+
     /**
      * avgRespirationRate
      * @return null|int
@@ -1339,6 +1401,15 @@ class Entity extends Model\EntityWithID {
 		}
 
 		return $this->Partner;
+	}
+
+	/**
+	 * PaceGoal #TSC
+	 * @return array
+	 */
+	public function paceGoal() {
+		// #TSC the column is defined as ORM-JSON and should be a array, but it isn't; so make it here
+		return json_decode($this->Data[self::PACE_GOAL], true);
 	}
 
 	/**

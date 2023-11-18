@@ -26,6 +26,10 @@ class SectionLaps extends TrainingViewSectionTabbed {
 		if ($this->Context->trackdata()->has(Trackdata\Entity::DISTANCE) && $this->Context->trackdata()->has(Trackdata\Entity::TIME)) {
 			$this->appendRowTabbed( new SectionLapsRowComputed($this->Context), __('Computed Laps') );
 		}
+
+		if ($this->Context->activity()->paceGoal()) {
+			$this->appendRowTabbed( new SectionLapsRowPaceGoal($this->Context), __('Pace Goal') );
+		}
 	}
 
 	/**

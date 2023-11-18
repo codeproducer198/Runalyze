@@ -399,6 +399,9 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
         $this->addToTable($details, $this->getGlossaryLink('Anstrengung (1-10):', 'self-evaluation'), ($this->Context->activity()->fitSelfEvaluationPreceivedEffort() != null ? $this->Context->activity()->fitSelfEvaluationPreceivedEffort() : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Gefühl (1-5):', 'self-evaluation'), ($this->Context->activity()->fitSelfEvaluationFeeling() != null ? runActivity\SelfEvaluationFeeling::descriptionFromNum($this->Context->activity()->fitSelfEvaluationFeeling()) : '-'), $c);
         $this->addToTable($details, $this->getGlossaryLink('Trainingsbelastung:', 'training_load_peak'), ($this->Context->activity()->fitLoadPeak() != null ? $this->Context->activity()->fitLoadPeak() : '-'), $c);
+        $this->addToTable($details, $this->getGlossaryLink('Laufzeit:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitRunTime()), $c);
+        $this->addToTable($details, $this->getGlossaryLink('Gehzeit:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitWalkTime()), $c);
+        $this->addToTable($details, $this->getGlossaryLink('Zeit Inaktivität:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitStandTime()), $c);
 
         $details .= '</tr></table>';
         $this->FitDetails .= HTML::fileBlock($details);
@@ -408,6 +411,14 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
 
     protected function getGlossaryLink($text, $glossary) {
         return '<a class="window left" href="glossary/' . $glossary . '"><i class="fa fa-question-circle-o"></i></a>&nbsp;' . $text;
+    }
+
+    protected function getFormattedSeconds($seconds): string {
+		if (isset($seconds)) {
+			return Duration::format($seconds) . 's';
+		} else {
+			return '-';
+		}
     }
 
 	/**

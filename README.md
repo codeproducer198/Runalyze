@@ -244,6 +244,13 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* Add a new table for pool-swimming with detailed information about 100 meter intervals (like pace, SWOLF, strokes and difference to the previous 100m interval)
 	* Fix calculation of lanes, strokes, Swolf on the UI laps-window table in case of including rest lanes
 	* Optimize representation of swimming rest lanes in the lanes table/widget
+* 2023-11-18: Support of Garmins _Run/Walk recognition_ and _PacePro_ (named 'Pace Goal' in Runalyze)
+    * Add 3 new columns to `training` to store the _Run/Walk recognition_; the values are shown in the 'Miscellaneous' panel > 'Fit details'; also add a new Glossary entry _Laufen-/Gehen-Erkennung_ for this
+	* Import of _Pace Goal_ plan and the differences of a run activity; so you can compare the plan and the real running time/paces of the run activity in the 'Laps' panel > 'Pace Goal'
+	* The _Pace Goal_ related values are stored as JSON in `training.pace_goal`
+	* Auto detection of running-training-type "Pace Goal" (detection only works in batch/bulk-mode). You must configure a training-type with short-cut "PG" to your sports in the configuration to use this feature.
+	* If you change your distance/duration of a _Pace Goal_ activity in the edit function, a warning in the 'Pace Goal' panel will shown.
+	* **Migration Version20231115200000 is necessary!**
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

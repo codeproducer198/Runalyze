@@ -109,6 +109,9 @@ class ActivityData
     /** @var array|null [-] #TSC: added */
     public $SplitsAdditional = null;
 
+    /** @var array|null [-] #TSC: added */
+    public $PaceGoal = null;
+
     /**
      * @return array
      */
@@ -147,7 +150,8 @@ class ActivityData
             'AvgTemperature',
             'AvgRespirationRate',
             'MaxRespirationRate',
-            'SplitsAdditional'
+            'SplitsAdditional',
+            'PaceGoal'
         ];
     }
 

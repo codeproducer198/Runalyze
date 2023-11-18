@@ -42,4 +42,13 @@ class FitDetails
 
     /** @var int|null */
     public $LoadPeak = null;
+
+    /** @var int|null [s] */
+    public $RunTime = null;
+
+    /** @var int|null [s] */
+    public $WalkTime = null;
+
+    /** @var int|null [s] */
+    public $StandTime = null;
 }

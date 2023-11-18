@@ -306,6 +306,27 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     private $fitLoadPeak = null;
 
     /**
+     * @var int|null [s]
+     *
+     * @ORM\Column(name="fit_run_time", type="integer", nullable=true, options={"unsigned":true})
+     */
+    private $fitRunTime = null;
+
+    /**
+     * @var int|null [s]
+     *
+     * @ORM\Column(name="fit_walk_time", type="integer", nullable=true, options={"unsigned":true})
+     */
+    private $fitWalkTime = null;
+
+    /**
+     * @var int|null [s]
+     *
+     * @ORM\Column(name="fit_stand_time", type="smallint", nullable=true, options={"unsigned":true})
+     */
+    private $fitStandTime = null;
+
+    /**
      * @var int|null []
      *
      * @ORM\Column(name="avg_respiration_rate", type="smallint", nullable=true, options={"unsigned":true})
@@ -576,6 +597,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @ORM\Column(name="partner", type="text", length=65535, nullable=true)
      */
     private $partner = null;
+
+    /**
+     * @var array|null
+     *
+     * @ORM\Column(name="pace_goal", type="json", length=2147483647, nullable=true)
+     */
+    private $paceGoal;
 
     /**
      * @var string|null
@@ -1461,6 +1489,68 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
+     * @return null|int [s]
+     */
+    public function getFitRunTime()
+    {
+        return $this->fitRunTime;
+    }
+
+    /**
+     * @param null|int $fitRunTime [s]
+     *
+     * @return $this
+     */
+    public function setFitRunTime($fitRunTime)
+    {
+        $this->fitRunTime = $fitRunTime;
+
+        return $this;
+    }
+
+
+    /**
+     * @return null|int [s]
+     */
+    public function getFitWalkTime()
+    {
+        return $this->fitWalkTime;
+    }
+
+    /**
+     * @param null|int $fitWalkTime [s]
+     *
+     * @return $this
+     */
+    public function setFitWalkTime($fitWalkTime)
+    {
+        $this->fitWalkTime = $fitWalkTime;
+
+        return $this;
+    }
+
+
+    /**
+     * @return null|int [s]
+     */
+    public function getFitStandTime()
+    {
+        return $this->fitStandTime;
+    }
+
+    /**
+     * @param null|int $fitStandTime [s]
+     *
+     * @return $this
+     */
+    public function setFitStandTime($fitStandTime)
+    {
+        $this->fitStandTime = $fitStandTime;
+
+        return $this;
+    }
+
+    /**
      * @return null|int
      */
     public function getAvgRespirationRate()
@@ -2219,6 +2309,26 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     public function getPartner()
     {
         return $this->partner;
+    }
+
+    /**
+     * @param null|array $paceGoal
+     *
+     * @return $this
+     */
+    public function setPaceGoal($paceGoal)
+    {
+        $this->paceGoal = $paceGoal;
+
+        return $this;
+    }
+
+    /**
+     * @return null|array
+     */
+    public function getPaceGoal()
+    {
+        return $this->paceGoal;
     }
 
     /**

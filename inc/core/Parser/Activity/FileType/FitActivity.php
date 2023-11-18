@@ -406,6 +406,10 @@ class FitActivity extends AbstractSingleParser
                 case 'workout': // #TSC
                     $this->readWorkout();
                     break;
+
+                case 'split': // #TSC
+                    $this->readSplit();
+                    break;
             }
         } elseif (isset($this->Header['NUMBER'])) {
             switch ($this->Header['NUMBER']) {
@@ -1077,6 +1081,66 @@ class FitActivity extends AbstractSingleParser
                 $v = $this->Container->Metadata->getNotes() . "\n" . $v;
             }
             $this->Container->Metadata->setNotes($v);
+        }
+    }
+
+    /**
+     * read some info from the split.
+     * this can include Garmins PacePro or infos about Walk/Inactiv/Run
+     * #TSC
+     */
+    protected function readSplit()
+    {
+        if (!isset($this->Values['split_type']) || !isset($this->Values['total_timer_time'])) {
+            return;
+        }
+
+        $split_type = $this->Values['split_type'][0];
+        $total_timer_time_s = round((int)($this->Values['total_timer_time'][0]) / 1000);
+
+        // pace-pro
+        if ($split_type == 0
+            && isset($this->Values['total_distance']) 
+            && isset($this->Values['pacep_plan_duration']) && isset($this->Values['pacep_plan_distance'])) {
+            // init value
+            if (!isset($this->Container->ActivityData->PaceGoal)) {
+                $this->Container->ActivityData->PaceGoal = array();
+            }
+        
+            $split = array();
+
+            // real running values
+            $split['t_s'] = $total_timer_time_s;
+            $split['dist_m'] = round((int)($this->Values['total_distance'][0]) / 100);
+
+            // pace-pro plan values
+            $split['pp_t_s'] = round((int)($this->Values['pacep_plan_duration'][0]) / 1000);
+            $split['pp_dist_m'] = round((int)($this->Values['pacep_plan_distance'][0]) / 100);
+
+            // add it to the existing JSON array
+            $this->Container->ActivityData->PaceGoal[] = $split;
+            return;
+        }
+
+        // initialize the values for run/walk/stand
+        if (!isset($this->Container->FitDetails->RunTime) &&
+            ($split_type == 17 || $split_type == 18 || $split_type == 22)) {
+            $this->Container->FitDetails->RunTime = 0;
+            $this->Container->FitDetails->WalkTime = 0;
+            $this->Container->FitDetails->StandTime = 0;
+        }
+
+        // cumulate run/walk/stand
+        switch ($split_type) {
+            case 17: // run time
+                $this->Container->FitDetails->RunTime += $total_timer_time_s;
+                return;
+            case 18: // walk time
+                $this->Container->FitDetails->WalkTime += $total_timer_time_s;
+                return;
+            case 22: // stand time
+                $this->Container->FitDetails->StandTime += $total_timer_time_s;
+                return;
         }
     }
 }

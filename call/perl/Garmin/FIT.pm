@@ -962,6 +962,7 @@ else {
      'exercise_title' => 264,
      'dive_summary' => 268,
      'jump' => 285,
+     'split' => 312, #TSC
      'climb_pro' => 317,
      'mfg_range_min' => 0xFF00,
      'mfg_range_max' => 0xFFFE,
@@ -6568,6 +6569,18 @@ sub named_type_value {
      9 => +{'name' => 'o2_toxicity'},
      10 => +{'name' => 'dive_number'},
      11 => +{'name' => 'bottom_time', 'scale' => 1000, 'unit' => 's'},
+   },
+
+   'split' => +{ # split TSC
+     253 => +{'name' => 'timestamp', 'type_name' => 'date_time'},
+     254 => +{'name' => 'message_index', 'type_name' => 'message_index'},
+     0 => +{'name' => 'split_type'}, # see com.garmin.fit.SplitType
+     1 => +{'name' => 'total_elapsed_time', 'scale' => 1000, 'unit' => 's'},
+     2 => +{'name' => 'total_timer_time', 'scale' => 1000, 'unit' => 's'},
+     3 => +{'name' => 'total_distance', 'scale' => 100, 'unit' => 'm'},
+     9 => +{'name' => 'start_time', 'type_name' => 'date_time'},
+     75 => +{'name' => 'pacep_plan_duration', 'scale' => 1000, 'unit' => 's'}, # pacepro
+     76 => +{'name' => 'pacep_plan_distance', 'scale' => 100, 'unit' => 'm'}, # pacepro
    },
 
    'climb_pro' => +{

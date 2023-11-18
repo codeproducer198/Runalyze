@@ -273,4 +273,12 @@ class DefaultController extends Controller
     {
         return $this->renderCorrectView('GlossaryBundle:topics:training_load_peak.html.twig', $request);
     }
+
+    /**
+     * @Route("/detection_run_walk", name="glossary-detection_run_walk")
+     */
+    public function detectionRunWalk(Request $request)
+    {
+        return $this->renderCorrectView('GlossaryBundle:topics:detection_run_walk.html.twig', $request);
+    }
 }

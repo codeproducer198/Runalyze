@@ -1,0 +1,15 @@
+{% extends "GlossaryBundle::_base.html.twig" %}
+
+{% import 'GlossaryBundle::_macro/references.html.twig' as ref %}
+
+{% block headline %}
+    Laufen-/Gehen-Erkennung
+{% endblock %}
+
+{% block glossaryContent %}
+    <p class="text">
+        Das Garmin-Gerät nutzt die Schrittfrequenz (Schritte pro Minute) und die Pace während einer Aktivität, um zu ermitteln, ob du läufst, gest oder inaktiv bist.
+        <b/>
+        Derzeit wird dies von Garmin nur für Lauf-Aktivitäten unterstützt.
+    </p>
+{% endblock %}

@@ -120,6 +120,12 @@ class ActivityDataContainer
         if(!$fitSelfEvalEffortUsed && !empty($this->FitDetails->SelfEvaluationPerceivedEffort)) {
             $this->ActivityData->RPE = RPE::getString($this->FitDetails->SelfEvaluationPerceivedEffort);
         }
+
+        // #TSC if a Pace-Goal run, set it if no other type is already set
+        if (empty($this->Metadata->getTypeName()) && !empty($this->ActivityData->PaceGoal)) {
+            // if PG not exists, no error and no mapping will be done
+            $this->Metadata->setTypeName('PG');
+        }
     }
 
     public function filterActivityData(FilterCollection $filter)
