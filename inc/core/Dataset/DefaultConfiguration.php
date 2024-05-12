@@ -84,6 +84,7 @@ class DefaultConfiguration extends Configuration
             Keys::TOOLS => false,
 			Keys::AVG_RESPIRATION_RATE => false,
             Keys::FIT_LOAD_PEAK => false,
+            Keys::OPEN_TAB => false
 		));
 	}
 

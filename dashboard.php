@@ -25,6 +25,9 @@ if (!isset($request) || !$request->isXmlHttpRequest()) {
 		</div>
 
 		<div id="statistics" class="panel">
+			<!-- #TSC: needed to scroll to statistics
+				 same as runalyze.lib.training.js#load() of "scrollTop" -->
+			<div id="statistics-scrolltag" style="position: relative; top: -43px;"></div>
 			<ul id="statistics-nav">
 				<?php
 				$Factory = new PluginFactory();

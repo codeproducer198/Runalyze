@@ -205,6 +205,9 @@ final class Keys extends AbstractEnum
 	/** @var int */
 	const FIT_LOAD_PEAK = 64;
 
+	/** @var int */
+	const OPEN_TAB = 65;
+
     /**
 	 * @var array|null
 	 */
@@ -325,7 +328,8 @@ final class Keys extends AbstractEnum
             self::AVG_RESPIRATION_RATE => 'AverageRespirationRate',
             self::HEARTRATE_AVG_ACTIVE => 'HeartrateAverageActive',
             self::TOTAL_CYCLES => 'TotalCycles',
-            self::FIT_LOAD_PEAK => 'FitLoadPeak'
+            self::FIT_LOAD_PEAK => 'FitLoadPeak',
+            self::OPEN_TAB => 'OpenTab'
         );
 	}
 }

@@ -251,6 +251,7 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* Auto detection of running-training-type "Pace Goal" (detection only works in batch/bulk-mode). You must configure a training-type with short-cut "PG" to your sports in the configuration to use this feature.
 	* If you change your distance/duration of a _Pace Goal_ activity in the edit function, a warning in the 'Pace Goal' panel will shown.
 	* **Migration Version20231115200000 is necessary!**
+* 2024-05-09: Add _Open the activity in a new browser tab/window_ in the dataset to open activities in a new tab
 
 Please notice:
 * All the changes are only done for me to use this great product for me.
