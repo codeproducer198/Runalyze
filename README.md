@@ -259,6 +259,7 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 		* if enabled, it only works while batch/bulk-imports and if for one bulk-import with multiple different HRs only the highest will be used
 		* only the main sport will be used for determine the max HR
 		* comment of the newly created _body data_ will be `New max pulse is set while importing main-sports activity.`
+	* Default page (index) is now the login page (not the register page; think this make more sense for private instances)
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

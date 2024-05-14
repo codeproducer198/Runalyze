@@ -61,7 +61,8 @@ class DefaultController extends AbstractPluginsAwareController
             return $this->redirect($this->generateUrl('dashboard'));
         }
 
-        return $this->forward('CoreBundle:Default:register', $request->attributes->all());
+        // #TSC set default page login, not register
+        return $this->forward('CoreBundle:Default:login', $request->attributes->all());
     }
 
     /**

@@ -48,7 +48,7 @@
                     </div>
 
                     <div id="login-panel">
-                        {% if app.request.get('_route') == 'login' %}
+                        {% if app.request.get('_route') == 'login' or app.request.get('_route') == 'base_url' %}
                         <a href="{{ path('register') }}"><i class="fa fa-fw fa-lg fa-user"></i> {% trans %}Sign up now{% endtrans %}</a>
                         {% else %}
                         <a href="{{ path('login') }}"><i class="fa fa-fw fa-lg fa-sign-in"></i> {% trans %}Login{% endtrans %}</a>
