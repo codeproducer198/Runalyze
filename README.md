@@ -251,7 +251,14 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* Auto detection of running-training-type "Pace Goal" (detection only works in batch/bulk-mode). You must configure a training-type with short-cut "PG" to your sports in the configuration to use this feature.
 	* If you change your distance/duration of a _Pace Goal_ activity in the edit function, a warning in the 'Pace Goal' panel will shown.
 	* **Migration Version20231115200000 is necessary!**
-* 2024-05-09: Add _Open the activity in a new browser tab/window_ in the dataset to open activities in a new tab
+* 2024-05-09:
+	* Add _Open the activity in a new browser tab/window_ in the dataset to open activities in a new tab
+		* it's a new dataset key and must be enabled in the dataset configuration
+	* Your FIT _zone targets_ maximal heart-rate (from your device) of imported activities will create a new users _body data_ in case of changes in the max HR
+		* per default this behaviour is disabled; you can enable it in the _configuration > activity-form > Import max heart-rate_
+		* if enabled, it only works while batch/bulk-imports and if for one bulk-import with multiple different HRs only the highest will be used
+		* only the main sport will be used for determine the max HR
+		* comment of the newly created _body data_ will be `New max pulse is set while importing main-sports activity.`
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

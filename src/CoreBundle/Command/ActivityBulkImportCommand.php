@@ -19,6 +19,44 @@ use Runalyze\Bundle\CoreBundle\Entity\EquipmentType;
 use Runalyze\Bundle\CoreBundle\Entity\Training;
 use Runalyze\Util\LocalTime;
 
+/**
+ * Internal class represents a maximal zone-target heart-rate.
+ * #TSC
+ */
+class MaxZoneHR {
+    private $import; // is import allowed by configuration
+    public $MaxHR = 0; // max HR of all imported activities
+    public $Time = null; // timestamp of the first highest HR
+
+    public function __construct($account, $container) {
+        // we can't use here in a command not the \Runalyze\Configuration::ActivityForm()
+        // so read the conf via repository
+        $repository = $container->get('doctrine')->getRepository('CoreBundle:Conf');
+
+        $conf = $repository->findByAccountAndKey($account, 'IMPORT_MAX_ZONE_HR');
+        // some confuse logic with the Conf boolean parameter...to get the boolean value from the Conf
+        $bool = new \Runalyze\Parameter\Boolean(false);
+        $bool->setFromString(is_null($conf) ? '' : $conf->getValue());
+        $this->import = $bool->value();
+    }
+
+    public function collect($activity, $container) {
+        // used the HR if
+        // 1. import is allowed by configuration (=IMPORT_MAX_ZONE_HR)
+        // 2. its the main sport (in normal cases 'running')
+        // 3. a MaxZoneHR is in the import/FIT and its the highest of all the imported
+        if($this->import && $activity->getSport()->isMain() &&
+            isset($container->FitDetails->MaxZoneHR) && $container->FitDetails->MaxZoneHR > $this->MaxHR) {
+            $this->MaxHR = $container->FitDetails->MaxZoneHR;
+            $this->Time = $container->Metadata->getTimestamp();
+        }
+    }
+
+    public function isCollected() {
+        return $this->MaxHR > 0;
+    }
+}
+
 class ActivityBulkImportCommand extends ContainerAwareCommand
 {
     // move files after import to "this"-folder
@@ -113,6 +151,8 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
         $contextAdapterFactory = $this->getContainer()->get('app.activity_context_adapter_factory');
         $defaultLocation = $this->getContainer()->get('app.configuration_manager')->getList()->getActivityForm()->getDefaultLocationForWeatherForecast();
 
+        $maxZoneHR = new MaxZoneHR($user, $this->getContainer());
+
         foreach ($importResult as $result) {
             /** @var $result FileImportResult */
             foreach ($result->getContainer() as $container) {
@@ -143,7 +183,14 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
                 $this->getTrainingRepository()->save($activity);
                 $output->writeln('<fg=green> ... successfully imported</>');
                 $this->moveFile($fs, $path, $result->getOriginalFileName(), $output);
+
+                // collect the max pulse from the ZoneTarget in case of main-sports
+                $maxZoneHR->collect($activity, $container);
             }
+        }
+
+        if($maxZoneHR->isCollected()) {
+            $this->checkStoreMaxZoneHR($user, $output, $maxZoneHR);
         }
 
         if (!empty($this->FailedImports)) {
@@ -270,6 +317,28 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
                         '; mapping canceled for this category!</>');    
                 }
             }
+        }
+    }
+
+    /**
+     * #TSC
+     * Check if the reported max pulse differs from the current one. If yes, create new "User" entity.
+     */
+    private function checkStoreMaxZoneHR(Account $account, OutputInterface $output, $maxZoneHR) {
+        // same logic as BodyValuesController.addAction
+        $repository = $this->getContainer()->get('doctrine')->getRepository('CoreBundle:User');
+        $oldUser = $repository->getLatestEntryFor($account);
+
+        // if new max differs from the stored one
+        if(!is_null($oldUser) && $maxZoneHR->MaxHR != $oldUser->getPulseMax()) {
+            // clone current user and create a new one
+            $newuser = $oldUser->cloneObjectForForm();
+            $newuser->setTime($maxZoneHR->Time);
+            $newuser->setPulseMax($maxZoneHR->MaxHR);
+            $newuser->setNotes('New max pulse is set while importing main-sports activity.');
+            $repository->save($newuser, $account);
+
+            $output->writeln('<fg=yellow>Max heart-rate of user is changed from ' . $oldUser->getPulseMax() .' to ' . $maxZoneHR->MaxHR . '</>');
         }
     }
 }

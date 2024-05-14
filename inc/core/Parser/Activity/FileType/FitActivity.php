@@ -410,6 +410,10 @@ class FitActivity extends AbstractSingleParser
                 case 'split': // #TSC
                     $this->readSplit();
                     break;
+
+                case 'zones_target': // #TSC
+                    $this->readZonesTarget();
+                    break;
             }
         } elseif (isset($this->Header['NUMBER'])) {
             switch ($this->Header['NUMBER']) {
@@ -1141,6 +1145,17 @@ class FitActivity extends AbstractSingleParser
             case 22: // stand time
                 $this->Container->FitDetails->StandTime += $total_timer_time_s;
                 return;
+        }
+    }
+
+    /**
+     * read some info from the ZonesTarget.
+     * #TSC
+     */
+    protected function readZonesTarget()
+    {
+        if (isset($this->Values['max_heart_rate']) && $this->Values['max_heart_rate'][0] != 0) {
+            $this->Container->FitDetails->MaxZoneHR = (int)$this->Values['max_heart_rate'][0];
         }
     }
 }

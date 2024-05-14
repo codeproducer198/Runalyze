@@ -87,6 +87,7 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 		$this->createHandle('TRAINING_SORT_SHOES', new DatabaseOrder());
 		$this->createHandle('GARMIN_IGNORE_IDS', new Set(array()));
 		$this->createHandle('DETECT_PAUSES', new Boolean(true));
+		$this->createHandle('IMPORT_MAX_ZONE_HR', new Boolean(false)); // #TSC
 	}
 
 	/**
@@ -197,6 +198,12 @@ class ActivityForm extends \Runalyze\Configuration\Category {
 		$Fieldset->addHandle( $this->handle('DETECT_PAUSES'), array(
 			'label'		=> __('Detect pauses'),
 			'tooltip'	=> __('Detect pauses (distance not increasing) when importing training')
+		));
+
+		// #TSC
+		$Fieldset->addHandle( $this->handle('IMPORT_MAX_ZONE_HR'), array(
+			'label'		=> 'Import max heart-rate',
+			'tooltip'	=> 'If the imported (FIT) activity has a maximal HR in the zoned targets it will set the users max HR'
 		));
 
 		$this->addHandlesForWeatherTo($Fieldset);
