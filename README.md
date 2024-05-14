@@ -261,6 +261,7 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 		* comment of the newly created _body data_ will be `New max pulse is set while importing main-sports activity.`
 	* Default page (index) is now the login page (not the register page; think this make more sense for private instances)
 	* Fix old error in swim activities which results in 500 when opening
+	* Fix old error in some actions (f.e. edit a activity) the data browser fall back to current month selection (and not the previous selected time range)
 
 Please notice:
 * All the changes are only done for me to use this great product for me.
