@@ -81,7 +81,7 @@ class TablePaceGoal {
 		$durationGoal = new Duration(0);
 		$durationRun = new Duration(0);
 
-		$sum_pp_dist_m = $dist_m = 0;
+		$sum_pp_dist_m = $sum_dist_m = 0;
 		$sum_pp_t_s = $sum_t_s = 0;
 
 		foreach ($inPaceGoal as $split) {
