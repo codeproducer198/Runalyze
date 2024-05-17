@@ -402,6 +402,7 @@ class SectionMiscellaneousRow extends TrainingViewSectionRowTabbedPlot {
         $this->addToTable($details, $this->getGlossaryLink('Laufzeit:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitRunTime()), $c);
         $this->addToTable($details, $this->getGlossaryLink('Gehzeit:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitWalkTime()), $c);
         $this->addToTable($details, $this->getGlossaryLink('Zeit Inaktivität:', 'detection_run_walk'), $this->getFormattedSeconds($this->Context->activity()->fitStandTime()), $c);
+        $this->addToTable($details, 'Max HR (bpm):', ($this->Context->activity()->maxHrUser() != null ? $this->Context->activity()->maxHrUser() : '-'), $c);
 
         $details .= '</tr></table>';
         $this->FitDetails .= HTML::fileBlock($details);

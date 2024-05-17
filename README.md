@@ -254,14 +254,20 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 * 2024-05-09:
 	* Add _Open the activity in a new browser tab/window_ in the dataset to open activities in a new tab
 		* it's a new dataset key and must be enabled in the dataset configuration
-	* Your FIT _zone targets_ maximal heart-rate (from your device) of imported activities will create a new users _body data_ in case of changes in the max HR
+	* From a FIT activity the new columns `max_hr_user`, `hr_zone_bounds` and `fit_seconds_hr_zones` are stored in `training` table
+	* Your FIT _time_in_zone_ maximal heart-rate (`max_hr_user`) of imported activities will create a new users _body data_ in case of changes in the max HR
 		* per default this behaviour is disabled; you can enable it in the _configuration > activity-form > Import max heart-rate_
-		* if enabled, it only works while batch/bulk-imports and if for one bulk-import with multiple different HRs only the highest will be used
+		* if enabled, it only works while batch/bulk-imports and for a bulk-import the highest HRs will be used
 		* only the main sport will be used for determine the max HR
 		* comment of the newly created _body data_ will be `New max pulse is set while importing main-sports activity.`
+	* Optimize the _heart rate zone_ widget
+		* The HR zones from the FIT (`hr_zone_bounds` of your device) is used to shows the same HR zones as your device; if no `hr_zone_bounds` exists, the default zones are used
+		* The default HR zones still are the 10-percent steps of your maximal HF (if `max_hr_user` is imported with the activity this is used, otherwise the users body data max HF)
+		* `fit_seconds_hr_zones` is currently only stored, but not used/shown (the FIT/devices seconds in the `hr_zone_bounds`)
 	* Default page (index) is now the login page (not the register page; think this make more sense for private instances)
 	* Fix old error in swim activities which results in 500 when opening
 	* Fix old error in some actions (f.e. edit a activity) the data browser fall back to current month selection (and not the previous selected time range)
+	* **Migration Version20240516200000 is necessary!**
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

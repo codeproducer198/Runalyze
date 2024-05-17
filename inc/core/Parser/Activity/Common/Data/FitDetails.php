@@ -52,9 +52,6 @@ class FitDetails
     /** @var int|null [s] */
     public $StandTime = null;
 
-    /**
-     * @var int|null
-     * #TSC will only filled while importing, but not stored to database
-     */
-    public $MaxZoneHR = null;
+    /** @var array|null [bpm] #TSC */
+    public $SecondsInHrZones = null;
 }

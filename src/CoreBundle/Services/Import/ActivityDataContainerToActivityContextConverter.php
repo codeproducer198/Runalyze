@@ -224,6 +224,8 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setPulseMax($activityData->MaxHeartRate);
         // #TSC: hr for active rounds
         $activity->setPulseAvgActive($this->getRoundedValue($activityData->AvgHeartRateActive));
+        $activity->setMaxHrUser($activityData->MaxHeartRateUser);
+        $activity->setHrZoneBounds($activityData->HeartRateZoneBounds);
         $activity->setCadence($this->getRoundedValue($activityData->AvgCadence));
         $activity->setGroundcontact($this->getRoundedValue($activityData->AvgGroundContactTime));
         $activity->setGroundcontactBalance($this->getRoundedValue($activityData->AvgGroundContactBalance));
@@ -286,6 +288,7 @@ class ActivityDataContainerToActivityContextConverter
         $activity->setFitRunTime($fitDetails->RunTime);
         $activity->setFitWalkTime($fitDetails->WalkTime);
         $activity->setFitStandTime($fitDetails->StandTime);
+        $activity->setFitSecondsInHrZones($fitDetails->SecondsInHrZones);
     }
 
     protected function setActivityWeatherDataFor(Training $activity, WeatherData $weatherData)

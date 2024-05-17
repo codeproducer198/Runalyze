@@ -22,7 +22,7 @@ class ActivityForm extends AbstractCategory
             'TRAINING_SORT_SHOES' => 'id-asc',
             'GARMIN_IGNORE_IDS' => '',
             'DETECT_PAUSES' => 'true',
-            'IMPORT_MAX_ZONE_HR' => 'false',
+            'IMPORT_MAX_HR_USER' => 'false',
             'FORMULAR_SHOW_SPORT' => 'true',
             'FORMULAR_SHOW_GENERAL' => 'true',
             'FORMULAR_SHOW_DISTANCE' => 'true',

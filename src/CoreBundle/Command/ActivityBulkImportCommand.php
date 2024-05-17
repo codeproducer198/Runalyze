@@ -33,7 +33,7 @@ class MaxZoneHR {
         // so read the conf via repository
         $repository = $container->get('doctrine')->getRepository('CoreBundle:Conf');
 
-        $conf = $repository->findByAccountAndKey($account, 'IMPORT_MAX_ZONE_HR');
+        $conf = $repository->findByAccountAndKey($account, 'IMPORT_MAX_HR_USER');
         // some confuse logic with the Conf boolean parameter...to get the boolean value from the Conf
         $bool = new \Runalyze\Parameter\Boolean(false);
         $bool->setFromString(is_null($conf) ? '' : $conf->getValue());
@@ -41,13 +41,13 @@ class MaxZoneHR {
     }
 
     public function collect($activity, $container) {
-        // used the HR if
-        // 1. import is allowed by configuration (=IMPORT_MAX_ZONE_HR)
+        // used this HR if
+        // 1. import is allowed by configuration (=IMPORT_MAX_HR_USER)
         // 2. its the main sport (in normal cases 'running')
         // 3. a MaxZoneHR is in the import/FIT and its the highest of all the imported
         if($this->import && $activity->getSport()->isMain() &&
-            isset($container->FitDetails->MaxZoneHR) && $container->FitDetails->MaxZoneHR > $this->MaxHR) {
-            $this->MaxHR = $container->FitDetails->MaxZoneHR;
+            isset($container->ActivityData->MaxHeartRateUser) && $container->ActivityData->MaxHeartRateUser > $this->MaxHR) {
+            $this->MaxHR = $container->ActivityData->MaxHeartRateUser;
             $this->Time = $container->Metadata->getTimestamp();
         }
     }

@@ -411,8 +411,8 @@ class FitActivity extends AbstractSingleParser
                     $this->readSplit();
                     break;
 
-                case 'zones_target': // #TSC
-                    $this->readZonesTarget();
+                case 'time_in_zone': // #TSC
+                    $this->readTimeInZone();
                     break;
             }
         } elseif (isset($this->Header['NUMBER'])) {
@@ -1149,13 +1149,53 @@ class FitActivity extends AbstractSingleParser
     }
 
     /**
-     * read some info from the ZonesTarget.
+     * read some info from the time_in_zone.
      * #TSC
      */
-    protected function readZonesTarget()
+    protected function readTimeInZone()
     {
-        if (isset($this->Values['max_heart_rate']) && $this->Values['max_heart_rate'][0] != 0) {
-            $this->Container->FitDetails->MaxZoneHR = (int)$this->Values['max_heart_rate'][0];
+        // there is a time_in_zone for every lap and one for the whole session
+        if (isset($this->Values['reference_mesg']) && $this->Values['reference_mesg'][1] == 'session') {
+            // max hr of the user
+            if (isset($this->Values['max_hr']) && $this->Values['max_hr'][0] != 0) {
+                $this->Container->ActivityData->MaxHeartRateUser = (int)$this->Values['max_hr'][0];
+            }
+
+            // the zones: example "104,129,144,153,160,182"
+            if (isset($this->Values['hr_zone_high_boundary'])) {
+                $zones = explode(",", $this->Values['hr_zone_high_boundary'][1]);
+                if(count($zones) > 0) {
+                    $this->Container->ActivityData->HeartRateZoneBounds = $zones;
+                }
+            }
+
+            // time in zones: example "19.997 s,160.374 s,604.612 s,1754.220 s,2425.061 s,1260.011 s,0.000 s"
+            if (isset($this->Values['time_in_hr_zone'])) {
+                $str = $this->Values['time_in_hr_zone'][1];
+                // remove the unit
+                $str = str_replace(" s", "", $str);
+
+                $zones = explode(",", $str);
+                if(count($zones) > 0) {
+                    // round to ganzzahl
+                    foreach($zones as &$v) {
+                        $v = round($v);
+                    }
+
+                    $this->Container->FitDetails->SecondsInHrZones = $zones;
+                }
+            }
+            /*
+            the mapping of the examples values are
+            hr_zone_high_boundary (bpm)  104 129 144  153  160  182
+            time_in_hr_zone (seconds)     20 160 605 1754 2425 1260 0
+            Bereich 1   104 - 128 bpm Warm up   =>  160s =  2:40
+            Bereich 2   129 - 143 bpm Leicht    =>  605s = 10:05
+            Bereich 3   144 - 152 bpm Aerob     => 1754s = 29:14
+            Bereich 4   153 - 159 bpm Intensiv  => 2425s = 40:25
+            Bereich 5   > 160 bpm      Maximal  => 1260s = 21:00
+            <104 there is no presentation in garmin connect and for >182 now seconds availabe (and i think the max HR shall be set)
+            */
         }
     }
 }

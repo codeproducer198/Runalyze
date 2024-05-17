@@ -184,6 +184,27 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      */
     private $pulseAvgActive = null;
 
+   /**
+     * @var int|null [bpm]
+     *
+     * @Assert\Range(
+     *      min = 30,
+     *      max = 255,
+     *      minMessage = "Your average heartrate active rounds must be at least {{ limit }} bpm",
+     *      maxMessage = "Your average heartrate active rounds cannot be greater than {{ limit }} bpm"
+     * )
+     *
+     * @ORM\Column(name="max_hr_user", type="tinyint", nullable=true, options={"unsigned":true})
+     */
+    private $maxHrUser = null;
+
+    /**
+     * @var array|null [bpm]
+     *
+     * @ORM\Column(name="hr_zone_bounds", type="pipe_array", nullable=true)
+     */
+    private $hrZoneBounds;
+
     /**
      * @var float|null [ml/kg/min]
      *
@@ -325,6 +346,13 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
      * @ORM\Column(name="fit_stand_time", type="smallint", nullable=true, options={"unsigned":true})
      */
     private $fitStandTime = null;
+
+    /**
+     * @var array|null [s]
+     *
+     * @ORM\Column(name="fit_seconds_hr_zones", type="pipe_array", nullable=true)
+     */
+    private $fitSecondsInHrZones;
 
     /**
      * @var int|null []
@@ -1149,6 +1177,46 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
     }
 
     /**
+     * @param null|int $hrMaxUser [bpm]
+     *
+     * @return $this
+     */
+    public function setMaxHrUser($maxHrUser)
+    {
+        $this->maxHrUser = $maxHrUser;
+
+        return $this;
+    }
+
+    /**
+     * @return null|int [bpm]
+     */
+    public function getMaxHrUser()
+    {
+        return $this->maxHrUser;
+    }
+
+    /**
+     * @param null|array $hrZoneBounds [bpm]
+     *
+     * @return $this
+     */
+    public function setHrZoneBounds($hrZoneBounds)
+    {
+        $this->hrZoneBounds = $hrZoneBounds;
+
+        return $this;
+    }
+
+    /**
+     * @return null|array [bpm]
+     */
+    public function getHrZoneBounds()
+    {
+        return $this->hrZoneBounds;
+    }
+
+    /**
      * @param null|float $vo2max [ml/kg/min]
      *
      * @return $this
@@ -1548,6 +1616,26 @@ class Training implements IdentifiableEntityInterface, AccountRelatedEntityInter
         $this->fitStandTime = $fitStandTime;
 
         return $this;
+    }
+
+    /**
+     * @param null|array $fitSecondsInHrZones [bpm]
+     *
+     * @return $this
+     */
+    public function setFitSecondsInHrZones($fitSecondsInHrZones)
+    {
+        $this->fitSecondsInHrZones = $fitSecondsInHrZones;
+
+        return $this;
+    }
+
+    /**
+     * @return null|array [bpm]
+     */
+    public function getFitSecondsInHrZones()
+    {
+        return $this->fitSecondsInHrZones;
     }
 
     /**

@@ -32,6 +32,8 @@ abstract class TableZonesAbstract {
 	 */
 	protected $Data = array();
 
+	private $TitlePercent = ''; // #TSC
+
 	/**
 	 * Constructor
 	 * @param \Runalyze\View\Activity\Context $context
@@ -63,6 +65,12 @@ abstract class TableZonesAbstract {
 	abstract protected function initData();
 
 	/**
+	 * Get hint for footer #TSC
+	 * @return string
+	 */
+	public function footerHint() { return null; }
+
+	/**
 	 * Convert data
 	 */
 	private function convertData() {
@@ -77,8 +85,10 @@ abstract class TableZonesAbstract {
 		foreach ($this->Data as $i => $Info) {
 			if ($totalTime > 0) {
 				$percentage = round(100 * $Info['time'] / $totalTime, 1);
+				$this->TitlePercent = 'Time';
 			} elseif ($totalDist > 0) {
 				$percentage = round(100 * $Info['distance'] / $totalDist, 1);
+				$this->TitlePercent = 'Distance';
 			} else {
 				$percentage = '-';
 			}
@@ -100,7 +110,7 @@ abstract class TableZonesAbstract {
 		$Code = '<table class="fullwidth bar-chart-table">';
 		$Code .= '<thead><tr>';
 		$Code .= '<th>'.__('Zone').'</th>';
-		$Code .= '<th></th>';
+		$Code .= '<th style="text-align: left;">% '.__($this->TitlePercent).'</th>'; // #TSC set the table column title
 		$Code .= '<th>'.__('Time').'</th>';
 		$Code .= '<th>'.__('Distance').'</th>';
 		if ($this->showAverage()) $Code .= '<th>'.$this->titleForAverage().'</th>';
@@ -110,6 +120,10 @@ abstract class TableZonesAbstract {
 		$Code .= $this->getDataCode();
 		$Code .= '</tbody>';
 		$Code .= '</table>';
+
+		if (!empty($this->footerHint())) {
+			$Code .= HTML::info($this->footerHint());
+		}
 
 		return $Code;
 	}
@@ -124,7 +138,11 @@ abstract class TableZonesAbstract {
 		foreach ($this->Data as $Info) {
 			$Code .= '<tr>';
 			$Code .= '<td class="bar-chart-label">'.$Info['zone'].'</td>';
-			$Code .= '<td class="bar-chart-value-cell"><span class="bar-chart-value" style="width:'.$Info['percentage'].'%;"></span> <span class="bar-chart-text">'.$Info['percentage'].' &#37;</span></td>';
+
+			// #TSC support of colors for the percent bar
+			$stylecolor = array_key_exists('color', $Info) ? 'background:'.$Info['color'].';' : '';
+			$Code .= '<td class="bar-chart-value-cell"><span class="bar-chart-value" style="width:'.$Info['percentage'].'%;'.$stylecolor.'"></span> <span class="bar-chart-text">'.$Info['percentage'].' &#37;</span></td>';
+
 			$Code .= '<td>'.$Info['time'].'</td>';
 			$Code .= '<td>'.$Info['distance'].'</td>';
 			if ($this->showAverage()) $Code .= '<td>'.$Info['average'].'</td>';

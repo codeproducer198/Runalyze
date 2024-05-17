@@ -25,7 +25,6 @@ class SectionHeartrateRow extends TrainingViewSectionRowTabbedPlot {
 		) {
 			$Table = new TableZonesHeartrate($this->Context);
 			$Code = $Table->getCode();
-			$Code .= HTML::info( __('You\'ll be soon able to configure your own zones.') );
 
 			$this->addRightContent('zones', __('Heartrate zones'), $Code);
 		}

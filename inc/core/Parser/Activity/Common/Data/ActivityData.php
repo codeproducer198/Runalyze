@@ -52,6 +52,12 @@ class ActivityData
     /** @var int|null [bpm] */
     public $MaxHeartRate = null;
 
+    /** @var int|null [bpm] */
+    public $MaxHeartRateUser = null;
+
+    /** @var array|null [bpm] */
+    public $HeartRateZoneBounds = null;
+
     /** @var int|float|null [rpm] */
     public $AvgCadence = null;
 
@@ -132,6 +138,8 @@ class ActivityData
             'AvgHeartRate',
             'AvgHeartRateActive',
             'MaxHeartRate',
+            'MaxHeartRateUser',
+            'HeartRateZoneBounds',
             'AvgCadence',
             'AvgGroundContactTime',
             'AvgGroundContactBalance',

@@ -126,6 +126,18 @@ class Entity extends Model\EntityWithID {
 	const HR_AVG_ACTIVE = 'pulse_avg_active';
 
 	/**
+	 * Key: max heart rate for the user while the activity is done (the general max HR, not the activity one)
+	 * @var string
+	 */
+	const MAX_HR_USER = 'max_hr_user';
+
+	/**
+	 * Key: lower bounds of the hr zones while the activity is done
+	 * @var string
+	 */
+	const HR_ZONE_BOUNDS = 'hr_zone_bounds';
+
+	/**
 	 * Key: vo2max
 	 * @var string
 	 */
@@ -244,6 +256,12 @@ class Entity extends Model\EntityWithID {
      * @var string
      */
     const FIT_STAND_TIME = 'fit_stand_time';
+
+    /**
+     * Key: for every HR_ZONE_BOUNDS the times in seconds
+     * @var string
+     */
+    const FIT_SECONDS_HR_ZONES = 'fit_seconds_hr_zones';
 
     /**
      * Key: avg_respiration_rate
@@ -551,6 +569,8 @@ class Entity extends Model\EntityWithID {
 			self::HR_AVG,
 			self::HR_MAX,
 			self::HR_AVG_ACTIVE,
+			self::MAX_HR_USER,
+			self::HR_ZONE_BOUNDS,
 			self::VO2MAX,
 			self::VO2MAX_BY_TIME,
 			self::VO2MAX_WITH_ELEVATION,
@@ -571,6 +591,7 @@ class Entity extends Model\EntityWithID {
 			self::FIT_RUN_TIME,
 			self::FIT_WALK_TIME,
 			self::FIT_STAND_TIME,
+			self::FIT_SECONDS_HR_ZONES,
             self::AVG_RESPIRATION_RATE,
             self::MAX_RESPIRATION_RATE,
             self::RPE,
@@ -625,6 +646,15 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
+	 * Is the property an array?
+	 * @param string $key
+	 * @return bool
+	 */
+	public function isArray($key) {
+		return ($key == self::HR_ZONE_BOUNDS || $key == self::FIT_SECONDS_HR_ZONES);
+	}
+
+	/**
 	 * Can set key?
 	 * @param string $key
 	 * @return boolean
@@ -666,6 +696,8 @@ class Entity extends Model\EntityWithID {
             case self::HR_AVG:
             case self::HR_MAX:
             case self::HR_AVG_ACTIVE:
+			case self::MAX_HR_USER:
+			case self::HR_ZONE_BOUNDS:
             case self::VO2MAX:
             case self::VO2MAX_BY_TIME:
             case self::VO2MAX_WITH_ELEVATION:
@@ -685,6 +717,7 @@ class Entity extends Model\EntityWithID {
 			case self::FIT_RUN_TIME:
 			case self::FIT_WALK_TIME:
 			case self::FIT_STAND_TIME:
+			case self::FIT_SECONDS_HR_ZONES:
             case self::AVG_RESPIRATION_RATE:
             case self::MAX_RESPIRATION_RATE:
             case self::RPE:
@@ -754,6 +787,8 @@ class Entity extends Model\EntityWithID {
             self::HR_AVG,
             self::HR_MAX,
             self::HR_AVG_ACTIVE,
+			self::MAX_HR_USER,
+			self::HR_ZONE_BOUNDS,
             self::VO2MAX,
             self::VO2MAX_BY_TIME,
             self::VO2MAX_WITH_ELEVATION,
@@ -770,6 +805,7 @@ class Entity extends Model\EntityWithID {
             self::FIT_SELF_ELEVATION_FEELING,
             self::FIT_SELF_ELEVATION_PRECEIVED_EFFORT,
 			self::FIT_LOAD_PEAK,
+			self::FIT_SECONDS_HR_ZONES,
             self::AVG_RESPIRATION_RATE,
             self::MAX_RESPIRATION_RATE,
             self::RPE,
@@ -956,6 +992,22 @@ class Entity extends Model\EntityWithID {
 	}
 
 	/**
+	 * Average max heart rate of the user (general, not while this activity)
+	 * @return null|int [bpm]
+	 */
+	public function maxHrUser() {
+		return $this->Data[self::MAX_HR_USER];
+	}
+
+	/**
+	 * Average lower bounds of the hr zones
+	 * @return null|array [bpm]
+	 */
+	public function hrZoneBounds() {
+		return $this->Data[self::HR_ZONE_BOUNDS];
+	}
+
+	/**
 	 * @return null|float [ml/kg/min]
 	 */
 	public function vo2maxByHeartRate() {
@@ -1109,6 +1161,14 @@ class Entity extends Model\EntityWithID {
 	 */
 	public function fitStandTime() {
 		return $this->Data[self::FIT_STAND_TIME];
+	}
+
+	/**
+	 * Average seconds in the HR zones of hrZoneBounds()
+	 * @return null|array [bpm]
+	 */
+	public function fitSecondsInHrZones() {
+		return $this->Data[self::FIT_SECONDS_HR_ZONES];
 	}
 
     /**

@@ -954,6 +954,7 @@ else {
      'magnetometer_data' => 208,
      'barometer_data' => 209,
      'one_d_sensor_calibration' => 210,
+     'time_in_zone' => 216, #TSC
      'stress_level' => 227,
      'set' => 225,
      'dive_settings' => 258,
@@ -6458,6 +6459,18 @@ sub named_type_value {
      6 => +{'name' => 'filtered_bpm', 'unit' => 'bpm'},
      9 => +{'name' => 'event_timestamp', 'scale' => 1024, 'unit' => 's'},
      10 => +{'name' => 'event_timestamp_12', 'scale' => 1024, 'unit' => 's'},
+   },
+
+   'time_in_zone' => +{ #TSC
+     253 => +{'name' => 'timestamp', 'type_name' => 'date_time'},
+     0 => +{'name' => 'reference_mesg', 'type_name' => 'mesg_num'},
+     1 => +{'name' => 'reference_index', 'type_name' => 'message_index'},
+     2 => +{'name' => 'time_in_hr_zone', 'scale' => 1000, 'unit' => 's'},
+     6 => +{'name' => 'hr_zone_high_boundary'},
+     10 => +{'name' => 'hr_calc_type'}, # see com.garmin.fit.HrZoneCalc CUSTOM=0, PERCENT_MAX_HR=1, PERCENT_HRR=2, PERCENT_LTHR=3, INVALID=255
+     11 => +{'name' => 'max_hr', 'unit' => 'bpm'},
+     12 => +{'name' => 'resting_hr', 'unit' => 'bpm'},
+     13 => +{'name' => 'threshold_hr', 'unit' => 'bpm'},
    },
 
    'stress_level' => +{
