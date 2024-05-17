@@ -2,7 +2,8 @@ imports:
     - { resource: config.yml }
 
 parameters:
-  database_host: 127.0.0.1
+  # #TSC set your host where the db is running; example 127.0.0.1
+  database_host: mysql
   database_prefix: runalyze_test_
   database_port: 3306
   database_name: runalyze_test

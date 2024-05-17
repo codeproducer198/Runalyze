@@ -53,7 +53,8 @@ $_SERVER['REQUEST_URI'] = '/runalyze/index.php';
 $_SERVER['SCRIPT_NAME'] = '/runalyze/index.php';
 
 // Load and clean database
-DB::connect('127.0.0.1', '3306', 'runalyze_test', '', 'runalyze_unittest');
+  # #TSC set your host where the db is running; example 127.0.0.1
+DB::connect('mysql', '3306', 'runalyze_test', '', 'runalyze_unittest');
 DB::getInstance()->exec('SET sql_mode="TRADITIONAL"');
 DB::getInstance()->exec('DELETE FROM `runalyze_account`');
 DB::getInstance()->exec('INSERT INTO `runalyze_account` (`id`,`username`,`mail`) VALUES(1, "test", "test@test.com")');
