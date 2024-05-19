@@ -47,6 +47,8 @@
                 <li><a class="window" href="<?php echo $this->get('router')->generate('settings-account'); ?>"><i class="fa fa-fw fa-cogs"></i>&nbsp;<?php _e('Account settings'); ?></a></li>
                 <li><a class="window" href="<?php echo $this->get('router')->generate('settings-privacy'); ?>"><i class="fa fa-fw fa-unlock-alt"></i>&nbsp;<?php _e('Privacy settings'); ?></a></li>
                 <li><a class="window" href="<?php echo $this->get('router')->generate('logout'); ?>"><i class="fa fa-fw fa-sign-out"></i>&nbsp;<?php _e('Logout'); ?></a></li>
+                <li class="separator"></li>
+                <li style="text-align: center;">v<?php echo RUNALYZE_VERSION; ?>#<?php echo RUNALYZE_DATE; ?></li>
             </ul>
         </div>
 

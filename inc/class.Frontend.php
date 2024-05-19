@@ -116,6 +116,7 @@ class Frontend {
 	    define('USER_DISABLE_ACCOUNT_ACTIVATION', $this->yamlConfig['user_disable_account_activation']);
 	    define('SQLITE_MOD_SPATIALITE', $this->yamlConfig['sqlite_mod_spatialite']);
         define('RUNALYZE_VERSION', $this->yamlConfig['RUNALYZE_VERSION']);
+        define('RUNALYZE_DATE', $this->yamlConfig['RUNALYZE_DATE']);
         define('DATA_DIRECTORY', str_replace('%kernel.root_dir%', FRONTEND_PATH.'/../app', $this->yamlConfig['data_directory']));
         define('OSM_OVERPASS_URL', $this->yamlConfig['osm_overpass_url']);
         define('OSM_OVERPASS_PROXY', $this->yamlConfig['osm_overpass_proxy']);
