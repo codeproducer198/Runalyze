@@ -74,6 +74,12 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	const IS_OUTSIDE = 'outside';
 
 	/**
+	 * Key: lower bounds of the hr zones while the activity is done
+	 * @var string
+	 */
+	const HR_ZONE_BOUNDS = 'hr_zone_bounds';
+
+	/**
 	 * Key: id of main equipment (used for dataset)
 	 * @var string
 	 */
@@ -106,6 +112,7 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 			self::PACE_UNIT,
 			self::HAS_POWER,
 			self::IS_OUTSIDE,
+			self::HR_ZONE_BOUNDS,
 			self::MAIN_EQUIPMENTTYPEID,
 			self::DEFAULT_TYPEID,
             self::IS_MAIN,
@@ -119,6 +126,15 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	 */
 	public function properties() {
 		return static::allDatabaseProperties();
+	}
+
+	/**
+	 * Is the property an array?
+	 * @param string $key
+	 * @return bool
+	 */
+	public function isArray($key) {
+		return ($key == self::HR_ZONE_BOUNDS);
 	}
 
 	/**
@@ -224,6 +240,14 @@ class Entity extends Model\EntityWithID implements ProfileInterface {
 	 */
 	public function isOutside() {
 		return ($this->Data[self::IS_OUTSIDE] == 1);
+	}
+
+	/**
+	 * Average lower bounds of the hr zones
+	 * @return null|array [bpm]
+	 */
+	public function hrZoneBounds() {
+		return $this->Data[self::HR_ZONE_BOUNDS];
 	}
 
 	/**

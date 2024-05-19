@@ -250,6 +250,11 @@ services:
     arguments: ["@app.unit_system.weight"]
     tags:
      - { name: form.type }
+  app.form.type.hrzonebound:
+    class: Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType
+    arguments: []
+    tags:
+     - { name: form.type }
   app.automatic_reload_flag_setter:
     class: Runalyze\Bundle\CoreBundle\Services\AutomaticReloadFlagSetter
     arguments: ["@session.flash_bag"]

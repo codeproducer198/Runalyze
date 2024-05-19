@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Runalyze\Bundle\CoreBundle\Entity\Common\AccountRelatedEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\IdentifiableEntityInterface;
 use Runalyze\Bundle\CoreBundle\Entity\Common\NamedEntityInterface;
+use Runalyze\Calculation\Activity\HrZonesCalculator;
 use Runalyze\Metrics\Velocity\Unit\AbstractPaceUnit;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Profile\Sport\AbstractSport;
@@ -99,6 +100,13 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
      * @ORM\Column(name="default_privacy", type="boolean")
      */
     private $defaultPrivacy = true;
+
+    /**
+     * @var array|null [string]
+     *
+     * @ORM\Column(name="hr_zone_bounds", type="pipe_array_str", nullable=true)
+     */
+    private $hrZoneBounds;
 
     /**
      * @var EquipmentType|null
@@ -410,6 +418,29 @@ class Sport implements IdentifiableEntityInterface, NamedEntityInterface, Accoun
     public function getDefaultPrivacy()
     {
         return $this->defaultPrivacy;
+    }
+
+    /**
+     * @param null|array $hrZoneBounds [bpm]
+     *
+     * @return $this
+     */
+    public function setHrZoneBounds($hrZoneBounds)
+    {
+        if (!is_null($hrZoneBounds)) {
+            $hrZoneBounds = HrZonesCalculator::sortZones($hrZoneBounds);
+        }
+        $this->hrZoneBounds = $hrZoneBounds;
+
+        return $this;
+    }
+
+    /**
+     * @return null|array [bpm]
+     */
+    public function getHrZoneBounds()
+    {
+        return $this->hrZoneBounds;
     }
 
     /**

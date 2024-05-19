@@ -11,6 +11,7 @@ use Runalyze\Bundle\CoreBundle\Entity\Type;
 use Runalyze\Bundle\CoreBundle\Entity\TypeRepository;
 use Runalyze\Bundle\CoreBundle\Form\Type\EnergyKcalType;
 use Runalyze\Bundle\CoreBundle\Form\Type\HeartRateType;
+use Runalyze\Bundle\CoreBundle\Form\Type\HrZoneBoundType;
 use Runalyze\Metrics\Velocity\Unit\PaceEnum;
 use Runalyze\Profile\Sport\Icon\SportIconProfile;
 use Runalyze\Profile\Sport\SportProfile;
@@ -20,6 +21,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -135,6 +137,16 @@ class SportType extends AbstractType
                 'choices' => SportRelevanceProfile::getChoices(),
                 'choice_translation_domain' => false,
                 'label' => 'Sport relevance'
+            ])
+            ->add('hrZoneBounds', CollectionType::class, [
+                'required' => false,
+                'entry_type' => HrZoneBoundType::class,
+                'mapped' => true,
+                'prototype' => true,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'label' => 'Heart rate zones'
             ]);
 
         if (null !== $sport->getId()) {

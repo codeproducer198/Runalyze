@@ -92,6 +92,7 @@ doctrine:
             casted_decimal_2: Runalyze\Bundle\CoreBundle\Doctrine\Types\CastedDecimalScale2Type
             tinyint: Runalyze\Bundle\CoreBundle\Doctrine\Types\TinyIntType
             pipe_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArray
+            pipe_array_str: Runalyze\Bundle\CoreBundle\Doctrine\Types\PipeDelimitedArrayString
             geohash_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\GeohashArray
             runalyze_pause_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzePauseArray
             runalyze_round_array: Runalyze\Bundle\CoreBundle\Doctrine\Types\RunalyzeRoundArray

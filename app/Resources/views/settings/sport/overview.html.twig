@@ -16,6 +16,7 @@
                 <th>{{ 'Main sport'|trans }}</th>
                 <th>{{ 'Speed unit'|trans }}</th>
                 <th>{{ 'Default privacy'|trans }}</th>
+                <th>{{ 'Zones'|trans }}</th>
                 <th>{{ 'Calendar view'|trans }}</th>
                 <th>&nbsp;</th>
             </tr>
@@ -38,6 +39,7 @@
                         <td>{% if sport.main %}<i class="fa fa-check"></i>{% endif %}</td>
                         <td class="small">{{ sport.distances ? sport.speedUnit.unit : '' }}</td>
                         <td class="small">{{ sport.defaultPrivacy ? '<i class="fa fa-lock"></i>' : '<i class="fa fa-unlock"></i>' }}</td>
+                        <td>{% if sport.hrZoneBounds %}<i class="fa fa-check"></i>{% endif %}</td>
                         <td>{{ calendarView.stringFor(sport.short) }}</td>
                         <td>
                             {% if mainSport == sport.id %}

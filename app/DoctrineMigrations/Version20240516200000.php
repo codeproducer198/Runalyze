@@ -31,6 +31,9 @@ class Version20240516200000 extends AbstractMigration implements ContainerAwareI
                                 ADD `hr_zone_bounds` VARCHAR(200) DEFAULT NULL AFTER `max_hr_user`,
                                 ADD `fit_seconds_hr_zones` VARCHAR(100) DEFAULT NULL AFTER `fit_stand_time`;
                                 ');
+        $this->addSql('ALTER TABLE `'.$prefix.'sport`
+                                ADD `hr_zone_bounds` VARCHAR(200) DEFAULT NULL AFTER `default_privacy`;
+                                ');
     }
 
     /**
@@ -43,6 +46,9 @@ class Version20240516200000 extends AbstractMigration implements ContainerAwareI
                                 DROP `max_hr_user`,
                                 DROP `hr_zone_bounds`,
                                 DROP `fit_seconds_hr_zones`;
+                                ');
+        $this->addSql('ALTER TABLE `'.$prefix.'sport`
+                                DROP `hr_zone_bounds`;
                                 ');
     }
 }

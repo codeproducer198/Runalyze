@@ -17,7 +17,7 @@
         {% endif %}
     </div>
 
-    <div class="panel-content margin-bottom-2x">
+    <div id="SportForm" class="panel-content margin-bottom-2x">
         {% include 'flashmessages.html.twig' %}
 
         {{ form_start(form, {'attr': {'class': 'ajax no-automatic-reload'} }) }}
@@ -46,6 +46,34 @@
             {{ form_row(form.defaultPrivacy, {'div_class': 'w100 block with50erLabel'}) }}
             <p class="info margin-bottom">
                 {% trans %}Default privacy setting for all new created activities of this sport type.{% endtrans %}
+            </p>
+
+            <div id="hrZoneBounds" class="w100 with50erLabel">
+                {{ form_label(form.hrZoneBounds, null, {'help': 'You can create your own heart-rate zones for this sport and override the default zones.'}) }}
+
+                <div class="full-size left">
+                    <ol class="bounds">
+                        {% for bpm in form.hrZoneBounds %}
+                            <li>
+                                <div class="inline zonebound-bpm">{{ form_widget(bpm, {'attr': { 'class': 'full-size' }}) }}</div>
+                                <span class="link zonebound-remove"><i class="fa fa-fw fa-times"></i></span>
+                                <span class="link zonebound-copy"><i class="fa fa-fw fa-plus"></i></span>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                    <p><span class="link zonebound-add">add new zone</span></p>
+                    <div class="hide bound-prototype">
+                        <div class="inline zonebound-bpm">{{ form_widget(form.hrZoneBounds.vars.prototype, {'attr': { 'class': 'full-size' }}) }}</div>
+                        <span class="link zonebound-remove"><i class="fa fa-fw fa-times"></i></span>
+                        <span class="link zonebound-copy"><i class="fa fa-fw fa-plus"></i></span>
+                    </div>
+                </div>
+            </div>
+            <p class="info margin-bottom">
+                A zone has the format [text:]bpm[:color]. <i>bpm</i> is the heart-rate (in bpm's) of the lower bound for this zone.
+                <i>text</i> is limited to 25 chars. If no <i>color</i> is set, the default is used.
+                You must not create the lowest bound <i>0</i> or a highest <i>190</i>.
+                Examples are: <i>165</i>, <i>165:#ff0000</i>, <i>Anarob:165:#ff0000</i> or <i>Anarob:165</i>.
             </p>
         </fieldset>
 
@@ -170,4 +198,10 @@
     {% if form.vars.data.id is not null and form.vars.data.trainings.count() < 1 and generalConfig.getMainSport != form.vars.data.id %}
        {{ dangerZoneDelete(url('sport-delete', {'id': form.vars.data.id}), 'deleteSport') }}
     {% endif %}
+
+    <script type="text/javascript">
+    (function($){
+        Runalyze.Sport.init($('#SportForm'));
+    })(jQuery);
+    </script>
 {% endblock %}

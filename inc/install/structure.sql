@@ -265,6 +265,7 @@ CREATE TABLE IF NOT EXISTS `runalyze_sport` (
   `power` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `outside` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `default_privacy` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `hr_zone_bounds` VARCHAR(200) DEFAULT NULL,
   `main_equipmenttypeid` int(10) unsigned DEFAULT NULL,
   `default_typeid` int(10) unsigned DEFAULT NULL,
   `is_main` tinyint(1) unsigned NOT NULL DEFAULT '0',

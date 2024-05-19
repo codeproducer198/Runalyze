@@ -50,6 +50,7 @@
       "./lib/runalyze.lib.activity.form.js",
       "./lib/runalyze.lib.feature.js",
       "./lib/runalyze.lib.notifications.js",
+      "./lib/runalyze.lib.sport.js",
 
       "./lib/flot-0.8.3/base64.js",
       "./lib/flot-0.8.3/jquery.flot.min.js",

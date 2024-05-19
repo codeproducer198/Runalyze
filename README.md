@@ -260,9 +260,13 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 		* if enabled, it only works while batch/bulk-imports and for a bulk-import the highest HRs will be used
 		* only the main sport will be used for determine the max HR
 		* comment of the newly created _body data_ will be `New max pulse is set while importing main-sports activity.`
+	* You can create per sport your own heart-rate zones in the sports configuration dialog based on the given bpm's
+		* its stored in `sports.hr_zone_bounds`
+		* see the hint in the dialog for the format of the given input
 	* Optimize the _heart rate zone_ widget
-		* The HR zones from the FIT (`hr_zone_bounds` of your device) is used to shows the same HR zones as your device; if no `hr_zone_bounds` exists, the default zones are used
-		* The default HR zones still are the 10-percent steps of your maximal HF (if `max_hr_user` is imported with the activity this is used, otherwise the users body data max HF)
+		* the HR zones from the FIT (`hr_zone_bounds` of your device) is used to shows the same HR zones as your device
+		* priority of the zones are: 1. the activity zones, 2. the sport zones, 3. default zones are used
+		* the default HR zones still are the 10-percent steps of your maximal HF (if `max_hr_user` is imported with the activity this is used, otherwise the users body data max HF)
 		* `fit_seconds_hr_zones` is currently only stored, but not used/shown (the FIT/devices seconds in the `hr_zone_bounds`)
 	* Default page (index) is now the login page (not the register page; think this make more sense for private instances)
 	* Fix old error in swim activities which results in 500 when opening
