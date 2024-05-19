@@ -145,7 +145,8 @@ class ActivityBulkImportCommand extends ContainerAwareCommand
             $fs->copy($path.'/'.$file, $dataDirectory.'/import/'.$filename);
             $files[] = $dataDirectory.'/import/'.$filename;
         }
-
+        asort($files);
+        
         $importResult = $importer->importFiles($files);
         $importResult->completeAndFilterResults($this->getContainer()->get('app.activity_data_container.filter'));
         $contextAdapterFactory = $this->getContainer()->get('app.activity_context_adapter_factory');
