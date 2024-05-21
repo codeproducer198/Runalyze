@@ -42,6 +42,12 @@ class DataBrowser {
 	protected $TimestampEnd;
 
 	/**
+	 * sportid to be displayed
+	 * @var null|int
+	 */
+	protected $SportId;
+
+	/**
 	 * Number of days to be displayed
 	 * @var int
 	 */
@@ -61,6 +67,9 @@ class DataBrowser {
 
 	/** @var array type ids that are explicitly set as 'complete row' */
 	protected $TypesNotShort = [];
+
+	/** @var array distinct sports of the activities */
+	protected $Sports = [];
 
 	/** @var int */
 	protected $AccountID;
@@ -95,6 +104,7 @@ class DataBrowser {
 	public function __construct() {
 		$this->initInternalObjects();
 		$this->initTimestamps();
+		$this->initSports(); // #TSC
 		$this->initDays();
 	}
 
@@ -133,13 +143,33 @@ class DataBrowser {
 	}
 
 	/**
+	 * Init sports where activity exists.
+	 * #TSC
+	 */
+	protected function initSports() {
+		// set the sport from the request to this model
+		if (!isset($_GET['sport']) || !is_numeric($_GET['sport'])) {
+			$this->SportId = null;
+		} else {
+			$this->SportId = $_GET['sport'];
+		}
+
+		// get sports where activities exists
+		$Statement = $this->DatasetQuery->statementToFetchActivitySports($this->TimestampStart, $this->TimestampEnd, $this->SportId);
+
+		while ($sport = $Statement->fetch()) {
+			$this->Sports[$sport['id']] = array('name' => $sport['name'], 'icon' => $sport['img']);
+		}
+	}
+
+	/**
 	 * Init all days for being displayed
 	 */
 	protected function initDays() {
 		$this->initShortModes();
 		$this->initEmptyDays();
 
-		$Statement = $this->DatasetQuery->statementToFetchActivities($this->TimestampStart, $this->TimestampEnd);
+		$Statement = $this->DatasetQuery->statementToFetchActivities($this->TimestampStart, $this->TimestampEnd, $this->SportId);
 
 		while ($Training = $Statement->fetch()) {
 			$w = Time::diffInDays($Training['time'], $this->TimestampStart);
@@ -199,10 +229,11 @@ class DataBrowser {
 	 */
 	protected function displayNavigationLinks() {
 		// #TSC more space between for better usablility on small devices
-		echo '<span style="width: 30px; text-align: center; display: inline-block;">' . $this->getCalenderLink() . '</span>';
-		echo '<span style="width: 30px; text-align: center; display: inline-block;">' . $this->getPrevLink() . '</span>';
-		echo '<span style="width: 30px; text-align: center; display: inline-block;">' . $this->getNextLink() . '</span>';
-		echo '<span style="width: 30px; text-align: center; display: inline-block;">' . $this->getCurrentLink() . '</span>';
+		// #TSC use fa-lg for larger icons in the navigation (better for tablets)
+		echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getCalenderLink() . '</span>';
+		echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getPrevLink() . '</span>';
+		echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getNextLink() . '</span>';
+		echo '<span class="fa-lg" style="width: 25px; text-align: center; display: inline-block;">' . $this->getCurrentLink() . '</span>';
 	}
 
 	/**
@@ -213,9 +244,9 @@ class DataBrowser {
 		$timestampForLinks = ($this->TimestampStart < $now && $now < $this->TimestampEnd) ? $now : $this->TimestampStart;
 		$timeForLinks = new LocalTime($timestampForLinks);
 
-		echo DataBrowserLinker::monthLink(Time::month($timeForLinks->format('m')), $timestampForLinks).', ';
-		echo DataBrowserLinker::yearLink($timeForLinks->format('Y'), $timestampForLinks).', ';
-		echo DataBrowserLinker::weekLink(Configuration::General()->weekStart()->phpWeek($timestampForLinks, true).'. '.__('week') , $timestampForLinks);
+		echo DataBrowserLinker::monthLink(Time::month($timeForLinks->format('m')), $timestampForLinks, $this->SportId).', ';
+		echo DataBrowserLinker::yearLink($timeForLinks->format('Y'), $timestampForLinks, $this->SportId).', ';
+		echo DataBrowserLinker::weekLink(Configuration::General()->weekStart()->phpWeek($timestampForLinks, true).'. '.__('week'), $timestampForLinks, null, $this->SportId);
 	}
 
 	/**
@@ -252,7 +283,7 @@ class DataBrowser {
 	protected function getPrevLink() {
 		$timestamp_array = DataBrowserLinker::prevTimestamps($this->TimestampStart, $this->TimestampEnd);
 
-		return DataBrowserLinker::link(Icon::$BACK, $timestamp_array['start'], $timestamp_array['end'], __('back'));
+		return DataBrowserLinker::link(Icon::$BACK, $timestamp_array['start'], $timestamp_array['end'], __('back'), null, $this->SportId);
 	}
 
 	/**
@@ -262,7 +293,7 @@ class DataBrowser {
 	protected function getNextLink() {
 		$timestamp_array = DataBrowserLinker::nextTimestamps($this->TimestampStart, $this->TimestampEnd);
 
-		return DataBrowserLinker::link(Icon::$NEXT, $timestamp_array['start'], $timestamp_array['end'], __('next'));
+		return DataBrowserLinker::link(Icon::$NEXT, $timestamp_array['start'], $timestamp_array['end'], __('next'), null, $this->SportId);
 	}
 
 	/**
@@ -270,7 +301,7 @@ class DataBrowser {
 	 * @return string
 	 */
 	protected function getCurrentLink() {
-		return DataBrowserLinker::link('<i class="fa fa-fw fa-circle"></i>', '', '', __('today'));
+		return DataBrowserLinker::link('<i class="fa fa-lg fa-fw fa-circle"></i>', '', '', __('today'), null, $this->SportId);
 	}
 
 	/**
@@ -278,9 +309,29 @@ class DataBrowser {
 	 * @return string
 	 */
 	protected function getRefreshLink() {
-		$Link = DataBrowserLinker::link(Icon::$REFRESH, $this->TimestampStart, $this->TimestampEnd);
+		$Link = DataBrowserLinker::link(Icon::$REFRESH, $this->TimestampStart, $this->TimestampEnd, null, null, $this->SportId);
 
 		return str_replace('<a ', '<a id="'.self::REFRESH_BUTTON_ID.'" '.Ajax::tooltip('', __('Reload current datasheet'), false, true), $Link);
+	}
+
+	/**
+	 * Get link including the selection of one sport.
+	 * @param $sportId
+	 * @param $name
+	 * @param $icon
+	 * @param $active the link was clicked and is active
+	 * @return string
+	 */
+	protected function getSportLink(int $sportId, string $name, string $icon, bool $active) {
+		$style = "padding-left: 2px; padding-right: 2px;";
+		if ($active) {
+			// if this sport is currently selected/active - the link is used for de-selection
+			return DataBrowserLinker::link('<i class="fa fa-fw ' . $icon . '" style="'.$style.' color: black; font-weight:bolder; font-size: 16px; vertical-align: -2px;"></i>',
+					$this->TimestampStart, $this->TimestampEnd, __($name), null, null);
+		} else {
+			return DataBrowserLinker::link('<i class="fa fa-lg fa-fw ' . $icon . '" style="'.$style.'"></i>',
+					$this->TimestampStart, $this->TimestampEnd, __($name), null, $sportId);
+		}
 	}
 
 	/**
@@ -307,7 +358,7 @@ class DataBrowser {
 			}
 			$year = $t->format('Y');
 			echo '<td' . ($year == $selectedYear ? ' style="background-color: #ff6"' : '') . '>' . 
-				DataBrowserLinker::yearLink($year, $t->getTimestamp()) . '</td>';
+				DataBrowserLinker::yearLink($year, $t->getTimestamp(), $this->SportId) . '</td>';
 			if($i % 4 == 3) {
 				echo '</tr>';
 			}

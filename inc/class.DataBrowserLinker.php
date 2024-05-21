@@ -18,15 +18,19 @@ class DataBrowserLinker {
 	 * @param string $name Name to be displayed as link
 	 * @param int $startTimestampInNoTimezone Timestamp for first date in browser
 	 * @param int $endTimestampInNoTimezone Timestamp for last date in browser
+	 * @param int $sportid sport-id to filter one sport
 	 * @param string $title title for the link
 	 * @param string $rel
 	 * @return string HTML-link
 	 */
-	public static function link($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '', $rel = '') {
+	public static function link($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '', $rel = '', ?int $sportid = null) {
 		if (FrontendShared::$IS_SHOWN)
 			return DataBrowserShared::getLink($name, $startTimestampInNoTimezone, $endTimestampInNoTimezone, $title = '');
 
 		$href = 'call/call.DataBrowser.display.php?start='.$startTimestampInNoTimezone.'&end='.$endTimestampInNoTimezone;
+		if (!is_null($sportid)) {
+			$href = $href . '&sport=' . $sportid; // #TSC add sport selection criteria
+		}
 
 		return Ajax::link($name, 'data-browser-inner', $href, $rel, $title, 'Pace.restart()');
 	}
@@ -36,36 +40,39 @@ class DataBrowserLinker {
 	 * @param string $name Name to be displayed as link
 	 * @param int $time Timestamp of the week
 	 * @param bool $transformToLocalTime
+	 * @param int $sportid sport-id to filter one sport
 	 * @return string HTML-link
 	 */
-	public static function weekLink($name, $time, $transformToLocalTime = true) {
+	public static function weekLink($name, $time, $transformToLocalTime = true, ?int $sportid = null) {
 		$localTime = $transformToLocalTime ? LocalTime::fromServerTime($time) : new LocalTime($time);
 
-		return self::link($name, $localTime->weekstart(), $localTime->weekend(), '', 'week-link');
+		return self::link($name, $localTime->weekstart(), $localTime->weekend(), '', 'week-link', $sportid);
 	}
 
 	/**
 	 * Get a ajax-link to a specified DataBrowser
 	 * @param string $name Name to be displayed as link
 	 * @param int $timestampInNoTimezone Timestamp of the month
+	 * @param int $sportid sport-id to filter one sport
 	 * @return string HTML-link
 	 */
-	public static function monthLink($name, $timestampInNoTimezone) {
+	public static function monthLink($name, $timestampInNoTimezone, ?int $sportid = null) {
 		$localTime = new LocalTime($timestampInNoTimezone);
 
-		return self::link($name, $localTime->monthStart(), $localTime->monthEnd(), '', 'month-link');
+		return self::link($name, $localTime->monthStart(), $localTime->monthEnd(), '', 'month-link', $sportid);
 	}
 
 	/**
 	 * Get a ajax-link to a specified DataBrowser
 	 * @param string $name Name to be displayed as link
 	 * @param int $timestampInNoTimezone Timestamp of the year
+	 * @param int $sportid sport-id to filter one sport
 	 * @return string HTML-link
 	 */
-	public static function yearLink($name, $timestampInNoTimezone) {
+	public static function yearLink($name, $timestampInNoTimezone, ?int $sportid = null) {
 		$localTime = new LocalTime($timestampInNoTimezone);
 
-		return self::link($name, $localTime->yearStart(), $localTime->yearEnd(), '', 'year-link');
+		return self::link($name, $localTime->yearStart(), $localTime->yearEnd(), '', 'year-link', $sportid);
 	}
 
 	/**

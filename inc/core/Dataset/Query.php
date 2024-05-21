@@ -63,12 +63,15 @@ class Query
 	/**
 	 * @param int $timeStart
 	 * @param int $timeEnd
+	 * @param null|int $sportId
 	 * @param bool $allKeys
 	 * @return \PDOStatement
 	 */
-	public function statementToFetchActivities($timeStart, $timeEnd, $allKeys = false)
+	public function statementToFetchActivities($timeStart, $timeEnd, ?int $sportId, $allKeys = false)
 	{
 		$this->resetJoins();
+
+		$whereSport = is_null($sportId) ? '' : '`t`.`sportid` = '.$sportId.' AND ';
 
 		return $this->PDO->query(
 			'SELECT
@@ -85,9 +88,38 @@ class Query
 			WHERE
 				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
 				`t`.`accountid` = '.(int)$this->AccountID.' AND
+				' . $whereSport . '
 				'.$this->wherePrivacyIsOkay().'
 			'.$this->queryToGroupByActivity().'
 			ORDER BY `time` ASC'
+		);
+	}
+
+	/**
+	 * Gets the sports for the timerange where activities exists. List is limited so not all sports are available.
+	 * @param int $timeStart
+	 * @param int $timeEnd
+	 * @param null|int $sportIdSelected set if user has selected a sport; means this must be included in the result
+	 * @return \PDOStatement
+	 */
+	public function statementToFetchActivitySports($timeStart, $timeEnd, ? int $sportIdSelected)
+	{
+		// this is needed to ensure, that the current selected sportId is included
+		$addSelected = is_null($sportIdSelected) ? '' : "UNION SELECT s.id, s.name, s.img FROM runalyze_sport s WHERE s.id = " . $sportIdSelected;
+
+		// the query counts the activities group by sport and than limit the result; so the x most recent sports are selected
+		return $this->PDO->query(
+			'SELECT id, name, img FROM
+				(SELECT s.id, s.name, s.img, count(*) AS c
+				FROM '.PREFIX.'sport AS s
+				JOIN '.PREFIX.'training AS t ON s.id = t.sportid
+				WHERE
+					'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
+					t.accountid = '.(int)$this->AccountID.' AND
+					'.$this->wherePrivacyIsOkay().'
+				GROUP BY s.id, s.name, s.img ORDER BY c DESC LIMIT 7) AS sub
+			' . $addSelected . '
+			ORDER BY id ASC'
 		);
 	}
 
@@ -165,10 +197,13 @@ class Query
 	/**
 	 * @param int $timeStart default 0
 	 * @param int $timeEnd   default time()
+	 * @param null|int $sportId
 	 * @return array array with summary for each sportid and given timerange
 	 */
-	public function fetchSummaryForAllSport($timeStart = 0, $timeEnd = false)
+	public function fetchSummaryForAllSport($timeStart = 0, $timeEnd = false, ?int $sportId)
 	{
+		$whereSport = is_null($sportId) ? '' : '`t`.`sportid` = '.$sportId.' AND ';
+
 		return $this->PDO->query(
 			'SELECT
 				`time`,
@@ -180,6 +215,7 @@ class Query
 			WHERE
 				`accountid` = '.(int)$this->AccountID.' AND
 				'.$this->whereTimeIsBetween($timeStart, $timeEnd).' AND
+				' . $whereSport . '
 				'.$this->wherePrivacyIsOkay().'
 			GROUP BY `sportid`'
 		)->fetchAll();

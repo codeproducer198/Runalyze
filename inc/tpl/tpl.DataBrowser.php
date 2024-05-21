@@ -10,6 +10,13 @@ use Runalyze\Util\LocalTime;
 	<div class="icons-left"><?php $this->displayNavigationLinks(); ?></div>
 	<h1><?php $this->displayTitle(); ?></h1>
 	<div class="hover-icons"><?php $this->displayHoverLinks(); ?></div>
+	<div style="max-width: 148px; display: inline-block; white-space: nowrap;">
+		<?php
+		foreach ($this->Sports as $id => $val) { // #TSC shows the sport icons for the timerange
+			echo $this->getSportLink($id, $val['name'], $val['icon'], $this->SportId == $id);
+		}
+		?>
+	</div>
 </div>
 <div class="panel-content">
 	<div id="<?php echo DataBrowser::CALENDAR_ID; ?>">
@@ -170,7 +177,7 @@ if ($this->AllDaysEmpty && \Runalyze\Configuration::DataBrowser()->showActiveDay
 echo '</tbody>';
 echo '<tbody>';
 
-$Summary = $this->DatasetQuery->fetchSummaryForAllSport($this->TimestampStart, $this->TimestampEnd);
+$Summary = $this->DatasetQuery->fetchSummaryForAllSport($this->TimestampStart, $this->TimestampEnd, $this->SportId);
 
 foreach ($Summary as $data) {
 	$Sport = $this->Factory->sport($data['sportid']);

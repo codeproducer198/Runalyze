@@ -30,7 +30,7 @@ abstract class SummaryTable {
 
 	/**
 	 * Sport id
-	 * @var int
+	 * @var int sportid - if nothing is selected than -1
 	 */
 	protected $Sportid;
 

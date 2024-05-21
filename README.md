@@ -272,6 +272,9 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* Fix old error in swim activities which results in 500 when opening
 	* Fix old error in some actions (f.e. edit a activity) the data browser fall back to current month selection (and not the previous selected time range)
 	* **Migration Version20240516200000 is necessary!**
+* 2024-05-21:
+	* Add quick/shortcut-filters of sports(-icons) in the header of the data browser; show maximal 7 recent sports available in the current time-range selection
+	* Bit larger/optimized navigation icons for calender, previous, next, today (hope it's easier for tablet usage)
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

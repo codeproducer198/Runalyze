@@ -88,6 +88,6 @@ class SummaryTableMonths extends SummaryTable {
 		$midOfTimerange = $this->TimeEnd - ($index + 0.5)*31*DAY_IN_S;
 		$month = date('m', $midOfTimerange);
 
-		return DataBrowserLinker::monthLink(Time::month($month), $midOfTimerange);
+		return DataBrowserLinker::monthLink(Time::month($month), $midOfTimerange, $this->Sportid > 0 ? $this->Sportid : null);
 	}
 }
