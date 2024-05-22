@@ -139,14 +139,13 @@ class SportType extends AbstractType
                 'label' => 'Sport relevance'
             ])
             ->add('hrZoneBounds', CollectionType::class, [
-                'required' => false,
+                'required' => true,
                 'entry_type' => HrZoneBoundType::class,
                 'mapped' => true,
                 'prototype' => true,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false,
-                'label' => 'Heart rate zones'
+                'by_reference' => false
             ]);
 
         if (null !== $sport->getId()) {

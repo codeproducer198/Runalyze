@@ -49,7 +49,7 @@
             </p>
 
             <div id="hrZoneBounds" class="w100 with50erLabel">
-                {{ form_label(form.hrZoneBounds, null, {'help': 'You can create your own heart-rate zones for this sport and override the default zones.'}) }}
+                {{ form_label(form.hrZoneBounds, 'Heart rate zones', {'help': 'You can create your own heart-rate zones for this sport and override the default zones.'}) }}
 
                 <div class="full-size left">
                     <ol class="bounds">
@@ -70,11 +70,13 @@
                 </div>
             </div>
             <p class="info margin-bottom">
-                A zone has the format [text:]bpm[:color]. <i>bpm</i> is the heart-rate (in bpm's) of the lower bound for this zone.
-                <i>text</i> is limited to 25 chars. If no <i>color</i> is set, the default is used.
-                You must not create the lowest bound <i>0</i> or a highest <i>190</i>.
-                Examples are: <i>165</i>, <i>165:#ff0000</i>, <i>Anarob:165:#ff0000</i> or <i>Anarob:165</i>.
+                A zone has the format [text:]bpm[:color]. <i>bpm</i> is the mandatory heart-rate (in bpm's) of the lower bound for this zone.
+                Optional <i>text</i> is limited to 25 chars. If no optional <i>color</i> is set, the default is used.
+                You must not create the lowest bound <i>0</i> or a highest like <i>190</i>.<br>
+                Examples are: <i>165</i> or <i>165:#ff0000</i> or <i>Anarob:165:#ff0000</i> or <i>Anarob:165</i>.
             </p>
+            {{ form_errors(form.hrZoneBounds) }}
+            {% do form.hrZoneBounds.setRendered() %}
         </fieldset>
 
         <fieldset>
@@ -128,7 +130,6 @@
             </div>
         </fieldset>
 
-        {{ form_rest(form) }}
         {{ form_end(form) }}
 
         <script>$("#sport_distances").off('change').on('change', function(){$("#sport_speed").parent().toggleClass('hide', !$(this).is(':checked'))});</script>
