@@ -274,7 +274,13 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* **Migration Version20240516200000 is necessary!**
 * 2024-05-21:
 	* Add quick/shortcut-filters of sports(-icons) in the header of the data browser; show maximal 7 recent sports available in the current time-range selection
-	* Bit larger/optimized navigation icons for calender, previous, next, today (hope it's easier for tablet usage)
+	* Bit larger/optimized navigation icons in the header for calender, previous, next, today (hope it's easier for tablet usage)
+	* In the data view for _pace_ and _heart rate_ columns a percent-bar is shown in the background of the cell
+		* for _heart rate_ users body-data's rest- and max-HR are used for calculation (if not available, use the hardcoded defaults from `inc/core/Dataset/Keys/HeartrateAverage.php`)
+		* _pace_
+			* the min/max ranges for calc per sport are currently hardcoded in `inc/core/Dataset/Keys/Pace.php`; in the future this could be configurable per sports
+			* gray bar means _time_-based (like minutes/km or minutes/100m) and blue is _decimal_-based (like km/h)
+			* for _pace_ currently only the based sports running, cycling and swimming are supported
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

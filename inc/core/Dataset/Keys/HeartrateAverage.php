@@ -6,6 +6,7 @@
 
 namespace Runalyze\Dataset\Keys;
 
+use Runalyze\Activity\HeartRate;
 use Runalyze\Dataset\Context;
 use Runalyze\Dataset\SummaryMode;
 
@@ -17,6 +18,10 @@ use Runalyze\Dataset\SummaryMode;
  */
 class HeartrateAverage extends AbstractKey
 {
+	// default bound for heart-rate if no user/Athlete configuration exists
+	const HR_MIN = 40;
+	const HR_MAX = 220;
+
 	/**
 	 * Enum id
 	 * @return int
@@ -91,5 +96,37 @@ class HeartrateAverage extends AbstractKey
 	public function defaultCssStyle()
 	{
 		return 'font-style:italic;';
+	}
+
+	/**
+	 * returns a value dependend CSS class and style.
+	 * #TSC
+     * @param \Runalyze\Dataset\Context $context
+	 * @return array with key "class" and "style"
+	 */
+	public function valueDependendCssStyle(Context $context)
+	{
+		return self::hrBarCssStyle($context->dataview()->hrAvg());
+	}
+
+	/**
+	 * returns the css class and style to show the HR as a bar (depending of the rest- and max-HR).
+	 * #TSC
+     * @param null|Runalyze\Activity\HeartRate $hr
+	 * @param null|string $class
+	 * @return array with key "class" and "style"
+	 */
+	public static function hrBarCssStyle(?HeartRate $hr, ?string $class = "bar gray")
+	{
+		$hrBpm = $hr->inBPM();
+		$hrMin = $hr->getHRrest() ? $hr->getHRrest() : self::HR_MIN;
+		$hrMax = $hr->getHRmax() ? $hr->getHRmax() : self::HR_MAX;
+
+		if (isset($hr) && $hrBpm > 0) {
+			$v = round(100 * ($hrBpm - $hrMin) / ($hrMax - $hrMin));
+			return array('class' => $class, 'style' => "--perc: " . $v . "%;");
+		} else {
+			return null;
+		}
 	}
 }

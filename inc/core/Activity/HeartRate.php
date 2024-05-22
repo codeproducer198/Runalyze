@@ -145,6 +145,24 @@ class HeartRate {
 	}
 
 	/**
+	 * HRmax from the Athlete
+	 * #TSC
+	 * @return null|int
+	 */
+	public function getHRmax(): ?int {
+		return $this->knowsAthlete() ? $this->Athlete->maximalHR() : null;
+	}
+
+	/**
+	 * HRrest from the Athlete
+	 * #TSC
+	 * @return null|int
+	 */
+	public function getHRrest(): ?int {
+		return $this->knowsAthlete() ? $this->Athlete->restingHR() : null;
+	}
+
+	/**
 	 * Is the athlete known?
 	 * @return bool
 	 */

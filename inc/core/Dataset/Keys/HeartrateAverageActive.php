@@ -83,4 +83,15 @@ class HeartrateAverageActive extends AbstractKey
 	{
 		return 'small';
 	}
+
+	/**
+	 * returns a value dependend CSS class and style.
+	 * #TSC
+     * @param \Runalyze\Dataset\Context $context
+	 * @return array with key "class" and "style"
+	 */
+	public function valueDependendCssStyle(Context $context)
+	{
+		return HeartrateAverage::hrBarCssStyle($context->dataview()->hrAvgActive());
+	}
 }

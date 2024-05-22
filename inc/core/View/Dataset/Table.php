@@ -102,8 +102,20 @@ class Table {
 				$Code .= '<td></td>';
 			} else {
 				$Key = Keys::get($keyid);
-				$class = ($Key->cssClass() != '') ? ' class="'.$Key->cssClass().'"' : '';
-				$style = ($this->Configuration->getStyle($keyid) != '') ? ' style="'.$this->Configuration->getStyle($keyid).'"' : '';
+
+				// css style via class
+				$class = ($Key->cssClass() != '') ? $Key->cssClass() : '';
+				// css style from the configuration
+				$style = ($this->Configuration->getStyle($keyid) != '') ? $this->Configuration->getStyle($keyid) : '';
+				// css class&style depending on values
+				$valueClassStyle = $Key->valueDependendCssStyle($context);
+				if (!is_null($valueClassStyle)) {
+					$class = $class . ' ' . $valueClassStyle['class'];
+					$style = $style . $valueClassStyle['style'];
+				}
+
+				$class = ($class!= '') ? ' class="'.$class.'"' : '';
+				$style = ($style!= '') ? ' style="'.$style.'"' : '';
 
 				$Code .= '<td'.$class.$style.'>'.$Key->stringFor($context).'</td>';
 			}

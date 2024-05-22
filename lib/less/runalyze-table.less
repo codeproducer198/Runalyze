@@ -219,3 +219,20 @@ table.fitdetail td#val {
 	width:90px;
 }
 
+// #TSC style for bar in table cells (parameterized: --perc is % to show)
+td.bar {
+	text-shadow: -1px -1px white, -1px 1px white, 1px 1px white, 1px -1px white;
+	// use pixels for y adjustment, because lines can break and then higher than the related value
+	background-size: 90% 14px !important;
+	background-repeat: no-repeat !important;
+	background-position: right 4px !important;
+}
+td.bar.gray {
+	background: linear-gradient(to right, #aaa var(--perc), #ddd 0);
+}
+td.bar.blue {
+	background: linear-gradient(to right, #97a2e6 var(--perc), #d9d4ee 0);
+}
+td.bar.red {
+	background: linear-gradient(to right, #ce7c7c var(--perc), #ede 0);
+}
