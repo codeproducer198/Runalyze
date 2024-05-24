@@ -357,9 +357,11 @@ class Calculator
 			$NewLoop->goToEnd();
 	
 			// calculate stroke...swolf
-			foreach ($KeysToAverage as $objectKey => $dataKey) {
-				if ($Object->has($dataKey)) {
-					$AdditionalData[$objectKey] = round($NewLoop->sum($dataKey) / $st);
+			if ($st > 0) {
+				foreach ($KeysToAverage as $objectKey => $dataKey) {
+					if ($Object->has($dataKey)) {
+						$AdditionalData[$objectKey] = round($NewLoop->sum($dataKey) / $st);
+					}
 				}
 			}
 		} else {

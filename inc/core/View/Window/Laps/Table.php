@@ -251,7 +251,7 @@ class Table {
 
 		// #TSC show no values for rest-laps
 		if(!$Lap->isActive()) {
-			return $Code;
+			return $Code . '<td colspan="' . count($this->AdditionalKeys) . '"></td>';
 		}
 
 		$View = new Dataview(new Activity\Entity(
