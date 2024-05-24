@@ -67,7 +67,7 @@ class Query
 	 * @param bool $allKeys
 	 * @return \PDOStatement
 	 */
-	public function statementToFetchActivities($timeStart, $timeEnd, ?int $sportId, $allKeys = false)
+	public function statementToFetchActivities($timeStart, $timeEnd, ?int $sportId = null, $allKeys = false)
 	{
 		$this->resetJoins();
 
