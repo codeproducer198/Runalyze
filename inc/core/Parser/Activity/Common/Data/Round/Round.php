@@ -2,6 +2,8 @@
 
 namespace Runalyze\Parser\Activity\Common\Data\Round;
 
+use Runalyze\Activity\LapIntensity;
+
 class Round
 {
     /** @var float [km] */
@@ -10,8 +12,8 @@ class Round
     /** @var int|float [s] */
     protected $Duration;
 
-    /** @var bool */
-    protected $IsActive = true;
+    /** @var LapIntensity */
+    protected $Intensity;
 
     /**
      * @param float $distance [km]
@@ -22,7 +24,27 @@ class Round
     {
         $this->Distance = $distance;
         $this->Duration = $duration;
-        $this->IsActive = (bool)$isActive;
+        if ($isActive) {
+            $this->Intensity = LapIntensity::getInstanceActive();
+        } else {
+            $this->Intensity = LapIntensity::getInstanceRest();
+        }
+    }
+
+    /**
+     * @param LapIntensity $intensity
+     */
+    public function setIntensity(LapIntensity $intensity)
+    {
+        $this->Intensity = $intensity;
+    }
+
+    /**
+     * @return LapIntensity
+     */
+    public function getIntensity()
+    {
+        return $this->Intensity;
     }
 
     /**
@@ -67,7 +89,7 @@ class Round
      */
     public function setActive($flag = true)
     {
-        $this->IsActive = (bool)$flag;
+        $this->Intensity = $flag ? LapIntensity::getInstanceActive() : LapIntensity::getInstanceRest();
     }
 
     /**
@@ -75,7 +97,7 @@ class Round
      */
     public function isActive()
     {
-        return $this->IsActive;
+        return $this->Intensity->isNotRest();
     }
 
     /**
@@ -84,9 +106,9 @@ class Round
     public function isEqualTo(Round $other)
     {
         return (
-            $this->IsActive == $other->isActive() &&
             $this->Duration == $other->getDuration() &&
-            $this->Distance == $other->getDistance()
+            $this->Distance == $other->getDistance() &&
+            $this->Intensity->isEqualTo($other->getIntensity())
         );
     }
 }

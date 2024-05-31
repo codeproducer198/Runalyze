@@ -3,7 +3,7 @@
 namespace Runalyze\Parser\Activity\FileType;
 
 use Runalyze\Activity;
-use Runalyze\Data\Stroketype;
+use Runalyze\Activity\LapIntensity;
 use Runalyze\Import\Exception\ParserException;
 use Runalyze\Parser\Activity\Common\AbstractSingleParser;
 use Runalyze\Parser\Activity\Common\Data\Metadata;
@@ -129,10 +129,14 @@ class FitActivity extends AbstractSingleParser
     // additional infos for strength-training
     protected $fitSplitsAdditionals = null;
 
+    /** @var FitWorkoutStep */
+    protected $fitWorkoutStep;
+
     public function __construct()
     {
         parent::__construct();
         $this->fitSplitsAdditionals = new FitSplitsAdditionals();
+        $this->fitWorkoutStep = new FitWorkoutStep();
     }
 
     public function parse()
@@ -332,7 +336,7 @@ class FitActivity extends AbstractSingleParser
 
         if (count($values) == 3) {
             $this->Values[$values[0]] = [$values[1], $values[2]];
-        } elseif (count($values) == 2) {
+        } elseif (count($values) >= 2) {
             $this->Values[$values[0]] = [$values[1]];
         }
     }
@@ -405,6 +409,10 @@ class FitActivity extends AbstractSingleParser
 
                 case 'workout': // #TSC
                     $this->readWorkout();
+                    break;
+
+                case 'workout_step': // #TSC
+                    $this->fitWorkoutStep->collectWorkoutstep($this->Values);
                     break;
 
                 case 'split': // #TSC
@@ -933,14 +941,36 @@ class FitActivity extends AbstractSingleParser
         $this->mapDeveloperFieldsToNativeFieldsFor($this->DeveloperFieldMappingForLap);
 
         if (isset($this->Values['total_timer_time']) && isset($this->Values['total_distance']) && round($this->Values['total_timer_time'][0] / 1e3) > 0) {
-            $this->Container->Rounds->add(new Round(
+            $r = new Round(
                 $this->Values['total_distance'][0] / 1e5,
                 $this->Values['total_timer_time'][0] / 1e3,
                 $this->isActiveLap() // #TSC is swimming and no real activity in this lap ==> pause/rest
-            ));
+            );
 
-            // #TSC additional infos
-            $this->fitSplitsAdditionals->collectLap($this->Values, $this->isActiveLap(), $this->IsSwimming);
+            // if there is a Garmin training with workout(_steps) some more details can be set/stored
+            $splitAdds = null;
+            if (isset($this->Values['wkt_step_index'])) {
+                $i = $this->Values['wkt_step_index'][0];
+
+                // #TSC set more detailed intensity (like warmup or recovery) for this lap
+                $v = $this->fitWorkoutStep->getIntensity($i);
+                if (!is_null($v)) {
+                    // special case: if we have a lap with time and distance and its marked as REST we change it to RECOVERY
+                    // if i use Fenix6 with interval created on the device, the laps between the intervals are pause - but i want RECOVERY
+                    if ($v->isRest()) {
+                        $v = LapIntensity::getInstanceRecovery();
+                    }
+                    $r->setIntensity($v);
+                }
+
+                // #TSC set custom target from workout_step (like pace or HR)
+                $splitAdds = $this->fitWorkoutStep->getSplitAdditionals($i);
+            }
+
+            $this->Container->Rounds->add($r);
+
+            // #TSC additional infos for this lap
+            $this->fitSplitsAdditionals->collectLap($this->Values, $this->isActiveLap(), $this->IsSwimming, $splitAdds);
         }
     }
 

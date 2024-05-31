@@ -61,10 +61,13 @@ class MultipleTimeSeries
             foreach ($dataKeys as $key) {
                 $value = $dataOfMultipleSeries[$key][$i];
 
-                if (!isset($histograms[$key][$value])) {
-                    $histograms[$key][$value] = $deltaTime;
-                } else {
-                    $histograms[$key][$value] += $deltaTime;
+                // #TSC more robust to avoid errors
+                if (isset($value)) {
+                    if (!isset($histograms[$key][$value])) {
+                        $histograms[$key][$value] = $deltaTime;
+                    } else {
+                        $histograms[$key][$value] += $deltaTime;
+                    }
                 }
             }
 

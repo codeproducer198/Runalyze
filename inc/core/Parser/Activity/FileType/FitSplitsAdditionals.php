@@ -86,7 +86,7 @@ class FitSplitsAdditionals {
     /**
      * #TSC collect additional informations of the lap.
      */
-    public function collectLap(&$values, bool $isActiveLap, bool $isSwimming) {
+    public function collectLap(&$values, bool $isActiveLap, bool $isSwimming, array $adds = null) {
         $i = array();
 
         if($isActiveLap && $isSwimming) {
@@ -99,6 +99,10 @@ class FitSplitsAdditionals {
             $i['FIT calories'] = (int)($values['total_calories'][0]);
         }
     
+        if (isset($adds)) {
+            $i = array_merge($i, $adds);
+        }
+
         if(!empty($i)) {
             $this->data[] = $i;
         } else {

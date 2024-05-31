@@ -8,6 +8,7 @@ namespace Runalyze\Model\Activity\Splits;
 
 use Runalyze\Model\StringObject;
 use Runalyze\Activity\Duration;
+use Runalyze\Activity\LapIntensity;
 use Runalyze\Activity\Pace;
 use Runalyze\Parameter\Application\PaceUnit;
 
@@ -42,11 +43,8 @@ class Split extends StringObject {
 	 */
 	protected $Time = 0;
 
-	/**
-	 * Is active?
-	 * @var boolean
-	 */
-	protected $Active = true;
+    /** @var LapIntensity */
+    protected $Intensity;
 
 	/**
 	 * Construct
@@ -60,7 +58,11 @@ class Split extends StringObject {
 		} else {
 			$this->Distance = (float)$dataOrDistance;
 			$this->Time = (int)$time;
-			$this->Active = (bool)$active;
+			if ($active) {
+				$this->Intensity = LapIntensity::getInstanceActive();
+			} else {
+				$this->Intensity = LapIntensity::getInstanceRest();
+			}
 		}
 	}
 
@@ -69,9 +71,12 @@ class Split extends StringObject {
 	 * @param string $string
 	 */
 	public function fromString($string) {
-		if (substr($string, 0, 1) == self::RESTING) {
-			$this->Active = false;
+		$intensity = LapIntensity::fromValue(substr($string, 0, 1));
+		if (!is_null($intensity)) {
+			$this->Intensity = $intensity;
 			$string = substr($string, 1);
+		} else {
+			$this->Intensity = LapIntensity::getInstanceActive();
 		}
 
 		$Duration = new Duration(substr(strrchr($string, self::SEPARATOR), 1));
@@ -85,7 +90,7 @@ class Split extends StringObject {
 	 * @return string
 	 */
 	public function asString() {
-		$string  = $this->restingFlagAsString();
+		$string  = $this->Intensity->getValue();
 		$string .= $this->distanceAsString();
 		$string .= self::SEPARATOR;
 		$string .= $this->timeAsString();
@@ -122,7 +127,7 @@ class Split extends StringObject {
 	 * @param boolean $flag
 	 */
 	public function setResting($flag = true) {
-		$this->Active = !$flag;
+		$this->Intensity = $flag ? LapIntensity::getInstanceRest() : LapIntensity::getInstanceActive();
 	}
 
 	/**
@@ -151,19 +156,18 @@ class Split extends StringObject {
 	}
 
 	/**
+	 * @return LapIntensity
+	 */
+	public function getIntensity() {
+		return $this->Intensity;
+	}
+
+	/**
 	 * Is active?
 	 * @return boolean
 	 */
 	public function isActive() {
-		return $this->Active;
-	}
-
-	/**
-	 * Format resting
-	 * @return string
-	 */
-	private function restingFlagAsString() {
-		return ($this->Active ? '' : self::RESTING);
+		return $this->Intensity->isNotRest();
 	}
 
 	/**

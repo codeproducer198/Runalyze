@@ -281,6 +281,18 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 			* the min/max ranges for calc per sport are currently hardcoded in `inc/core/Dataset/Keys/Pace.php`; in the future this could be configurable per sports
 			* gray bar means _time_-based (like minutes/km or minutes/100m) and blue is _decimal_-based (like km/h)
 			* for _pace_ currently only the based sports running, cycling and swimming are supported
+* 2024-05-31:
+	* _lap intensisty_ defines the intensity of one lap; it's more than active or resting
+		* _lap intensisty_ now support not only _active_ and _resting_; it supports more values like _recovery_, _warmup_, _cooldown_
+		* this is availabe in the activity edit view
+		* in the laps window it's shown as a new column, if more than _active_ and _resting_ exists for this activity
+		* it is importing for FIT activities from the _workout_ informations
+		* it's store as before in `training.splits` as a char; _active_ laps as still no char
+	* training workout custom targets
+		* for Garmin trainings custom targets for _pace_ or _heart rate_ is imported from FIT activities
+		* in the laps windows this values are new columns
+		* the information is stored in `training.splits_additional` in the JSON structure with the unit of meter/second
+	* the laps windows is now wider to show more columns
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

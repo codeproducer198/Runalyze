@@ -225,7 +225,7 @@ class Window {
 
 		foreach ($this->Context->activity()->splits()->asArray() as $i => $split) {
 			if ($i < $num) {
-				$this->Laps->at($i)->setMode( $split->isActive() ? Lap::MODE_ACTIVE : Lap::MODE_RESTING );
+				$this->Laps->at($i)->setMode($split->getIntensity());
 			}
 		}
 	}
@@ -325,7 +325,8 @@ class Window {
 		echo '<h1>'.$this->Context->dataview()->titleWithComment().'</h1>';
 		echo '</div>';
 
-		echo '<div class="panel-content">';
+		// #TSC allow scrollbar if width is to small
+		echo '<div class="panel-content" style="overflow-x: auto;">';
 		$this->displayForm();
 		$this->displayTable();
 		echo '</div>';

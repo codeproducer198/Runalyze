@@ -235,6 +235,13 @@ services:
      - [setConfigurationManager, ["@app.configuration_manager"]]
     tags:
      - { name: form.type }
+  app.form.type.activity_lapintensity:
+    class: Runalyze\Bundle\CoreBundle\Form\Type\ActivityLapIntensityChoiceType
+    arguments: ["@security.token_storage"]
+    calls:
+     - [setConfigurationManager, ["@app.configuration_manager"]]
+    tags:
+     - { name: form.type }
   app.form.type.temperature:
     class: Runalyze\Bundle\CoreBundle\Form\Type\TemperatureType
     arguments: ["@app.unit_system.temperature"]

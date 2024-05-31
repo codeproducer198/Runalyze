@@ -23,12 +23,8 @@ class ActivityRoundType extends AbstractType implements DataTransformerInterface
                 'attr' => ['class' => 'small-size'],
                 'label' => false
             ])
-            ->add('isActive', ChoiceType::class, [
-                'choices' => [
-                    'Resting' => false,
-                    'Active' => true
-                ],
-                'required' => true,
+            ->add('intensity', ActivityLapIntensityChoiceType::class, [
+                'required' => false,
                 'attr' => ['class' => 'small-size'],
                 'label' => false
             ])
@@ -52,7 +48,7 @@ class ActivityRoundType extends AbstractType implements DataTransformerInterface
         return [
             'distance' => $value->getDistance(),
             'duration' => $value->getDuration(),
-            'isActive' => $value->isActive()
+            'intensity' => $value->getIntensity()
         ];
     }
 
@@ -63,11 +59,12 @@ class ActivityRoundType extends AbstractType implements DataTransformerInterface
     public function reverseTransform($value)
     {
         if (is_array($value) && isset($value['duration']) && array_key_exists('distance', $value)) {
-            return new Round(
+            $r = new Round(
                 $value['distance'],
-                $value['duration'],
-                (bool)$value['isActive']
+                $value['duration']
             );
+            $r->setIntensity($value['intensity']);
+            return $r;
         }
 
         return null;

@@ -14,6 +14,7 @@ use Runalyze\Model\Activity;
 use Runalyze\Model\Swimdata;
 use Runalyze\View\Activity\Dataview;
 use Runalyze\Profile\Sport\SportProfile;
+use Runalyze\Parser\Activity\FileType\FitWorkoutStep;
 
 use Ajax;
 use Helper;
@@ -80,6 +81,9 @@ class Table {
 	 */
 	protected $splitsAdditional = null;
 
+	/** @var bool */
+	private $showIntensity = false;
+
 	/**
 	 * @param \Runalyze\Data\Laps\Laps $laps
 	 * @param \Runalyze\Activity\Duration $demandedTime
@@ -99,6 +103,9 @@ class Table {
 		if(!empty($splitsAdditional) && count($splitsAdditional['data']) == $laps->num()) {
 			$this->splitsAdditional = $splitsAdditional;
 		}
+
+		// only show column intensity, if more types than ACTIVE and REST available
+		$this->showIntensity = $laps->hasMoreThanActiveOrRestLaps();
 	}
 
 	/**
@@ -149,10 +156,12 @@ class Table {
 	 * @return string
 	 */
 	protected function tableHeader() {
-		return '<table class="fullwidth zebra-style zebra-blue" id="'.self::CSS_ID.'">'.
+		// #TSC make width as possible with 100%
+		return '<table class="fullwidth zebra-style zebra-blue" id="'.self::CSS_ID.'" style="width: 100%">'.
 				'<thead>'.
 					'<tr>'.
 						'<th class="{sorter: \'order\'}">#</th>'.
+						($this->showIntensity ? '<th class="{sorter: \'type\'}">'.__('Type').'</th>' : '') .
 						'<th class="{sorter: \'distance\'}">'.__('Distance').'</th>'.
 						'<th class="{sorter: \'resulttime\'}">'.__('Time').'</th>'.
 						'<th class="{sorter: \'distance\'}">'.__('Lap').'</th>'.
@@ -227,6 +236,7 @@ class Table {
 
 		return '<tr class="c '.($Lap->isActive() ? '' : 'unimportant').'">'.
 				'<td class="small">'.($Lap->isActive() ? ($this->IndexActive++).'.' : '('.($this->IndexResting++).'.)').'</td>'.
+				($this->showIntensity ? '<td>' . __($Lap->getMode()->getLabel()) . '</td>' : '') .
 				'<td>'.($Lap->hasTrackValues() ? $Lap->trackDistance()->string() : '-').'</td>'.
 				'<td>'.($Lap->hasTrackValues() ? $Lap->trackDuration()->string() : '-').'</td>'.
 				'<td>'.$Lap->distance()->string().'</td>'.
@@ -251,7 +261,11 @@ class Table {
 
 		// #TSC show no values for rest-laps
 		if(!$Lap->isActive()) {
-			return $Code . '<td colspan="' . count($this->AdditionalKeys) . '"></td>';
+			if (count($this->AdditionalKeys) > 0) {
+				return $Code . '<td colspan="' . count($this->AdditionalKeys) . '"></td>';
+			} else {
+				return $Code;
+			}
 		}
 
 		$View = new Dataview(new Activity\Entity(
@@ -365,9 +379,24 @@ class Table {
 
 		$obj = $this->splitsAdditional['data'][$idx];
 
+		// clone a pace & HR from the first lap as "template"
+		$pace = clone $this->Laps->at(0)->pace();
+		$pace->setTime(1); // set one second
+		$hr = clone $this->Laps->at(0)->HRavg();
+
 		foreach ($this->splitsAdditional['keys'] as $key) {
 			if(array_key_exists($key, $obj)) {
-				$Code .= '<td>'. $obj[$key] .'</td>';
+				if (strpos($key, FitWorkoutStep::ADD_TARGET_SPEED) !== false) {
+					// if additional is a pace-unit
+					$pace->setDistance($obj[$key] / 1000); // unit is m/s: set km in this one second
+					$Code .= '<td>'. $pace->valueWithAppendix() .'</td>';
+				} elseif (strpos($key, FitWorkoutStep::ADD_TARGET_HR) !== false) {
+					// if additional is a HR
+					$hr->setBPM($obj[$key]);
+					$Code .= '<td>'. $hr->string() .'</td>';
+				} else {
+					$Code .= '<td>'. $obj[$key] .'</td>';
+				}
 			} else {
 				$Code .= '<td></td>';
 			}
@@ -381,7 +410,7 @@ class Table {
 	 */
 	protected function tableFooter() {
 		$Code  = '<tbody>';
-		$Code .= '<tr class="no-zebra"><td colspan="4" class="r">'.__('Average').':</td>';
+		$Code .= '<tr class="no-zebra"><td colspan="' . ($this->showIntensity ? '5' : '4') . '" class="r">'.__('Average').':</td>';
 		$Code .= '<td class="c">'.($this->AverageTime !== null ? $this->AverageTime->string() : '').'</td>';
 		$Code .= ($this->DemandedTime->isZero() ? '' : '<td></td>');
 		$Code .= '<td class="c">'.($this->AveragePace !== null ? $this->AveragePace->valueWithAppendix() : '').'</td>';

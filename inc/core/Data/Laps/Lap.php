@@ -9,6 +9,7 @@ namespace Runalyze\Data\Laps;
 use Runalyze\Activity\Duration;
 use Runalyze\Activity\Distance;
 use Runalyze\Activity\HeartRate;
+use Runalyze\Activity\LapIntensity;
 use Runalyze\Activity\Pace;
 use Runalyze\Context;
 
@@ -19,16 +20,6 @@ use Runalyze\Context;
  * @package Runalyze\Data\Laps
  */
 class Lap {
-	/**
-	 * @var int enum
-	 */
-	const MODE_ACTIVE = 0;
-
-	/**
-	 * @var int enum
-	 */
-	const MODE_RESTING = 1;
-
 	/**
 	 * @var \Runalyze\Activity\Duration
 	 */
@@ -45,7 +36,8 @@ class Lap {
 	protected $LapPace = null;
 
 	/**
-	 * @var int enum
+	 * #TSC Mode is the "old" name and i dont want to change it.
+	 * @var LapIntensity enum
 	 */
 	protected $Mode;
 
@@ -92,9 +84,13 @@ class Lap {
 	/**
 	 * @param int $duration [optional]
 	 * @param float $distance [optional]
-	 * @param int $mode [optional]
+	 * @param LapIntensity|null $mode [optional]
 	 */
-	public function __construct($duration = 0, $distance = 0.0, $mode = self::MODE_ACTIVE) {
+	public function __construct($duration = 0, $distance = 0.0, LapIntensity $mode = null) {
+		if (is_null($mode)) {
+			$mode = LapIntensity::getInstanceActive();
+		}
+
 		$this->setDuration($duration);
 		$this->setDistance($distance);
 		$this->setMode($mode);
@@ -117,10 +113,17 @@ class Lap {
 	}
 
 	/**
-	 * @param int $mode
+	 * @param LapIntensity $mode
 	 */
 	public function setMode($mode) {
 		$this->Mode = $mode;
+	}
+
+	/**
+	 * @return LapIntensity
+	 */
+	public function getMode() {
+		return $this->Mode;
 	}
 
 	/**
@@ -205,7 +208,7 @@ class Lap {
 	 * @return boolean
 	 */
 	public function isActive() {
-		return (self::MODE_ACTIVE == $this->Mode);
+		return $this->Mode->isNotRest();
 	}
 
 	/**

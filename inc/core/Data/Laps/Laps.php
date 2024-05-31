@@ -102,4 +102,18 @@ class Laps {
 	public function num() {
 		return count($this->Objects);
 	}
+
+	/**
+	 * true if there other laps with mode not ACTIVE and not RESTING.
+	 * #TSC
+	 * @return bool
+	 */
+	public function hasMoreThanActiveOrRestLaps() {
+		foreach ($this->Objects as $lap) {
+			if (!$lap->getMode()->isActive() && !$lap->getMode()->isRest()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

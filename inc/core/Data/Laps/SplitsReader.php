@@ -35,7 +35,7 @@ class SplitsReader {
 			$this->Laps->add(new Lap(
 				$Split->time(),
 				$Split->distance(),
-				$Split->isActive() ? Lap::MODE_ACTIVE : Lap::MODE_RESTING
+				$Split->getIntensity()
 			));
 		}
 	}
