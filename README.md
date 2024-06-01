@@ -293,6 +293,7 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 		* in the laps windows this values are new columns
 		* the information is stored in `training.splits_additional` in the JSON structure with the unit of meter/second
 	* the laps windows is now wider to show more columns
+	* the dataset _Settings_ now contains also the sub-menu items of _Tools_; if you want to revert this, set `inc/core/Dataset/Keys/Setting.php#INCLUDE_TOOLS` to `false`
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

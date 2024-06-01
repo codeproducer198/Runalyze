@@ -105,7 +105,7 @@ class Tools extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    protected function inlineDropdownWithRealLinks(Context $context)
+    public static function inlineDropdownWithRealLinks(Context $context)
     {
         $id = $context->activity()->id();
         $html = '';
@@ -130,7 +130,7 @@ class Tools extends AbstractKey
      * @return string
      * @codeCoverageIgnore
      */
-    protected function inlineDropdownWithFakeLinks(Context $context)
+    public static function inlineDropdownWithFakeLinks(Context $context)
     {
         $html = '<li><span class="link"><i class="fa fa-fw fa-bar-chart"></i> '.__('Analyze splits').'</span></li>';
         $html .= '<li><span class="link"><i class="fa fa-fw fa-area-chart"></i> '.__('Elevation info').'</span></li>';

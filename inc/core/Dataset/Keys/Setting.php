@@ -17,6 +17,9 @@ use Runalyze\Dataset\Context;
  */
 class Setting extends AbstractKey
 {
+	/** if true, this Settings also include the links from Tools. */
+	const INCLUDE_TOOLS = true;
+
 	/**
 	 * Enum id
 	 * @return int
@@ -116,6 +119,12 @@ class Setting extends AbstractKey
 			? '<li><a href="'.$context->linker()->publicUrl().'" target="_blank" onclick="(arguments[0] || window.event).stopPropagation();">'.\Icon::$ATTACH.' '.__('Public link').'</a></li>'
 			: '';
 
+		// #TSC also include the tools
+		if (self::INCLUDE_TOOLS) {
+			$html .= '<li class="separator"></li>';
+			$html .= Tools::inlineDropdownWithRealLinks($context);
+		}
+
 		return $html;
 	}
 
@@ -132,6 +141,11 @@ class Setting extends AbstractKey
 		$html .= ($context->activity()->isPublic())
 			? '<li><span class="link">'.\Icon::$ATTACH.' '.__('Public link').'</span></li>'
 			: '';
+
+		// #TSC also include the tools
+		if (self::INCLUDE_TOOLS) {
+			$html .= Tools::inlineDropdownWithFakeLinks($context);
+		}
 
 		return $html;
 	}
