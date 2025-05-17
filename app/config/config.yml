@@ -34,7 +34,7 @@ framework:
 
 parameters:
   RUNALYZE_VERSION: 4.3.0
-  RUNALYZE_DATE: "2024-05-31"
+  RUNALYZE_DATE: "2025-05-17"
 
 twig:
   globals:

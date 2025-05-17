@@ -178,6 +178,7 @@ class Registration
             array(__('Long Slow Distance'), __('LSD'), 150, 1),
             array(__('Warm-up'), __('WU'), 128, 0),
             array(__('Pace Goal'), __('PG'), 150, 1),
+            array(__('Grundlagenausdauer'), __('GA'), 130, 0),
         );
 
         foreach ($TypeData as $tData) {

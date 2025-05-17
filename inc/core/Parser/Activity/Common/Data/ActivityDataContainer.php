@@ -108,6 +108,11 @@ class ActivityDataContainer
                 && $this->FitDetails->SelfEvaluationFeeling == Activity\SelfEvaluationFeeling::VERY_STRONG) { // gefuehl=sehr stark=5
                 $this->Metadata->setTypeName('RG');
                 $fitSelfEvalEffortUsed = true;
+            } else if($this->FitDetails->SelfEvaluationPerceivedEffort == 1 // anstrengung=sehr leicht=1
+                && $this->FitDetails->SelfEvaluationFeeling == Activity\SelfEvaluationFeeling::STRONG) { // gefuehl=stark=4
+                // #TSC GA=Basic Endurance=Grundlagen Ausdauer
+                $this->Metadata->setTypeName('GA');
+                $fitSelfEvalEffortUsed = true;
             } else if($this->FitDetails->SelfEvaluationPerceivedEffort == 10 // anstrengung=maximum=10
                 && $this->FitDetails->SelfEvaluationFeeling == Activity\SelfEvaluationFeeling::VERY_WEAK) { // gefuehl=sehr schwach=1
                 // #TSC TR=tempo run

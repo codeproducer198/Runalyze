@@ -294,6 +294,14 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 		* the information is stored in `training.splits_additional` in the JSON structure with the unit of meter/second
 	* the laps windows is now wider to show more columns
 	* the dataset _Settings_ now contains also the sub-menu items of _Tools_; if you want to revert this, set `inc/core/Dataset/Keys/Setting.php#INCLUDE_TOOLS` to `false`
+* 2025-05-17:
+	* Auto detection of type "Basic Endurance" (_GA_ / Grundlagenausdauer) while importing activity based on self-evaluation
+		* You must configure a training-type with short-cut _GA_ to your sports (of default _GA_ exists)
+		* Detection only works in batch/bulk import mode
+		* Works on Fenix self-evaluation (Selbsteinschätzung), where you set
+			* `perceived effort` = 1 ("empfundene Anstrengung", very light/sehr leicht)
+			* and `feel evaluation` = 4 ("Gefühl", strong/stark)
+	* Adjust _IT_ interval auto detection to set at least 3 interval-laps (duration or distance) exists with 2 recovery-laps (previous there needs 4 laps)
 
 Please notice:
 * All the changes are only done for me to use this great product for me.

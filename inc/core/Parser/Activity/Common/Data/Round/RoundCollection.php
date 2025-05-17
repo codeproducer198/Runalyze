@@ -176,12 +176,19 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
     }
 
     /**
-     * #TSC check if the rounds has at least 4 intervals.
+     * #TSC check if the rounds has at least 3 same interval-laps.
+     * this will not check if a lap has the time interval or recovery, it checks only if the duration or distance is the same.
      *
-     * Example for 4 intervals with 2:30min running and 1:30min recovery: 0=441, 1=150, 2=90, 3=150, 4=90, 5=150, 6=90, 7=150, 8=462 
+     * Example for 3 interval laps (1, 3, 5) with 2:30min running and 1:30min recovery: 0=441, 1=150, 2=90, 3=150, 4=90, 5=150, 6=462...
+     * Loop and the checked laps in one loop:
+     * 1. 0=441, 1=150, 2=90   =>  -
+     * 2. 1=150, 2=90,  3=150  => +1
+     * 3. 2=90,  3=150, 4=90   => +1
+     * 4. 3=150, 4=90,  5=150  => +1
+     * 5. 4=90,  5=150, 6=462  =>  - ...
      */
     public function hasIntervalRounds() {
-        $intDetect = 5;
+        $intDetect = 3;
         $precS = 1; // round duration/seconds
         $precD = 2; // round distance/km
 
@@ -191,19 +198,19 @@ class RoundCollection implements \Countable, \ArrayAccess, \Iterator
             // iterate over all rounds and check if distance or duration of the next-next is the same value
             for ($i = 0; $i < count($this->Elements) - 2; $i++) {
                 // i do ignore the round-active-flag...
-                $thisR = $this->Elements[$i];
-                $nextR1 = $this->Elements[$i + 1];
-                $nextR2 = $this->Elements[$i + 2];
-                // first check we not in auto laping (=duration or distance is always the same)
-                // second check if the next-next is the same
+                $thisR = $this->Elements[$i];      // current/this lap
+                $nextR1 = $this->Elements[$i + 1]; // next lap
+                $nextR2 = $this->Elements[$i + 2]; // next-next lap
+                // first check: we not in auto laping (=duration or distance is always the same for every lap)
+                // second check: if the next-next is the same (duration or distance)
                 if ((round($thisR->getDuration(), $precS) != round($nextR1->getDuration(), $precS) 
-                        && round($thisR->getDistance(), $precD) != round($nextR1->getDistance(), $precD)) 
+                        && round($thisR->getDistance(), $precD) != round($nextR1->getDistance(), $precD))
                     && (round($thisR->getDuration(), $precS) == round($nextR2->getDuration(), $precS) 
                         || round($thisR->getDistance(), $precD) == round($nextR2->getDistance(), $precD))
                     ) {
                     $intCount++;
                     if ($intCount == $intDetect) {
-                        // if we found 5x consensus we have 4 intervals
+                        // if we found 3x consensus we have at least 3 same (interval-)laps with min 2 same (recovery-)lap
                         return true;
                     }
                 }
