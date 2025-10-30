@@ -339,7 +339,7 @@ CREATE TABLE IF NOT EXISTS `runalyze_training` (
   `edited` int(11) unsigned DEFAULT NULL,
   `is_public` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `is_track` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `with_target` TINYINT(1) UNSIGNED DEFAULT '0' AFTER,
+  `with_goal` TINYINT(1) UNSIGNED DEFAULT '0',
   `distance` decimal(6,2) unsigned DEFAULT NULL,
   `s` decimal(8,2) unsigned NOT NULL,
   `elapsed_time` mediumint unsigned DEFAULT NULL,
