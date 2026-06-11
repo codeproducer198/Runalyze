@@ -323,6 +323,8 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 		* It must be the same language as in your database. If you have a workout `Crescendolauf`, it needs a type of this name
 		* Hint: you can see your Garmins workout name in the notes of imported Runalyze activities, if it's stored in the FIT file
 	* Fix _Lactate threshold pace_ representation in "fit detail" section of an selected activity
+* 2026-06-11:
+	* Set HTTP Client `User-Agent` for `Overpass` calls. So `https://overpass-api.de/api/interpreter` can be used instead of preferred `overpass.kumi.systems`, which isn't stable the last month for me.
 
 Please notice:
 * All the changes are only done for me to use this great product for me.
