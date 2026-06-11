@@ -41,7 +41,8 @@ class TimezoneTest extends \PHPUnit\Framework\TestCase
         foreach (Timezone::getEnum() as $enum) {
             $identifier = Timezone::getFullNameByEnum($enum);
 
-            $this->assertEquals($enum, Timezone::getEnumByOriginalName($identifier));
+            $on = Timezone::getEnumByOriginalName($identifier);
+            $this->assertEquals($enum, $on, 'Problem with ' . $identifier . ': ' . $enum . ' not equal ' . $on);
         }
     }
 

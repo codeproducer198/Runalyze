@@ -324,7 +324,9 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 		* Hint: you can see your Garmins workout name in the notes of imported Runalyze activities, if it's stored in the FIT file
 	* Fix _Lactate threshold pace_ representation in "fit detail" section of an selected activity
 * 2026-06-11:
-	* Set HTTP Client `User-Agent` for `Overpass` calls. So `https://overpass-api.de/api/interpreter` can be used instead of preferred `overpass.kumi.systems`, which isn't stable the last month for me.
+	* Set HTTP Client `User-Agent` for `Overpass` calls. So `https://overpass-api.de/api/interpreter` can be used instead of preferred `overpass.kumi.systems`, which isn't stable the last month for me
+	* Adapt some unit tests to work without problems on Debian Trixie
+		* Base of the project is furthermore PHP 7.4, but can be used on Debian Trixie via `https://deb.sury.org/`
 
 Please notice:
 * All the changes are only done for me to use this great product for me.
