@@ -105,7 +105,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         $param = ['body' => sprintf("data=%s", $payload),
                   'timeout' => self::TIMEOUT,
                   'headers' => [
-                    'User-Agent' => 'Runalyze/4.3.0',
+                    'User-Agent' => 'Runalyze/4.3.0 host-' . gethostname(),
                   ]
                   //, 'debug' => True
         ];
