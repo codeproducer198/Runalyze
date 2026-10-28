@@ -32,7 +32,7 @@ use Psr\Log\LoggerInterface;
 class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
     use LoggerAwareTrait;
 
-    const TIMEOUT = 180;
+    const TIMEOUT = 60; // timeout for free overpass.ch is 60sec, so hope this is ok for the future
 
     const EARTH = 6378.137;
     const PI = 3.1415926535898;
@@ -103,7 +103,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         $this->logger->debug(sprintf('RouteNameEvalOsm: Request for routeId=%d to url=%s with payload: %s', $routeId, $this->Url, $payload));
 
         $param = ['body' => sprintf("data=%s", $payload),
-                  'timeout' => self::TIMEOUT,
+                  'timeout' => self::TIMEOUT + 2,
                   'headers' => [
                     'User-Agent' => 'Runalyze/4.3.0 host-' . gethostname(),
                   ]
@@ -113,12 +113,13 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
             $param['proxy'] = $this->Proxy;
         }
 
+        $start = microtime(true);
         try {
             $response = $this->HttpClient->request('POST', $this->Url, $param);
             $statusCode = $response->getStatusCode();
             if($statusCode != 200) {
                 $this->logger->warning(sprintf('RouteNameEvalOsm: RouteId=%d status-code >> %d', $routeId, $statusCode));
-                throw new \Exception('Route evaluation result in HTTP code=' . $statusCode);
+                throw new \Exception('Route evaluation result after ' . round(microtime(true) - $start, 0) . 'sec in HTTP code=' . $statusCode);
                 return null;
             } else {
                 $repCont = $response->getBody()->getContents();
@@ -130,7 +131,7 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
             }
         } catch (RequestException $e) {
             $this->logger->error('RouteNameEvalOsm: Overpass-API request failed.', ['exception' => $e]);
-            throw new \Exception('Route evaluation result in error: ' . $e);
+            throw new \Exception('Route evaluation result after ' . round(microtime(true) - $start, 0) . 'sec in error: ' . $e);
         }
     }
 
@@ -184,19 +185,20 @@ class RouteNameEvalOsm implements RouteNameEval, LoggerAwareInterface {
         $aroundpos .= "," . $coordinates[0][$size - 1] . "," . $coordinates[1][$size - 1]; // add the last one
 
         // only use node, way, relation with a "name"-tag
-		$osm .= sprintf('node(around:%.2f,%s)["name"]->.named_node;', $radius, $aroundpos);
-		$osm .= sprintf('way(around:%.2f,%s)["name"]->.named_way;', $radius, $aroundpos);
-		$osm .= sprintf('relation(around:%.2f,%s)["name"]->.named_rel;', $radius, $aroundpos);
+		$osm .= sprintf('node(around:%.2f,%s)["name"]->.named_node;%s', $radius, $aroundpos, PHP_EOL);
+		$osm .= sprintf('way(around:%.2f,%s)["name"]->.named_way;%s', $radius, $aroundpos, PHP_EOL);
+		$osm .= sprintf('relation(around:%.2f,%s)["name"]->.named_rel;%s', $radius, $aroundpos, PHP_EOL);
 
         // set filters
-		$node = 'node.named_node["place"];node.named_node["natural"~"peak|saddle"];node.named_node["traffic_sign"="city_limit"];node.named_node["tourism"~"information|alpine_hut|wilderness_hut"];node.named_node["amenity"="restaurant"];';
+		$node = 'node.named_node["place"];node.named_node["natural"~"peak|saddle"];node.named_node["traffic_sign"="city_limit"];node.named_node["tourism"~"information|alpine_hut|wilderness_hut"];node.named_node["amenity"="restaurant"];' . PHP_EOL;
 		$way = 'way.named_way["landuse"="forest"];way.named_way["natural"="wood"];way.named_way["traffic_sign"="city_limit"];';
-		$way .= 'way.named_way["hiking"="yes"];way.named_way["sac_scale"];way.named_way["tourism"~"information|alpine_hut|wilderness_hut"];way.named_way["amenity"="restaurant"];';
-		$rel = 'relation.named_rel["landuse"="forest"];relation.named_rel["natural"~"wood|water"];';
+		$way .= 'way.named_way["hiking"="yes"];way.named_way["sac_scale"];way.named_way["tourism"~"information|alpine_hut|wilderness_hut"];way.named_way["amenity"="restaurant"];'. PHP_EOL;
+		$rel = 'relation.named_rel["landuse"="forest"];relation.named_rel["natural"~"wood|water"];'. PHP_EOL;
 
         // set filters in the final "union"
-        $osm .= sprintf('(%s%s%s);out qt;', $node, $way, $rel);
+        $osm .= sprintf('(%s  %s  %s  %s);out qt;', PHP_EOL, $node, $way, $rel);
 
+        //var_export($osm);
         return $osm;
 	}
 

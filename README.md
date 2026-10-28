@@ -327,6 +327,8 @@ Here some fixes/improvements i have done in RUNALYZE (see details in the commits
 	* Set HTTP Client `User-Agent` for `Overpass` calls. So `https://overpass-api.de/api/interpreter` can be used instead of preferred `overpass.kumi.systems`, which isn't stable the last month for me
 	* Adapt some unit tests to work without problems on Debian Trixie
 		* Base of the project is furthermore PHP 7.4, but can be used on Debian Trixie via `https://deb.sury.org/`
+* 2026-10-28:
+	* Small adjustments in OSM Overpass call for pretty formatting and reduce timeout to 60 seconds
 
 Please notice:
 * All the changes are only done for me to use this great product for me.
