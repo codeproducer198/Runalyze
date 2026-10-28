@@ -2,7 +2,7 @@
 
 # Timezone Europe/Moscow is used in the tests - check it
 
-if find /usr/share/zoneinfo/posix -type f -or -type l | grep 'Europe/Moscow'; then
+if find /usr/share/zoneinfo -type f -or -type l | grep 'Europe/Moscow'; then
     echo "Timezone 'Europe/Moscow' available - continue"
 else
     echo "Install timezones with 'apt-get update && apt-get install tzdata'"
